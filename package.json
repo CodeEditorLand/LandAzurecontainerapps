@@ -4,31 +4,33 @@
 	"version": "0.0.1",
 	"private": false,
 	"description": "%containerApps.description%",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureContainerapps#readme",
 	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureContainerapps/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandAzureContainerapps.git"
 	},
 	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
 	"type": "module",
 	"main": "./main.js",
 	"browser": "./dist/web/extension.bundle.js",
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
 		"build": "tsc && gulp webpack-prod",
 		"cleanReadme": "gulp cleanReadme",
 		"compile": "tsc -watch",
-		"package": "vsce package --githubBranch main --no-dependencies",
 		"prepare": "husky install",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"vscode:prepublish": "npm run cleanReadme",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
 		"webpack": "tsc && gulp webpack-dev",
 		"webpack-profile": "webpack --profile --json --mode production > webpack-stats.json && echo Use http://webpack.github.io/analyse to analyze the stats"
 	},
@@ -232,6 +234,31 @@
 				"category": "Azure Container Apps",
 				"command": "containerApps.openAcrBuildLogs",
 				"title": "%containerApps.openAcrBuildLogs%"
+			},
+			{
+				"category": "Azure Container Apps",
+				"command": "containerApps.walkthrough.gettingStarted.internal",
+				"title": "%containerApps.walkthrough.gettingStarted.internal%"
+			},
+			{
+				"category": "Azure Container Apps",
+				"command": "containerApps.walkthrough.addWorkspaceProject",
+				"title": "%containerApps.walkthrough.addWorkspaceProject%"
+			},
+			{
+				"category": "Azure Container Apps",
+				"command": "containerApps.walkthrough.azureSignIn",
+				"title": "%containerApps.walkthrough.azureSignIn%"
+			},
+			{
+				"category": "Azure Container Apps",
+				"command": "containerApps.walkthrough.deployWorkspaceProject",
+				"title": "%containerApps.walkthrough.deployWorkspaceProject%"
+			},
+			{
+				"category": "Azure Container Apps",
+				"command": "containerApps.walkthrough.cleanUpResources",
+				"title": "%containerApps.walkthrough.cleanUpResources%"
 			}
 		],
 		"configuration": [
@@ -264,6 +291,50 @@
 						"description": "%containerApps.deployWorkspaceProject.containerRegistryName%",
 						"scope": "machine-overridable",
 						"type": "string"
+					},
+					"containerApps.deploymentConfigurations": {
+						"description": "%containerApps.deploymentConfigurations%",
+						"items": {
+							"description": "%containerApps.deploymentConfiguration%",
+							"properties": {
+								"containerApp": {
+									"description": "%containerApps.deploymentConfiguration.containerApp%",
+									"type": "string"
+								},
+								"containerRegistry": {
+									"description": "%containerApps.deploymentConfiguration.containerRegistry%",
+									"type": "string"
+								},
+								"dockerfilePath": {
+									"description": "%containerApps.deploymentConfiguration.dockerfilePath%",
+									"type": "string"
+								},
+								"envPath": {
+									"description": "%containerApps.deploymentConfiguration.envPath%",
+									"type": "string"
+								},
+								"label": {
+									"description": "%containerApps.deploymentConfiguration.label%",
+									"type": "string"
+								},
+								"resourceGroup": {
+									"description": "%containerApps.deploymentConfiguration.resourceGroup%",
+									"type": "string"
+								},
+								"srcPath": {
+									"description": "%containerApps.deploymentConfiguration.srcPath%",
+									"type": "string"
+								},
+								"type": {
+									"default": "AcrDockerBuildRequest",
+									"description": "%containerApps.deploymentConfiguration.type%",
+									"type": "string"
+								}
+							},
+							"type": "object"
+						},
+						"scope": "machine-overridable",
+						"type": "array"
 					},
 					"containerApps.enableOutputTimestamps": {
 						"default": true,
@@ -306,6 +377,22 @@
 				{
 					"command": "containerApps.openAcrBuildLogs",
 					"when": "never"
+				},
+				{
+					"command": "containerApps.walkthrough.addWorkspaceProject",
+					"when": "never"
+				},
+				{
+					"command": "containerApps.walkthrough.azureSignIn",
+					"when": "never"
+				},
+				{
+					"command": "containerApps.walkthrough.deployWorkspaceProject",
+					"when": "never"
+				},
+				{
+					"command": "containerApps.walkthrough.cleanUpResources",
+					"when": "never"
 				}
 			],
 			"containerApps.submenus.workspaceActions": [
@@ -316,6 +403,10 @@
 				{
 					"command": "containerApps.createContainerApp",
 					"group": "2_create@1"
+				},
+				{
+					"command": "containerApps.walkthrough.gettingStarted.internal",
+					"group": "3_walkthrough@1"
 				}
 			],
 			"view/item/context": [
@@ -553,6 +644,70 @@
 				"label": "Azure Container Apps"
 			}
 		],
+		"walkthroughs": [
+			{
+				"description": "%containerApps.walkthrough.gettingStarted.description%",
+				"id": "containerApps.walkthrough.gettingStarted",
+				"steps": [
+					{
+						"completionEvents": [
+							"onCommand:containerApps.walkthrough.addWorkspaceProject"
+						],
+						"description": "%containerApps.walkthrough.addWorkspaceProject.description%",
+						"id": "containerApps.walkthrough.addWorkspaceProject",
+						"media": {
+							"markdown": "resources/walkthrough/add-workspace-project.md"
+						},
+						"title": "%containerApps.walkthrough.addWorkspaceProject.title%"
+					},
+					{
+						"completionEvents": [
+							"onCommand:containerApps.walkthrough.azureSignIn"
+						],
+						"description": "%containerApps.walkthrough.azureSignIn.description%",
+						"id": "containerApps.walkthrough.azureSignIn",
+						"media": {
+							"markdown": "resources/walkthrough/empty.md"
+						},
+						"title": "%containerApps.walkthrough.azureSignIn.title%"
+					},
+					{
+						"completionEvents": [
+							"onCommand:containerApps.walkthrough.deployWorkspaceProject"
+						],
+						"description": "%containerApps.walkthrough.deployWorkspaceProject.description%",
+						"id": "containerApps.walkthrough.deployWorkspaceProject",
+						"media": {
+							"markdown": "resources/walkthrough/create-and-deploy.md"
+						},
+						"title": "%containerApps.walkthrough.deployWorkspaceProject.title%"
+					},
+					{
+						"completionEvents": [
+							"onStepSelected"
+						],
+						"description": "%containerApps.walkthrough.exploreDetails.description%",
+						"id": "containerApps.walkthrough.exploreDetails",
+						"media": {
+							"markdown": "resources/walkthrough/explore-details.md"
+						},
+						"title": "%containerApps.walkthrough.exploreDetails.title%"
+					},
+					{
+						"completionEvents": [
+							"onCommand:containerApps.walkthrough.cleanUpResources"
+						],
+						"description": "%containerApps.walkthrough.cleanUpResources.description%",
+						"id": "containerApps.walkthrough.cleanUpResources",
+						"media": {
+							"markdown": "resources/walkthrough/clean-up-resources.md"
+						},
+						"title": "%containerApps.walkthrough.cleanUpResources.title%"
+					}
+				],
+				"title": "%containerApps.walkthrough.gettingStarted.title%"
+			}
+		],
 		"x-azResources": {
 			"activation": {
 				"onResolve": [
@@ -578,53 +733,25 @@
 	},
 	"activationEvents": [],
 	"dependencies": {
-		"@azure/arm-appcontainers": "^2.0.0",
-		"@azure/arm-containerregistry": "^10.0.0",
-		"@azure/arm-operationalinsights": "^8.0.0",
-		"@azure/arm-resources": "^5.0.1",
-		"@azure/container-registry": "1.0.0-beta.5",
-		"@azure/core-rest-pipeline": "1.10.3",
-		"@azure/storage-blob": "^12.4.1",
-		"@microsoft/vscode-azext-azureutils": "^2.0.3",
-		"@microsoft/vscode-azext-github": "^1.0.0",
-		"@microsoft/vscode-azext-utils": "^2.1.5",
-		"@microsoft/vscode-azureresources-api": "^2.0.2",
-		"buffer": "^6.0.3",
-		"dayjs": "^1.11.3",
-		"deep-eql": "^4.1.3",
-		"dotenv": "^16.0.0",
-		"fs-extra": "^8.1.0",
-		"p-retry": "^4.6.2",
-		"semver": "^7.5.2",
-		"tar": "^6.2.0",
-		"vscode-nls": "^4.1.1",
-		"vscode-uri": "^3.0.2"
+		"buffer": "6.0.3",
+		"dayjs": "1.11.11",
+		"deep-eql": "5.0.1",
+		"dotenv": "16.4.5",
+		"fs-extra": "11.2.0",
+		"p-retry": "6.2.0",
+		"semver": "7.6.0",
+		"tar": "7.0.1"
 	},
 	"devDependencies": {
-		"@azure/ms-rest-azure-env": "^2.0.0",
-		"@microsoft/vscode-azext-dev": "^2.0.1",
-		"@types/deep-eql": "^4.0.0",
-		"@types/fs-extra": "^8.1.1",
-		"@types/gulp": "^4.0.6",
-		"@types/mocha": "^8.2.2",
-		"@types/node": "^16.18.36",
-		"@types/semver": "^7.3.8",
-		"@types/tar": "^6.1.11",
-		"@types/vscode": "^1.82.0",
-		"@vscode/test-electron": "^2.3.8",
-		"@vscode/vsce": "^2.19.0",
-		"assert": "^2.0.0",
-		"glob": "^7.1.6",
-		"gulp": "^4.0.2",
-		"husky": "^7.0.2",
-		"mocha": "^10.1.0",
-		"mocha-junit-reporter": "^2.0.0",
-		"mocha-multi-reporters": "^1.1.7",
-		"ts-node": "^10.9.1",
-		"typescript": "^5.1.3",
-		"typescript-esbuild": "0.4.5",
-		"webpack": "^5.76.0",
-		"webpack-cli": "^4.6.0"
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"@types/deep-eql": "4.0.2",
+		"@types/fs-extra": "11.0.4",
+		"@types/node": "20.12.7",
+		"@types/semver": "7.5.8",
+		"@types/tar": "6.1.13",
+		"assert": "2.1.0",
+		"glob": "10.3.12"
 	},
 	"extensionDependencies": [
 		"ms-azuretools.vscode-azureresourcegroups"

@@ -10,8 +10,11 @@ import { type AzureSubscription } from "@microsoft/vscode-azureresources-api";
 import { Uri, type WorkspaceFolder } from "vscode";
 import { ext } from "../../extensionVariables";
 import { getWorkspaceFolderFromPath } from "../../utils/workspaceUtils";
+import { ManagedEnvironmentNameStep } from "../createManagedEnvironment/ManagedEnvironmentNameStep";
+import { type DeployWorkspaceProjectContext } from "../deployWorkspaceProject/DeployWorkspaceProjectContext";
 import { getDeployWorkspaceProjectResults, type DeployWorkspaceProjectResults } from "../deployWorkspaceProject/getDeployWorkspaceProjectResults";
-import { deployWorkspaceProjectInternal, type DeployWorkspaceProjectInternalContext } from "../deployWorkspaceProject/internal/deployWorkspaceProjectInternal";
+import { type DeployWorkspaceProjectInternalContext } from "../deployWorkspaceProject/internal/DeployWorkspaceProjectInternalContext";
+import { deployWorkspaceProjectInternal } from "../deployWorkspaceProject/internal/deployWorkspaceProjectInternal";
 import type * as api from "./vscode-azurecontainerapps.api";
 
 export async function deployWorkspaceProjectApi(deployWorkspaceProjectOptions: api.DeployWorkspaceProjectOptionsContract): Promise<DeployWorkspaceProjectResults> {
@@ -31,21 +34,35 @@ export async function deployWorkspaceProjectApi(deployWorkspaceProjectOptions: a
             ...subscriptionContext,
             subscription,
             resourceGroup,
+            newManagedEnvironmentName: await tryGetNewManagedEnvironmentName({ ...context, ...subscriptionContext }, resourceGroup?.name, resourceGroup?.name),
             rootFolder,
             srcPath: srcPath ? Uri.file(srcPath).fsPath : undefined,
             dockerfilePath: dockerfilePath ? Uri.file(dockerfilePath).fsPath : undefined,
             shouldSaveDeploySettings: !!shouldSaveDeploySettings,
         });
 
-        const deployWorkspaceProjectResultContext = await deployWorkspaceProjectInternal(deployWorkspaceProjectInternalContext, {
+        const deployWorkspaceProjectContext: DeployWorkspaceProjectContext = await deployWorkspaceProjectInternal(deployWorkspaceProjectInternalContext, {
             suppressActivity: true,
             suppressConfirmation,
             suppressContainerAppCreation,
+            suppressProgress: true,
             suppressWizardTitle: true,
         });
 
-        return await getDeployWorkspaceProjectResults(deployWorkspaceProjectResultContext);
+        return await getDeployWorkspaceProjectResults(deployWorkspaceProjectContext);
     }) ?? {};
+}
+
+async function tryGetNewManagedEnvironmentName(context: ISubscriptionActionContext, resourceGroupName?: string, newEnvironmentName?: string): Promise<string | undefined> {
+    if (!resourceGroupName || !newEnvironmentName) {
+        return undefined;
+    }
+
+    if (!ManagedEnvironmentNameStep.validateInput(newEnvironmentName) && await ManagedEnvironmentNameStep.isNameAvailable(context, resourceGroupName, newEnvironmentName)) {
+        return newEnvironmentName;
+    }
+
+    return undefined;
 }
 
 function getSubscriptionIdFromOptions(deployWorkspaceProjectOptions: api.DeployWorkspaceProjectOptionsContract): string | undefined {
