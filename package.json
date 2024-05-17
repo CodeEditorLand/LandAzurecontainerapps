@@ -1,27 +1,7 @@
 {
 	"name": "vscode-azurecontainerapps",
 	"displayName": "Azure Container Apps",
-	"version": "0.0.1",
-	"private": false,
 	"description": "%containerApps.description%",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureContainerapps#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandAzureContainerapps/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandAzureContainerapps.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🌆 — Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"main": "./main.js",
 	"browser": "./dist/web/extension.bundle.js",
 	"scripts": {
@@ -744,7 +724,6 @@
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"@types/deep-eql": "4.0.2",
 		"@types/fs-extra": "11.0.4",
 		"@types/node": "20.12.7",
@@ -756,9 +735,6 @@
 	"extensionDependencies": [
 		"ms-azuretools.vscode-azureresourcegroups"
 	],
-	"publishConfig": {
-		"access": "public"
-	},
 	"icon": "resources/azure-containerapps.png",
 	"galleryBanner": {
 		"color": "#3a3d41",
