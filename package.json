@@ -727,7 +727,7 @@
 		"@types/semver": "7.5.8",
 		"@types/tar": "6.1.13",
 		"assert": "2.1.0",
-		"glob": "10.3.15"
+		"glob": "10.3.16"
 	},
 	"extensionDependencies": [
 		"ms-azuretools.vscode-azureresourcegroups"
