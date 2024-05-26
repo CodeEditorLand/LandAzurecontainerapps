@@ -3,13 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { type ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
-import { type IContainerAppContext } from "../../IContainerAppContext";
+import type { ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
+import type { IContainerAppContext } from "../../IContainerAppContext";
 
-export interface ScaleRangeContext extends IContainerAppContext, ExecuteActivityContext {
-    newMinRange?: number;
-    newMaxRange?: number;
+export interface ScaleRangeContext
+	extends IContainerAppContext,
+		ExecuteActivityContext {
+	newMinRange?: number;
+	newMaxRange?: number;
 
-    scaleMinRange: number;
-    scaleMaxRange: number;
+	scaleMinRange: number;
+	scaleMaxRange: number;
 }

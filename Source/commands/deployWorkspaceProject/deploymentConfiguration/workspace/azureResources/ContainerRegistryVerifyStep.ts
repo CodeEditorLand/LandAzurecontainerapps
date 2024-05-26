@@ -3,23 +3,26 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { type Registry } from "@azure/arm-containerregistry";
+import type { Registry } from "@azure/arm-containerregistry";
 import { AcrListStep } from "../../../../image/imageSource/containerRegistry/acr/AcrListStep";
-import { type WorkspaceDeploymentConfigurationContext } from "../WorkspaceDeploymentConfigurationContext";
+import type { WorkspaceDeploymentConfigurationContext } from "../WorkspaceDeploymentConfigurationContext";
 import { AzureResourceVerifyStepBase } from "./AzureResourceVerifyStepBase";
 
 export class ContainerRegistryVerifyStep extends AzureResourceVerifyStepBase {
-    public priority: number = 210;  /** Todo: Figure out a good priority level */
+	public priority = 210; /** Todo: Figure out a good priority level */
 
-    protected resourceType = 'container registry' as const;
-    protected deploymentSettingsKey = 'containerRegistry' as const;
-    protected contextKey = 'registry' as const;
+	protected resourceType = "container registry" as const;
+	protected deploymentSettingsKey = "containerRegistry" as const;
+	protected contextKey = "registry" as const;
 
-    protected async verifyResource(context: WorkspaceDeploymentConfigurationContext): Promise<void> {
-        const registries: Registry[] = await AcrListStep.getRegistries(context);
-        context.registry = registries.find(r => r.name === context.deploymentConfigurationSettings?.containerRegistry);
-    }
+	protected async verifyResource(
+		context: WorkspaceDeploymentConfigurationContext,
+	): Promise<void> {
+		const registries: Registry[] = await AcrListStep.getRegistries(context);
+		context.registry = registries.find(
+			(r) =>
+				r.name ===
+				context.deploymentConfigurationSettings?.containerRegistry,
+		);
+	}
 }
-
-
-

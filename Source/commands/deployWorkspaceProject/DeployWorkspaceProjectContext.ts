@@ -1,10 +1,12 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.md in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-import { type DeployWorkspaceProjectTelemetryProps as TelemetryProps } from "../../telemetry/deployWorkspaceProjectTelemetryProps";
-import { type SetTelemetryProps } from "../../telemetry/SetTelemetryProps";
-import { type DeployWorkspaceProjectInternalBaseContext } from "./internal/DeployWorkspaceProjectInternalContext";
+import type { SetTelemetryProps } from "../../telemetry/SetTelemetryProps";
+import type { DeployWorkspaceProjectTelemetryProps as TelemetryProps } from "../../telemetry/deployWorkspaceProjectTelemetryProps";
+import type { DeployWorkspaceProjectInternalBaseContext } from "./internal/DeployWorkspaceProjectInternalContext";
 
-export type DeployWorkspaceProjectContext = DeployWorkspaceProjectInternalBaseContext & SetTelemetryProps<TelemetryProps>;
+export type DeployWorkspaceProjectContext =
+	DeployWorkspaceProjectInternalBaseContext &
+		SetTelemetryProps<TelemetryProps>;

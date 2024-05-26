@@ -3,25 +3,32 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { type EnvironmentVar, type RegistryCredentials, type Secret } from "@azure/arm-appcontainers";
-import { type ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
-import { type ImageSource } from "../../../constants";
-import { type ImageSourceTelemetryProps as TelemetryProps } from "../../../telemetry/ImageSourceTelemetryProps";
-import { type SetTelemetryProps } from "../../../telemetry/SetTelemetryProps";
-import { type IContainerAppContext } from "../../IContainerAppContext";
+import type {
+	EnvironmentVar,
+	RegistryCredentials,
+	Secret,
+} from "@azure/arm-appcontainers";
+import type { ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
+import type { ImageSource } from "../../../constants";
+import type { ImageSourceTelemetryProps as TelemetryProps } from "../../../telemetry/ImageSourceTelemetryProps";
+import type { SetTelemetryProps } from "../../../telemetry/SetTelemetryProps";
+import type { IContainerAppContext } from "../../IContainerAppContext";
 
-export interface ImageSourceBaseContext extends IContainerAppContext, ExecuteActivityContext {
-    // ImageSourceListStep
-    imageSource?: ImageSource;
-    showQuickStartImage?: boolean;
+export interface ImageSourceBaseContext
+	extends IContainerAppContext,
+		ExecuteActivityContext {
+	// ImageSourceListStep
+	imageSource?: ImageSource;
+	showQuickStartImage?: boolean;
 
-    // Base image attributes used as a precursor for either creating or updating a container app
-    image?: string;
-    registries?: RegistryCredentials[];
-    secrets?: Secret[];
+	// Base image attributes used as a precursor for either creating or updating a container app
+	image?: string;
+	registries?: RegistryCredentials[];
+	secrets?: Secret[];
 
-    envPath?: string;
-    environmentVariables?: EnvironmentVar[];
+	envPath?: string;
+	environmentVariables?: EnvironmentVar[];
 }
 
-export type ImageSourceContext = ImageSourceBaseContext & SetTelemetryProps<TelemetryProps>;
+export type ImageSourceContext = ImageSourceBaseContext &
+	SetTelemetryProps<TelemetryProps>;
