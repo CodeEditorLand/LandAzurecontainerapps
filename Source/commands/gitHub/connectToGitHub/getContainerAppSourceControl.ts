@@ -3,32 +3,15 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type {
-	ContainerAppsAPIClient,
-	SourceControl,
-} from "@azure/arm-appcontainers";
+import { type ContainerAppsAPIClient, type SourceControl } from "@azure/arm-appcontainers";
 import { uiUtils } from "@microsoft/vscode-azext-azureutils";
-import {
-	type IActionContext,
-	createSubscriptionContext,
-} from "@microsoft/vscode-azext-utils";
-import type { AzureSubscription } from "@microsoft/vscode-azureresources-api";
-import type { ContainerAppModel } from "../../../tree/ContainerAppItem";
+import { createSubscriptionContext, type IActionContext } from "@microsoft/vscode-azext-utils";
+import { type AzureSubscription } from "@microsoft/vscode-azureresources-api";
+import { type ContainerAppModel } from "../../../tree/ContainerAppItem";
 import { createContainerAppsAPIClient } from "../../../utils/azureClients";
 
-export async function getContainerAppSourceControl(
-	context: IActionContext,
-	subscription: AzureSubscription,
-	containerApp: ContainerAppModel,
-): Promise<SourceControl | undefined> {
-	const client: ContainerAppsAPIClient = await createContainerAppsAPIClient([
-		context,
-		createSubscriptionContext(subscription),
-	]);
-	const sourceControlsIterator =
-		client.containerAppsSourceControls.listByContainerApp(
-			containerApp.resourceGroup,
-			containerApp.name,
-		);
-	return (await uiUtils.listAllIterator(sourceControlsIterator))[0];
+export async function getContainerAppSourceControl(context: IActionContext, subscription: AzureSubscription, containerApp: ContainerAppModel): Promise<SourceControl | undefined> {
+    const client: ContainerAppsAPIClient = await createContainerAppsAPIClient([context, createSubscriptionContext(subscription)]);
+    const sourceControlsIterator = client.containerAppsSourceControls.listByContainerApp(containerApp.resourceGroup, containerApp.name);
+    return (await uiUtils.listAllIterator(sourceControlsIterator))[0];
 }

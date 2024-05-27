@@ -3,92 +3,55 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import {
-	LocationListStep,
-	ResourceGroupCreateStep,
-} from "@microsoft/vscode-azext-azureutils";
-import {
-	AzureWizard,
-	type AzureWizardExecuteStep,
-	type AzureWizardPromptStep,
-	type IActionContext,
-	createSubscriptionContext,
-	nonNullProp,
-	subscriptionExperience,
-} from "@microsoft/vscode-azext-utils";
-import type { AzureSubscription } from "@microsoft/vscode-azureresources-api";
+import { LocationListStep, ResourceGroupCreateStep } from "@microsoft/vscode-azext-azureutils";
+import { AzureWizard, createSubscriptionContext, nonNullProp, subscriptionExperience, type AzureWizardExecuteStep, type AzureWizardPromptStep, type IActionContext } from "@microsoft/vscode-azext-utils";
+import { type AzureSubscription } from "@microsoft/vscode-azureresources-api";
 import { appProvider, managedEnvironmentsId } from "../../constants";
 import { ext } from "../../extensionVariables";
 import { createActivityContext } from "../../utils/activity/activityUtils";
 import { getVerifyProvidersStep } from "../../utils/getVerifyProvidersStep";
 import { localize } from "../../utils/localize";
-import type { IManagedEnvironmentContext } from "./IManagedEnvironmentContext";
+import { type IManagedEnvironmentContext } from "./IManagedEnvironmentContext";
 import { LogAnalyticsCreateStep } from "./LogAnalyticsCreateStep";
 import { ManagedEnvironmentCreateStep } from "./ManagedEnvironmentCreateStep";
 import { ManagedEnvironmentNameStep } from "./ManagedEnvironmentNameStep";
 
-export async function createManagedEnvironment(
-	context: IActionContext,
-	node?: { subscription: AzureSubscription },
-): Promise<void> {
-	const subscription =
-		node?.subscription ??
-		(await subscriptionExperience(
-			context,
-			ext.rgApiV2.resources.azureResourceTreeDataProvider,
-		));
+export async function createManagedEnvironment(context: IActionContext, node?: { subscription: AzureSubscription }): Promise<void> {
+    const subscription = node?.subscription ?? await subscriptionExperience(context, ext.rgApiV2.resources.azureResourceTreeDataProvider);
 
-	const wizardContext: IManagedEnvironmentContext = {
-		...context,
-		...createSubscriptionContext(subscription),
-		...(await createActivityContext()),
-		subscription,
-	};
+    const wizardContext: IManagedEnvironmentContext = {
+        ...context,
+        ...createSubscriptionContext(subscription),
+        ...await createActivityContext(),
+        subscription
+    };
 
-	const title: string = localize(
-		"createManagedEnv",
-		"Create container apps environment",
-	);
-	const promptSteps: AzureWizardPromptStep<IManagedEnvironmentContext>[] = [];
-	const executeSteps: AzureWizardExecuteStep<IManagedEnvironmentContext>[] =
-		[];
+    const title: string = localize('createManagedEnv', 'Create container apps environment');
+    const promptSteps: AzureWizardPromptStep<IManagedEnvironmentContext>[] = [];
+    const executeSteps: AzureWizardExecuteStep<IManagedEnvironmentContext>[] = [];
 
-	promptSteps.push(new ManagedEnvironmentNameStep());
-	executeSteps.push(
-		getVerifyProvidersStep<IManagedEnvironmentContext>(),
-		new ResourceGroupCreateStep(),
-		new LogAnalyticsCreateStep(),
-		new ManagedEnvironmentCreateStep(),
-	);
-	LocationListStep.addProviderForFiltering(
-		wizardContext,
-		appProvider,
-		managedEnvironmentsId,
-	);
-	LocationListStep.addStep(wizardContext, promptSteps);
+    promptSteps.push(new ManagedEnvironmentNameStep());
+    executeSteps.push(
+        getVerifyProvidersStep<IManagedEnvironmentContext>(),
+        new ResourceGroupCreateStep(),
+        new LogAnalyticsCreateStep(),
+        new ManagedEnvironmentCreateStep()
+    );
+    LocationListStep.addProviderForFiltering(wizardContext, appProvider, managedEnvironmentsId);
+    LocationListStep.addStep(wizardContext, promptSteps);
 
-	const wizard: AzureWizard<IManagedEnvironmentContext> = new AzureWizard(
-		wizardContext,
-		{
-			title,
-			promptSteps,
-			executeSteps,
-			showLoadingPrompt: true,
-		},
-	);
+    const wizard: AzureWizard<IManagedEnvironmentContext> = new AzureWizard(wizardContext, {
+        title,
+        promptSteps,
+        executeSteps,
+        showLoadingPrompt: true
+    });
 
-	await wizard.prompt();
-	const newManagedEnvName = nonNullProp(
-		wizardContext,
-		"newManagedEnvironmentName",
-	);
-	wizardContext.newResourceGroupName = newManagedEnvName;
-	wizardContext.activityTitle = localize(
-		"createNamedManagedEnv",
-		'Create container apps environment "{0}"',
-		newManagedEnvName,
-	);
-	await wizard.execute();
+    await wizard.prompt();
+    const newManagedEnvName = nonNullProp(wizardContext, 'newManagedEnvironmentName');
+    wizardContext.newResourceGroupName = newManagedEnvName;
+    wizardContext.activityTitle = localize('createNamedManagedEnv', 'Create container apps environment "{0}"', newManagedEnvName);
+    await wizard.execute();
 
-	ext.branchDataProvider.refresh();
+    ext.branchDataProvider.refresh();
 }

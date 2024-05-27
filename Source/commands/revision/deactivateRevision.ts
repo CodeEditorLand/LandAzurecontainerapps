@@ -3,13 +3,10 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { IActionContext } from "@microsoft/vscode-azext-utils";
-import type { RevisionItem } from "../../tree/revisionManagement/RevisionItem";
+import { type IActionContext } from "@microsoft/vscode-azext-utils";
+import { type RevisionItem } from "../../tree/revisionManagement/RevisionItem";
 import { executeRevisionOperation } from "./changeRevisionActiveState";
 
-export function deactivateRevision(
-	context: IActionContext,
-	node?: RevisionItem,
-): Promise<void> {
-	return executeRevisionOperation(context, node, "deactivateRevision");
+export function deactivateRevision(context: IActionContext, node?: RevisionItem): Promise<void> {
+    return executeRevisionOperation(context, node, 'deactivateRevision');
 }

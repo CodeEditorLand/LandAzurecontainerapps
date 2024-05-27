@@ -3,21 +3,21 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import type { TreeItemIconPath } from "@microsoft/vscode-azext-utils";
-import { Uri } from "vscode";
-import { ext } from "../extensionVariables";
-import type { TreeElementBase } from "../tree/ContainerAppsBranchDataProvider";
+import { type TreeItemIconPath } from '@microsoft/vscode-azext-utils';
+import { Uri } from 'vscode';
+import { ext } from '../extensionVariables';
+import { type TreeElementBase } from '../tree/ContainerAppsBranchDataProvider';
 
 export namespace treeUtils {
-	export function getIconPath(iconName: string): TreeItemIconPath {
-		return Uri.joinPath(getResourcesUri(), `${iconName}.svg`);
-	}
+    export function getIconPath(iconName: string): TreeItemIconPath {
+        return Uri.joinPath(getResourcesUri(), `${iconName}.svg`);
+    }
 
-	function getResourcesUri(): Uri {
-		return Uri.joinPath(ext.context.extensionUri, "resources");
-	}
+    function getResourcesUri(): Uri {
+        return Uri.joinPath(ext.context.extensionUri, 'resources')
+    }
 
-	export function sortById(a: TreeElementBase, b: TreeElementBase): number {
-		return a.id && b.id ? a.id.localeCompare(b.id) : 0;
-	}
+    export function sortById(a: TreeElementBase, b: TreeElementBase): number {
+        return a.id && b.id ? a.id.localeCompare(b.id) : 0;
+    }
 }

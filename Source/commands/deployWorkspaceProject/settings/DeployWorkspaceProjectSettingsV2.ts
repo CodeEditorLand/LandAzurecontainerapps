@@ -4,16 +4,16 @@
  *--------------------------------------------------------------------------------------------*/
 
 export interface DeployWorkspaceProjectSettingsV2 {
-	deploymentConfigurations?: DeploymentConfigurationSettings[];
+    deploymentConfigurations?: DeploymentConfigurationSettings[];
 }
 
 export interface DeploymentConfigurationSettings {
-	label?: string;
-	type?: string;
-	dockerfilePath?: string;
-	srcPath?: string;
-	envPath?: string;
-	resourceGroup?: string;
-	containerApp?: string;
-	containerRegistry?: string;
+    label?: string;
+    type?: string;
+    dockerfilePath?: string;
+    srcPath?: string;
+    envPath?: string;
+    resourceGroup?: string;
+    containerApp?: string;
+    containerRegistry?: string;
 }
