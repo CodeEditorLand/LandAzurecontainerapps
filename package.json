@@ -713,7 +713,7 @@
 	"activationEvents": [],
 	"dependencies": {
 		"buffer": "6.0.3",
-		"dayjs": "1.11.12",
+		"dayjs": "2.0.0-alpha.4",
 		"deep-eql": "5.0.2",
 		"dotenv": "16.4.5",
 		"fs-extra": "11.2.0",
