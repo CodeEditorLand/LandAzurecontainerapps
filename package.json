@@ -1,12 +1,17 @@
 {
-	"activationEvents": [],
-	"aiKey": "0c6ae279ed8443289764825290e4f9e2-1a736e7c-1324-4338-be46-fc2a58ae4d14-7255",
+	"name": "vscode-azurecontainerapps",
+	"displayName": "Azure Container Apps",
+	"description": "%containerApps.description%",
+	"main": "./main.js",
 	"browser": "./dist/web/extension.bundle.js",
-	"capabilities": {
-		"virtualWorkspaces": {
-			"description": "Some features are not supported in virtual workspaces.",
-			"supported": "limited"
-		}
+	"scripts": {
+		"build": "tsc",
+		"cleanReadme": "gulp cleanReadme",
+		"compile": "tsc -watch",
+		"prepare": "husky install",
+		"webpack": "npm run build && gulp webpack-dev",
+		"webpack-prod": "npm run build && gulp webpack-prod",
+		"webpack-profile": "webpack --profile --json --mode production > webpack-stats.json && echo Use http://webpack.github.io/analyse to analyze the stats"
 	},
 	"contributes": {
 		"commands": [
@@ -705,34 +710,35 @@
 			]
 		}
 	},
+	"activationEvents": [],
 	"dependencies": {
-		"buffer": "^6.0.3",
-		"dayjs": "^1.11.3",
-		"deep-eql": "^4.1.3",
-		"dotenv": "^16.0.0",
-		"fs-extra": "^8.1.0",
-		"p-retry": "^4.6.2",
-		"semver": "^7.5.2",
-		"tar": "^6.2.1"
+		"buffer": "6.0.3",
+		"dayjs": "2.0.0-alpha.4",
+		"deep-eql": "5.0.2",
+		"dotenv": "16.4.5",
+		"fs-extra": "11.2.0",
+		"p-retry": "6.2.0",
+		"semver": "7.6.3",
+		"tar": "7.4.1"
 	},
-	"description": "%containerApps.description%",
 	"devDependencies": {
-		"@types/deep-eql": "^4.0.0",
-		"@types/fs-extra": "^8.1.1",
-		"@types/node": "^16.18.36",
-		"@types/semver": "^7.3.8",
-		"@types/tar": "^6.1.11",
-		"assert": "^2.0.0",
-		"glob": "^7.1.6"
+		"@types/deep-eql": "4.0.2",
+		"@types/fs-extra": "11.0.4",
+		"@types/node": "20.14.12",
+		"@types/semver": "7.5.8",
+		"@types/tar": "6.1.13",
+		"assert": "2.1.0",
+		"glob": "11.0.0"
 	},
-	"displayName": "Azure Container Apps",
 	"extensionDependencies": [
 		"ms-azuretools.vscode-azureresourcegroups"
 	],
+	"icon": "resources/azure-containerapps.png",
 	"galleryBanner": {
 		"color": "#3a3d41",
 		"theme": "dark"
 	},
+<<<<<<< HEAD
 	"icon": "resources/azure-containerapps.png",
 	"main": "./main.js",
 	"name": "vscode-azurecontainerapps",
@@ -745,5 +751,14 @@
 		"webpack": "npm run build && gulp webpack-dev",
 		"webpack-prod": "npm run build && gulp webpack-prod",
 		"webpack-profile": "webpack --profile --json --mode production > webpack-stats.json && echo Use http://webpack.github.io/analyse to analyze the stats"
+=======
+	"preview": true,
+	"aiKey": "0c6ae279ed8443289764825290e4f9e2-1a736e7c-1324-4338-be46-fc2a58ae4d14-7255",
+	"capabilities": {
+		"virtualWorkspaces": {
+			"description": "Some features are not supported in virtual workspaces.",
+			"supported": "limited"
+		}
+>>>>>>> 36e47ad781babfd6fa826104b9b3fe2a6230423d
 	}
 }
