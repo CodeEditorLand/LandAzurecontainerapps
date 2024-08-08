@@ -719,7 +719,7 @@
 	"devDependencies": {
 		"@types/deep-eql": "4.0.2",
 		"@types/fs-extra": "11.0.4",
-		"@types/node": "22.0.2",
+		"@types/node": "22.1.0",
 		"@types/semver": "7.5.8",
 		"@types/tar": "6.1.13",
 		"assert": "2.1.0",
