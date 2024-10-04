@@ -5,17 +5,26 @@
 
 import { KnownActiveRevisionsMode } from "@azure/arm-appcontainers";
 import { type IActionContext } from "@microsoft/vscode-azext-utils";
+
 import { ext } from "../extensionVariables";
 import { type ContainerAppItem } from "../tree/ContainerAppItem";
 import { localize } from "../utils/localize";
 import { pickContainerApp } from "../utils/pickItem/pickContainerApp";
 
-export async function editContainerApp(context: IActionContext, node?: ContainerAppItem): Promise<void> {
-    node ??= await pickContainerApp(context);
+export async function editContainerApp(
+	context: IActionContext,
+	node?: ContainerAppItem,
+): Promise<void> {
+	node ??= await pickContainerApp(context);
 
-    if (node.containerApp.revisionsMode !== KnownActiveRevisionsMode.Single) {
-        throw new Error(localize('revisionModeError', 'The issued command can only be executed when the container app is in single revision mode.'));
-    }
+	if (node.containerApp.revisionsMode !== KnownActiveRevisionsMode.Single) {
+		throw new Error(
+			localize(
+				"revisionModeError",
+				"The issued command can only be executed when the container app is in single revision mode.",
+			),
+		);
+	}
 
-    await ext.revisionDraftFileSystem.editRevisionDraft(node);
+	await ext.revisionDraftFileSystem.editRevisionDraft(node);
 }

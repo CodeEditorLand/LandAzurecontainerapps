@@ -3,27 +3,42 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { nonNullValue, type IActionContext, type IAzureQuickPickItem } from "@microsoft/vscode-azext-utils";
 import { basename, relative } from "path";
-import { RelativePattern, Uri, workspace, type OpenDialogOptions, type WorkspaceFolder } from "vscode";
-import { browseItem, dockerfileGlobPattern, envFileGlobPattern } from "../constants";
+import {
+	nonNullValue,
+	type IActionContext,
+	type IAzureQuickPickItem,
+} from "@microsoft/vscode-azext-utils";
+import {
+	RelativePattern,
+	Uri,
+	workspace,
+	type OpenDialogOptions,
+	type WorkspaceFolder,
+} from "vscode";
+
+import {
+	browseItem,
+	dockerfileGlobPattern,
+	envFileGlobPattern,
+} from "../constants";
 import { type SetTelemetryProps } from "../telemetry/SetTelemetryProps";
 import { type WorkspaceFileTelemetryProps as TelemetryProps } from "../telemetry/WorkspaceFileTelemetryProps";
 import { localize } from "./localize";
 
 interface SelectWorkspaceFileOptions extends OpenDialogOptions {
-    /**
-     * Include a 'skipForNow` option in the prompting.  Selection of `skipForNow` should correspond to a value of `undefined`
-     */
-    allowSkip?: boolean;
-    /**
-     * Optional label for the 'skipForNow' option; will default to 'Skip for now' if not provided
-     */
-    skipLabel?: string;
-    /**
-     * If searching through the workspace file path returns only one matching result, automatically return its path without additional prompting
-     */
-    autoSelectIfOne?: boolean;
+	/**
+	 * Include a 'skipForNow` option in the prompting.  Selection of `skipForNow` should correspond to a value of `undefined`
+	 */
+	allowSkip?: boolean;
+	/**
+	 * Optional label for the 'skipForNow' option; will default to 'Skip for now' if not provided
+	 */
+	skipLabel?: string;
+	/**
+	 * If searching through the workspace file path returns only one matching result, automatically return its path without additional prompting
+	 */
+	autoSelectIfOne?: boolean;
 }
 
 /**
@@ -32,72 +47,94 @@ interface SelectWorkspaceFileOptions extends OpenDialogOptions {
  * @returns Returns a string representing the workspace file path chosen.  A return of undefined is only possible when the `allowSkip` option is set to true.
  */
 export async function selectWorkspaceFile(
-    context: IActionContext & SetTelemetryProps<TelemetryProps> & { rootFolder?: WorkspaceFolder },
-    placeHolder: string,
-    options: SelectWorkspaceFileOptions,
-    globPattern?: string
+	context: IActionContext &
+		SetTelemetryProps<TelemetryProps> & { rootFolder?: WorkspaceFolder },
+	placeHolder: string,
+	options: SelectWorkspaceFileOptions,
+	globPattern?: string,
 ): Promise<string | undefined> {
-    const quickPicks: IAzureQuickPickItem<string | undefined>[] = [];
+	const quickPicks: IAzureQuickPickItem<string | undefined>[] = [];
 
-    if (context.rootFolder || workspace.workspaceFolders?.length === 1) {
-        const pattern: RelativePattern = new RelativePattern(
-            context.rootFolder ?? nonNullValue(workspace.workspaceFolders?.[0]),
-            globPattern ?? '**/*'
-        );
-        const files: Uri[] = await workspace.findFiles(pattern);
+	if (context.rootFolder || workspace.workspaceFolders?.length === 1) {
+		const pattern: RelativePattern = new RelativePattern(
+			context.rootFolder ?? nonNullValue(workspace.workspaceFolders?.[0]),
+			globPattern ?? "**/*",
+		);
+		const files: Uri[] = await workspace.findFiles(pattern);
 
-        // If dockerfile(s), log the count
-        if (globPattern === dockerfileGlobPattern || globPattern === `**/${dockerfileGlobPattern}`) {
-            context.telemetry.properties.dockerfileCount = String(files.length);
-        }
+		// If dockerfile(s), log the count
+		if (
+			globPattern === dockerfileGlobPattern ||
+			globPattern === `**/${dockerfileGlobPattern}`
+		) {
+			context.telemetry.properties.dockerfileCount = String(files.length);
+		}
 
-        // If environment variable file(s), log the count
-        if (globPattern === envFileGlobPattern || globPattern === `**/${envFileGlobPattern}`) {
-            context.telemetry.properties.environmentVariableFileCount = String(files.length);
-        }
+		// If environment variable file(s), log the count
+		if (
+			globPattern === envFileGlobPattern ||
+			globPattern === `**/${envFileGlobPattern}`
+		) {
+			context.telemetry.properties.environmentVariableFileCount = String(
+				files.length,
+			);
+		}
 
-        if (options.autoSelectIfOne && files.length === 1) {
-            return files[0].fsPath;
-        }
+		if (options.autoSelectIfOne && files.length === 1) {
+			return files[0].fsPath;
+		}
 
-        quickPicks.push(...files.map((uri: Uri) => {
-            return {
-                label: basename(uri.path),
-                description: relative(pattern.baseUri.path, uri.path),
-                data: uri.fsPath
-            };
-        }));
-    }
+		quickPicks.push(
+			...files.map((uri: Uri) => {
+				return {
+					label: basename(uri.path),
+					description: relative(pattern.baseUri.path, uri.path),
+					data: uri.fsPath,
+				};
+			}),
+		);
+	}
 
-    quickPicks.push(browseItem);
+	quickPicks.push(browseItem);
 
-    const skipForNow: string = 'skipForNow';
-    if (options.allowSkip) {
-        quickPicks.push({
-            label: options.skipLabel ?? localize('skipForNow', '$(clock) Skip for now'),
-            description: '',
-            data: skipForNow
-        });
-    }
+	const skipForNow: string = "skipForNow";
+	if (options.allowSkip) {
+		quickPicks.push({
+			label:
+				options.skipLabel ??
+				localize("skipForNow", "$(clock) Skip for now"),
+			description: "",
+			data: skipForNow,
+		});
+	}
 
-    const input: string | undefined = (await context.ui.showQuickPick(quickPicks, { placeHolder })).data;
-    if (input === skipForNow) {
-        return undefined;
-    } else {
-        return input || (await context.ui.showOpenDialog(options))[0].fsPath;
-    }
+	const input: string | undefined = (
+		await context.ui.showQuickPick(quickPicks, { placeHolder })
+	).data;
+	if (input === skipForNow) {
+		return undefined;
+	} else {
+		return input || (await context.ui.showOpenDialog(options))[0].fsPath;
+	}
 }
 
-export async function getRootWorkspaceFolder(context: IActionContext, placeHolder?: string): Promise<WorkspaceFolder | undefined> {
-    if (!workspace.workspaceFolders?.length) {
-        return undefined;
-    } else if (workspace.workspaceFolders?.length === 1) {
-        return workspace.workspaceFolders[0];
-    } else {
-        return await context.ui.showWorkspaceFolderPick({ placeHolder });
-    }
+export async function getRootWorkspaceFolder(
+	context: IActionContext,
+	placeHolder?: string,
+): Promise<WorkspaceFolder | undefined> {
+	if (!workspace.workspaceFolders?.length) {
+		return undefined;
+	} else if (workspace.workspaceFolders?.length === 1) {
+		return workspace.workspaceFolders[0];
+	} else {
+		return await context.ui.showWorkspaceFolderPick({ placeHolder });
+	}
 }
 
-export function getWorkspaceFolderFromPath(path: string): WorkspaceFolder | undefined {
-    return workspace.workspaceFolders?.find(folder => folder.uri.fsPath === Uri.file(path).fsPath);
+export function getWorkspaceFolderFromPath(
+	path: string,
+): WorkspaceFolder | undefined {
+	return workspace.workspaceFolders?.find(
+		(folder) => folder.uri.fsPath === Uri.file(path).fsPath,
+	);
 }

@@ -4,5 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 export function getContainerNameForImage(containerImageName: string): string {
-    return containerImageName.substring(containerImageName.lastIndexOf('/') + 1).replace(/[^0-9a-zA-Z-]/g, '-');
+	return containerImageName
+		.substring(containerImageName.lastIndexOf("/") + 1)
+		.replace(/[^0-9a-zA-Z-]/g, "-");
 }

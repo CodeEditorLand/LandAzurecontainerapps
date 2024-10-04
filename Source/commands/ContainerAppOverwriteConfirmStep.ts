@@ -5,24 +5,42 @@
 
 import { nonNullProp } from "@microsoft/vscode-azext-utils";
 import { type MessageItem } from "vscode";
+
 import { type ContainerAppModel } from "../tree/ContainerAppItem";
 import { localize } from "../utils/localize";
 import { type IContainerAppContext } from "./IContainerAppContext";
 import { OverwriteConfirmStepBase } from "./OverwriteConfirmStepBase";
 
-export class ContainerAppOverwriteConfirmStep<T extends IContainerAppContext> extends OverwriteConfirmStepBase<T> {
-    public hideStepCount: boolean = true;
+export class ContainerAppOverwriteConfirmStep<
+	T extends IContainerAppContext,
+> extends OverwriteConfirmStepBase<T> {
+	public hideStepCount: boolean = true;
 
-    protected async promptCore(context: T): Promise<void> {
-        const containerApp: ContainerAppModel = nonNullProp(context, 'containerApp');
-        const warning: string = localize('confirmDeploy', 'The latest deployment of container app "{0}" will be overwritten.', containerApp.name) +
-            '\n\n' + this.unsupportedFeaturesWarning;
+	protected async promptCore(context: T): Promise<void> {
+		const containerApp: ContainerAppModel = nonNullProp(
+			context,
+			"containerApp",
+		);
+		const warning: string =
+			localize(
+				"confirmDeploy",
+				'The latest deployment of container app "{0}" will be overwritten.',
+				containerApp.name,
+			) +
+			"\n\n" +
+			this.unsupportedFeaturesWarning;
 
-        const items: MessageItem[] = [{ title: localize('continue', 'Continue') }];
-        await context.ui.showWarningMessage(warning, { modal: true, stepName: 'confirmDestructiveDeployment' }, ...items);
-    }
+		const items: MessageItem[] = [
+			{ title: localize("continue", "Continue") },
+		];
+		await context.ui.showWarningMessage(
+			warning,
+			{ modal: true, stepName: "confirmDestructiveDeployment" },
+			...items,
+		);
+	}
 
-    public shouldPrompt(context: T): boolean {
-        return this.hasUnsupportedFeatures(context);
-    }
+	public shouldPrompt(context: T): boolean {
+		return this.hasUnsupportedFeatures(context);
+	}
 }

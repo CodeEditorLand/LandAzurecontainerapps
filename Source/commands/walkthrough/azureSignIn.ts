@@ -6,5 +6,5 @@
 import { commands } from "vscode";
 
 export async function azureSignInWalkthrough(): Promise<void> {
-    await commands.executeCommand('azureResourceGroups.logIn');
+	await commands.executeCommand("azureResourceGroups.logIn");
 }
