@@ -4,63 +4,38 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { KnownActiveRevisionsMode } from "@azure/arm-appcontainers";
-import {
-	AzureWizardPromptStep,
-	type IAzureQuickPickItem,
-} from "@microsoft/vscode-azext-utils";
-
+import { AzureWizardPromptStep, type IAzureQuickPickItem } from "@microsoft/vscode-azext-utils";
 import { localize } from "../../../utils/localize";
 import { type IChooseRevisionModeContext } from "./IChooseRevisionModeContext";
 
 export class ChooseRevisionModeStep extends AzureWizardPromptStep<IChooseRevisionModeContext> {
-	public async prompt(context: IChooseRevisionModeContext): Promise<void> {
-		context.newRevisionMode = (
-			await context.ui.showQuickPick(this.getPicks(context), {
-				placeHolder: localize("chooseRevision", "Choose revision mode"),
-				suppressPersistence: true,
-			})
-		).data;
-	}
+    public async prompt(context: IChooseRevisionModeContext): Promise<void> {
+        context.newRevisionMode = (await context.ui.showQuickPick(this.getPicks(context), {
+            placeHolder: localize('chooseRevision', 'Choose revision mode'),
+            suppressPersistence: true,
+        })).data;
+    }
 
-	public shouldPrompt(context: IChooseRevisionModeContext): boolean {
-		return !context.newRevisionMode;
-	}
+    public shouldPrompt(context: IChooseRevisionModeContext): boolean {
+        return !context.newRevisionMode;
+    }
 
-	private getPicks(
-		context: IChooseRevisionModeContext,
-	): IAzureQuickPickItem<KnownActiveRevisionsMode>[] {
-		return [
-			{
-				label: localize("multiple", "Multiple"),
-				description: appendCurrent(
-					context,
-					localize(
-						"multipleDesc",
-						"Several revisions active simultaneously",
-					),
-					KnownActiveRevisionsMode.Multiple,
-				),
-				data: KnownActiveRevisionsMode.Multiple,
-			},
-			{
-				label: localize("single", "Single"),
-				description: appendCurrent(
-					context,
-					localize("singleDesc", "One active revision at a time"),
-					KnownActiveRevisionsMode.Single,
-				),
-				data: KnownActiveRevisionsMode.Single,
-			},
-		];
-	}
+    private getPicks(context: IChooseRevisionModeContext): IAzureQuickPickItem<KnownActiveRevisionsMode>[] {
+        return [
+            {
+                label: localize('multiple', 'Multiple'),
+                description: appendCurrent(context, localize('multipleDesc', 'Several revisions active simultaneously'), KnownActiveRevisionsMode.Multiple),
+                data: KnownActiveRevisionsMode.Multiple,
+            },
+            {
+                label: localize('single', 'Single'),
+                description: appendCurrent(context, localize('singleDesc', 'One active revision at a time'), KnownActiveRevisionsMode.Single),
+                data: KnownActiveRevisionsMode.Single,
+            },
+        ];
+    }
 }
 
-function appendCurrent(
-	context: IChooseRevisionModeContext,
-	description: string,
-	revisionsMode: KnownActiveRevisionsMode,
-): string {
-	return revisionsMode === context.containerApp?.revisionsMode
-		? `${description} (current)`
-		: description;
+function appendCurrent(context: IChooseRevisionModeContext, description: string, revisionsMode: KnownActiveRevisionsMode): string {
+    return revisionsMode === context.containerApp?.revisionsMode ? `${description} (current)` : description;
 }

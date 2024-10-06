@@ -4,14 +4,11 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { type RegistryCredentials } from "@azure/arm-appcontainers";
-
 import { type IContainerAppContext } from "../../IContainerAppContext";
 import { type CreateAcrContext } from "../../image/imageSource/containerRegistry/acr/createAcr/CreateAcrContext";
 import { type ManagedEnvironmentRequiredContext } from "../../ManagedEnvironmentContext";
 
-export interface ManagedIdentityRegistryCredentialsContext
-	extends CreateAcrContext,
-		ManagedEnvironmentRequiredContext,
-		IContainerAppContext {
-	newRegistryCredential?: RegistryCredentials;
+export interface ManagedIdentityRegistryCredentialsContext extends CreateAcrContext, ManagedEnvironmentRequiredContext, IContainerAppContext {
+    hasAcrPullRole?: boolean;
+    newRegistryCredential?: RegistryCredentials;
 }

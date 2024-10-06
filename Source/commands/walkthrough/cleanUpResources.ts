@@ -6,5 +6,5 @@
 import { commands } from "vscode";
 
 export async function cleanUpResourcesWalkthrough(): Promise<void> {
-	await commands.executeCommand("azureResourceGroups.deleteResourceGroupV2");
+    await commands.executeCommand('azureResourceGroups.deleteResourceGroupV2');
 }

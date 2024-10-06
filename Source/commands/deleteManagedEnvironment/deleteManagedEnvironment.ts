@@ -1,15 +1,10 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+*  Copyright (c) Microsoft Corporation. All rights reserved.
+*  Licensed under the MIT License. See License.txt in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
 
 import { getResourceGroupFromId } from "@microsoft/vscode-azext-azureutils";
-import {
-	AzureWizard,
-	createSubscriptionContext,
-	type IActionContext,
-} from "@microsoft/vscode-azext-utils";
-
+import { AzureWizard, createSubscriptionContext, type IActionContext } from "@microsoft/vscode-azext-utils";
 import { ext } from "../../extensionVariables";
 import { ContainerAppItem } from "../../tree/ContainerAppItem";
 import { type ManagedEnvironmentItem } from "../../tree/ManagedEnvironmentItem";
@@ -21,54 +16,34 @@ import { DeleteEnvironmentConfirmationStep } from "./DeleteEnvironmentConfirmati
 import { DeleteManagedEnvironmentStep } from "./DeleteManagedEnvironmentStep";
 import { type IDeleteManagedEnvironmentContext } from "./IDeleteManagedEnvironmentContext";
 
-export async function deleteManagedEnvironment(
-	context: IActionContext,
-	node?: ManagedEnvironmentItem,
-): Promise<void> {
-	const { subscription, managedEnvironment } =
-		node ??
-		(await pickEnvironment(context, {
-			title: localize(
-				"deleteContainerAppsEnvironment",
-				"Delete Container Apps Environment",
-			),
-		}));
+export async function deleteManagedEnvironment(context: IActionContext, node?: ManagedEnvironmentItem): Promise<void> {
+    const { subscription, managedEnvironment } = node ?? await pickEnvironment(context, {
+        title: localize('deleteContainerAppsEnvironment', 'Delete Container Apps Environment'),
+    });
 
-	const containerApps = await ContainerAppItem.List(
-		context,
-		subscription,
-		managedEnvironment.id,
-	);
-	const resourceGroupName = getResourceGroupFromId(managedEnvironment.id);
+    const containerApps = await ContainerAppItem.List(context, subscription, managedEnvironment.id);
+    const resourceGroupName = getResourceGroupFromId(managedEnvironment.id);
 
-	const wizardContext: IDeleteManagedEnvironmentContext = {
-		...context,
-		...(await createActivityContext()),
-		subscription: createSubscriptionContext(subscription),
-		resourceGroupName: resourceGroupName,
-		managedEnvironmentName: managedEnvironment.name,
-		containerAppNames: containerApps.map((ca) => ca.name),
-	};
+    const wizardContext: IDeleteManagedEnvironmentContext = {
+        ...context,
+        ...await createActivityContext(),
+        subscription: createSubscriptionContext(subscription),
+        resourceGroupName: resourceGroupName,
+        managedEnvironmentName: managedEnvironment.name,
+        containerAppNames: containerApps.map(ca => ca.name),
+    };
 
-	const wizard: AzureWizard<IDeleteManagedEnvironmentContext> =
-		new AzureWizard(wizardContext, {
-			title: localize(
-				"deleteManagedEnvironment",
-				'Delete container apps environment "{0}"',
-				managedEnvironment.name,
-			),
-			promptSteps: [new DeleteEnvironmentConfirmationStep()],
-			executeSteps: [
-				new DeleteAllContainerAppsStep(),
-				new DeleteManagedEnvironmentStep(),
-			],
-		});
+    const wizard: AzureWizard<IDeleteManagedEnvironmentContext> = new AzureWizard(wizardContext, {
+        title: localize('deleteManagedEnvironment', 'Delete container apps environment "{0}"', managedEnvironment.name),
+        promptSteps: [new DeleteEnvironmentConfirmationStep()],
+        executeSteps: [new DeleteAllContainerAppsStep(), new DeleteManagedEnvironmentStep()]
+    });
 
-	await wizard.prompt();
+    await wizard.prompt();
 
-	await ext.state.showDeleting(managedEnvironment.id, async () => {
-		await wizard.execute();
-	});
+    await ext.state.showDeleting(managedEnvironment.id, async () => {
+        await wizard.execute();
+    });
 
-	ext.branchDataProvider.refresh();
+    ext.branchDataProvider.refresh();
 }

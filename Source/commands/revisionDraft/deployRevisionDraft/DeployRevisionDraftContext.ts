@@ -5,16 +5,12 @@
 
 import { type Template } from "@azure/arm-appcontainers";
 import { type ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
-
-import { type DeployRevisionDraftTelemetryProps as TelemetryProps } from "../../../telemetry/commandTelemetryProps";
 import { type SetTelemetryProps } from "../../../telemetry/SetTelemetryProps";
+import { type DeployRevisionDraftTelemetryProps as TelemetryProps } from "../../../telemetry/commandTelemetryProps";
 import { type IContainerAppContext } from "../../IContainerAppContext";
 
-interface DeployRevisionDraftBaseContext
-	extends IContainerAppContext,
-		ExecuteActivityContext {
-	template: Template | undefined;
+interface DeployRevisionDraftBaseContext extends IContainerAppContext, ExecuteActivityContext {
+    template: Template | undefined;
 }
 
-export type DeployRevisionDraftContext = DeployRevisionDraftBaseContext &
-	SetTelemetryProps<TelemetryProps>;
+export type DeployRevisionDraftContext = DeployRevisionDraftBaseContext & SetTelemetryProps<TelemetryProps>;

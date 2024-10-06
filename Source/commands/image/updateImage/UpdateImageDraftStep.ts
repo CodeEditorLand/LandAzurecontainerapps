@@ -6,12 +6,8 @@
 import { type Revision } from "@azure/arm-appcontainers";
 import { nonNullProp } from "@microsoft/vscode-azext-utils";
 import { type Progress } from "vscode";
-
 import { ext } from "../../../extensionVariables";
-import {
-	type ContainerAppItem,
-	type ContainerAppModel,
-} from "../../../tree/ContainerAppItem";
+import { type ContainerAppItem, type ContainerAppModel } from "../../../tree/ContainerAppItem";
 import { type RevisionsItemModel } from "../../../tree/revisionManagement/RevisionItem";
 import { localize } from "../../../utils/localize";
 import { getParentResourceFromItem } from "../../../utils/revisionDraftUtils";
@@ -19,48 +15,30 @@ import { RevisionDraftUpdateBaseStep } from "../../revisionDraft/RevisionDraftUp
 import { getContainerNameForImage } from "../imageSource/containerRegistry/getContainerNameForImage";
 import { type UpdateImageContext } from "./updateImage";
 
-export class UpdateImageDraftStep<
-	T extends UpdateImageContext,
-> extends RevisionDraftUpdateBaseStep<T> {
-	public priority: number = 590;
+export class UpdateImageDraftStep<T extends UpdateImageContext> extends RevisionDraftUpdateBaseStep<T> {
+    public priority: number = 590;
 
-	constructor(baseItem: ContainerAppItem | RevisionsItemModel) {
-		super(baseItem);
-	}
+    constructor(baseItem: ContainerAppItem | RevisionsItemModel) {
+        super(baseItem);
+    }
 
-	public async execute(
-		context: T,
-		progress: Progress<{
-			message?: string | undefined;
-			increment?: number | undefined;
-		}>,
-	): Promise<void> {
-		progress.report({
-			message: localize("updatingImage", "Updating image (draft)..."),
-		});
+    public async execute(context: T, progress: Progress<{ message?: string | undefined; increment?: number | undefined }>): Promise<void> {
+        progress.report({ message: localize('updatingImage', 'Updating image (draft)...') });
 
-		this.revisionDraftTemplate.containers = [];
-		this.revisionDraftTemplate.containers.push({
-			env: context.environmentVariables,
-			image: context.image,
-			name: getContainerNameForImage(nonNullProp(context, "image")),
-		});
+        this.revisionDraftTemplate.containers = [];
+        this.revisionDraftTemplate.containers.push({
+            env: context.environmentVariables,
+            image: context.image,
+            name: getContainerNameForImage(nonNullProp(context, 'image')),
+        });
 
-		await this.updateRevisionDraftWithTemplate(context);
+        await this.updateRevisionDraftWithTemplate(context);
 
-		const parentResource: ContainerAppModel | Revision =
-			getParentResourceFromItem(this.baseItem);
-		ext.outputChannel.appendLog(
-			localize(
-				"updatedImage",
-				'Updated container app "{0}" with image "{1}" (draft).',
-				parentResource.name,
-				context.image,
-			),
-		);
-	}
+        const parentResource: ContainerAppModel | Revision = getParentResourceFromItem(this.baseItem);
+        ext.outputChannel.appendLog(localize('updatedImage', 'Updated container app "{0}" with image "{1}" (draft).', parentResource.name, context.image));
+    }
 
-	public shouldExecute(context: T): boolean {
-		return !!context.containerApp && !!context.image;
-	}
+    public shouldExecute(context: T): boolean {
+        return !!context.containerApp && !!context.image;
+    }
 }
