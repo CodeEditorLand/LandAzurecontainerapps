@@ -4,5 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 /* eslint-disable */
-import * as nodeFse from 'fs-extra';
+import * as nodeFse from "fs-extra";
+
 export const fse = nodeFse;

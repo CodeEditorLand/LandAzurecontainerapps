@@ -6,5 +6,5 @@
 import { type IngressBaseContext } from "./IngressContext";
 
 export function isIngressEnabled(context: IngressBaseContext): boolean {
-    return !!context.containerApp?.configuration?.ingress;
+	return !!context.containerApp?.configuration?.ingress;
 }
