@@ -1,147 +1,283 @@
 /*---------------------------------------------------------------------------------------------
-*  Copyright (c) Microsoft Corporation. All rights reserved.
-*  Licensed under the MIT License. See License.md in the project root for license information.
-*--------------------------------------------------------------------------------------------*/
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.md in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-import { getResourceGroupFromId } from '@microsoft/vscode-azext-azureutils';
-import { AzExtFsExtra, AzureWizardExecuteStep, GenericParentTreeItem, GenericTreeItem, activityFailContext, activityFailIcon, activitySuccessContext, activitySuccessIcon, createUniversallyUniqueContextValue, nonNullValue, type ExecuteActivityOutput } from '@microsoft/vscode-azext-utils';
-import { randomUUID } from 'crypto';
-import { tmpdir } from 'os';
-import * as path from 'path';
-import * as tar from 'tar';
-import { ThemeColor, ThemeIcon, type Progress } from 'vscode';
-import { ext } from '../../../../extensionVariables';
-import { createContainerRegistryManagementClient } from '../../../../utils/azureClients';
-import { localize } from '../../../../utils/localize';
-import { type BuildImageInAzureImageSourceContext } from './BuildImageInAzureImageSourceContext';
+import { randomUUID } from "crypto";
+import { tmpdir } from "os";
+import * as path from "path";
+import { getResourceGroupFromId } from "@microsoft/vscode-azext-azureutils";
+import {
+	activityFailContext,
+	activityFailIcon,
+	activitySuccessContext,
+	activitySuccessIcon,
+	AzExtFsExtra,
+	AzureWizardExecuteStep,
+	createUniversallyUniqueContextValue,
+	GenericParentTreeItem,
+	GenericTreeItem,
+	nonNullValue,
+	type ExecuteActivityOutput,
+} from "@microsoft/vscode-azext-utils";
+import * as tar from "tar";
+import { ThemeColor, ThemeIcon, type Progress } from "vscode";
 
-const vcsIgnoreList = ['.git', '.gitignore', '.bzr', 'bzrignore', '.hg', '.hgignore', '.svn'];
+import { ext } from "../../../../extensionVariables";
+import { createContainerRegistryManagementClient } from "../../../../utils/azureClients";
+import { localize } from "../../../../utils/localize";
+import { type BuildImageInAzureImageSourceContext } from "./BuildImageInAzureImageSourceContext";
 
-export class UploadSourceCodeStep<T extends BuildImageInAzureImageSourceContext> extends AzureWizardExecuteStep<T> {
-    public priority: number = 530;
-    /** Path to a directory containing a custom Dockerfile that we sometimes build and upload for the user */
-    private _customDockerfileDirPath?: string;
-    /** Relative path of src folder from rootFolder and what gets deployed */
-    private _sourceFilePath: string;
+const vcsIgnoreList = [
+	".git",
+	".gitignore",
+	".bzr",
+	"bzrignore",
+	".hg",
+	".hgignore",
+	".svn",
+];
 
-    public async execute(context: T, progress: Progress<{ message?: string | undefined; increment?: number | undefined }>): Promise<void> {
-        this._sourceFilePath = context.rootFolder.uri.fsPath === context.srcPath ? '.' : path.relative(context.rootFolder.uri.fsPath, context.srcPath);
-        context.telemetry.properties.sourceDepth = this._sourceFilePath === '.' ? '0' : String(this._sourceFilePath.split(path.sep).length);
+export class UploadSourceCodeStep<
+	T extends BuildImageInAzureImageSourceContext,
+> extends AzureWizardExecuteStep<T> {
+	public priority: number = 530;
+	/** Path to a directory containing a custom Dockerfile that we sometimes build and upload for the user */
+	private _customDockerfileDirPath?: string;
+	/** Relative path of src folder from rootFolder and what gets deployed */
+	private _sourceFilePath: string;
 
-        context.registryName = nonNullValue(context.registry?.name);
-        context.resourceGroupName = getResourceGroupFromId(nonNullValue(context.registry?.id));
-        context.client = await createContainerRegistryManagementClient(context);
+	public async execute(
+		context: T,
+		progress: Progress<{
+			message?: string | undefined;
+			increment?: number | undefined;
+		}>,
+	): Promise<void> {
+		this._sourceFilePath =
+			context.rootFolder.uri.fsPath === context.srcPath
+				? "."
+				: path.relative(context.rootFolder.uri.fsPath, context.srcPath);
+		context.telemetry.properties.sourceDepth =
+			this._sourceFilePath === "."
+				? "0"
+				: String(this._sourceFilePath.split(path.sep).length);
 
-        progress.report({ message: localize('uploadingSourceCode', 'Uploading source code...') });
+		context.registryName = nonNullValue(context.registry?.name);
+		context.resourceGroupName = getResourceGroupFromId(
+			nonNullValue(context.registry?.id),
+		);
+		context.client = await createContainerRegistryManagementClient(context);
 
-        const source: string = path.join(context.rootFolder.uri.fsPath, this._sourceFilePath);
-        let items = await AzExtFsExtra.readDirectory(source);
-        items = items.filter(i => !vcsIgnoreList.includes(i.name));
+		progress.report({
+			message: localize(
+				"uploadingSourceCode",
+				"Uploading source code...",
+			),
+		});
 
-        await this.buildCustomDockerfileIfNecessary(context);
-        if (this._customDockerfileDirPath) {
-            // Create an uncompressed tarball with the base project
-            const tempTarFilePath: string = context.tarFilePath.replace(/\.tar\.gz/, '.tar');
-            await tar.c({ cwd: source, file: tempTarFilePath }, items.map(i => path.relative(source, i.fsPath)));
+		const source: string = path.join(
+			context.rootFolder.uri.fsPath,
+			this._sourceFilePath,
+		);
+		let items = await AzExtFsExtra.readDirectory(source);
+		items = items.filter((i) => !vcsIgnoreList.includes(i.name));
 
-            // Append/Overwrite the original Dockerfile with the custom one that was made
-            await tar.r({ cwd: this._customDockerfileDirPath, file: tempTarFilePath }, [path.relative(source, context.dockerfilePath)]);
+		await this.buildCustomDockerfileIfNecessary(context);
+		if (this._customDockerfileDirPath) {
+			// Create an uncompressed tarball with the base project
+			const tempTarFilePath: string = context.tarFilePath.replace(
+				/\.tar\.gz/,
+				".tar",
+			);
+			await tar.c(
+				{ cwd: source, file: tempTarFilePath },
+				items.map((i) => path.relative(source, i.fsPath)),
+			);
 
-            // Create the final compressed version
-            // Note: Noticed some hanging issues when using the async version to add existing tar archives;
-            // however, the issues seem to disappear when utilizing the sync version
-            tar.c({ cwd: tmpdir(), gzip: true, sync: true, file: context.tarFilePath }, [`@${path.basename(tempTarFilePath)}`]);
+			// Append/Overwrite the original Dockerfile with the custom one that was made
+			await tar.r(
+				{ cwd: this._customDockerfileDirPath, file: tempTarFilePath },
+				[path.relative(source, context.dockerfilePath)],
+			);
 
-            try {
-                // Remove temporarily created resources
-                await AzExtFsExtra.deleteResource(tempTarFilePath);
-                await AzExtFsExtra.deleteResource(this._customDockerfileDirPath, { recursive: true });
-            } catch {
-                // Swallow error, don't halt the deploy process just because we couldn't delete the temp files, provide a warning instead
-                ext.outputChannel.appendLog(localize('errorDeletingTempFiles', 'Warning: Could not remove some of the following temporary files: "{0}", "{1}". Try removing these manually at a later time.', tempTarFilePath, this._customDockerfileDirPath));
-            }
-        } else {
-            await tar.c({ cwd: source, gzip: true, file: context.tarFilePath }, items.map(i => path.relative(source, i.fsPath)));
-        }
+			// Create the final compressed version
+			// Note: Noticed some hanging issues when using the async version to add existing tar archives;
+			// however, the issues seem to disappear when utilizing the sync version
+			tar.c(
+				{
+					cwd: tmpdir(),
+					gzip: true,
+					sync: true,
+					file: context.tarFilePath,
+				},
+				[`@${path.basename(tempTarFilePath)}`],
+			);
 
-        const sourceUploadLocation = await context.client.registries.getBuildSourceUploadUrl(context.resourceGroupName, context.registryName);
-        const uploadUrl: string = nonNullValue(sourceUploadLocation.uploadUrl);
-        const relativePath: string = nonNullValue(sourceUploadLocation.relativePath);
+			try {
+				// Remove temporarily created resources
+				await AzExtFsExtra.deleteResource(tempTarFilePath);
+				await AzExtFsExtra.deleteResource(
+					this._customDockerfileDirPath,
+					{ recursive: true },
+				);
+			} catch {
+				// Swallow error, don't halt the deploy process just because we couldn't delete the temp files, provide a warning instead
+				ext.outputChannel.appendLog(
+					localize(
+						"errorDeletingTempFiles",
+						'Warning: Could not remove some of the following temporary files: "{0}", "{1}". Try removing these manually at a later time.',
+						tempTarFilePath,
+						this._customDockerfileDirPath,
+					),
+				);
+			}
+		} else {
+			await tar.c(
+				{ cwd: source, gzip: true, file: context.tarFilePath },
+				items.map((i) => path.relative(source, i.fsPath)),
+			);
+		}
 
-        const storageBlob = await import('@azure/storage-blob');
-        const blobClient = new storageBlob.BlockBlobClient(uploadUrl);
-        await blobClient.uploadFile(context.tarFilePath);
+		const sourceUploadLocation =
+			await context.client.registries.getBuildSourceUploadUrl(
+				context.resourceGroupName,
+				context.registryName,
+			);
+		const uploadUrl: string = nonNullValue(sourceUploadLocation.uploadUrl);
+		const relativePath: string = nonNullValue(
+			sourceUploadLocation.relativePath,
+		);
 
-        context.uploadedSourceLocation = relativePath;
-    }
+		const storageBlob = await import("@azure/storage-blob");
+		const blobClient = new storageBlob.BlockBlobClient(uploadUrl);
+		await blobClient.uploadFile(context.tarFilePath);
 
-    public shouldExecute(context: T): boolean {
-        return !context.uploadedSourceLocation;
-    }
+		context.uploadedSourceLocation = relativePath;
+	}
 
-    /**
-     * Checks and creates a custom Dockerfile if necessary to be used in place of the original
-     * @populates this._customDockerfileDirPath
-     */
-    private async buildCustomDockerfileIfNecessary(context: T): Promise<void> {
-        // Build a custom Dockerfile if it has ACR's unsupported `--platform` flag
-        // See: https://github.com/Azure/acr/issues/697
-        const platformRegex: RegExp = /^(FROM.*)\s--platform=\S+(.*)$/gm;
-        let dockerfileContent: string = await AzExtFsExtra.readFile(context.dockerfilePath);
+	public shouldExecute(context: T): boolean {
+		return !context.uploadedSourceLocation;
+	}
 
-        if (!platformRegex.test(dockerfileContent)) {
-            context.telemetry.properties.buildCustomDockerfile = 'false';
-            return;
-        }
+	/**
+	 * Checks and creates a custom Dockerfile if necessary to be used in place of the original
+	 * @populates this._customDockerfileDirPath
+	 */
+	private async buildCustomDockerfileIfNecessary(context: T): Promise<void> {
+		// Build a custom Dockerfile if it has ACR's unsupported `--platform` flag
+		// See: https://github.com/Azure/acr/issues/697
+		const platformRegex: RegExp = /^(FROM.*)\s--platform=\S+(.*)$/gm;
+		let dockerfileContent: string = await AzExtFsExtra.readFile(
+			context.dockerfilePath,
+		);
 
-        context.telemetry.properties.buildCustomDockerfile = 'true';
-        ext.outputChannel.appendLog(localize('removePlatformFlag', 'Detected a "--platform" flag in the Dockerfile. This flag is not supported in ACR. Attempting to provide a Dockerfile with the "--platform" flag removed.'));
-        dockerfileContent = dockerfileContent.replace(platformRegex, '$1$2');
+		if (!platformRegex.test(dockerfileContent)) {
+			context.telemetry.properties.buildCustomDockerfile = "false";
+			return;
+		}
 
-        const customDockerfileDirPath: string = path.join(tmpdir(), randomUUID());
-        const dockerfileRelativePath: string = path.relative(context.srcPath, context.dockerfilePath);
-        const customDockerfilePath = path.join(customDockerfileDirPath, dockerfileRelativePath);
-        await AzExtFsExtra.writeFile(customDockerfilePath, dockerfileContent);
+		context.telemetry.properties.buildCustomDockerfile = "true";
+		ext.outputChannel.appendLog(
+			localize(
+				"removePlatformFlag",
+				'Detected a "--platform" flag in the Dockerfile. This flag is not supported in ACR. Attempting to provide a Dockerfile with the "--platform" flag removed.',
+			),
+		);
+		dockerfileContent = dockerfileContent.replace(platformRegex, "$1$2");
 
-        this._customDockerfileDirPath = customDockerfileDirPath;
-    }
+		const customDockerfileDirPath: string = path.join(
+			tmpdir(),
+			randomUUID(),
+		);
+		const dockerfileRelativePath: string = path.relative(
+			context.srcPath,
+			context.dockerfilePath,
+		);
+		const customDockerfilePath = path.join(
+			customDockerfileDirPath,
+			dockerfileRelativePath,
+		);
+		await AzExtFsExtra.writeFile(customDockerfilePath, dockerfileContent);
 
-    public createSuccessOutput(context: T): ExecuteActivityOutput {
-        const baseTreeItemOptions = {
-            contextValue: createUniversallyUniqueContextValue(['uploadSourceCodeStepSuccessItem', activitySuccessContext]),
-            label: localize('uploadSourceCodeLabel', 'Upload source code from "{1}" directory to registry "{0}"', context.registry?.name, this._sourceFilePath),
-            iconPath: activitySuccessIcon,
-        };
+		this._customDockerfileDirPath = customDockerfileDirPath;
+	}
 
-        let parentTreeItem: GenericParentTreeItem | undefined;
-        if (this._customDockerfileDirPath) {
-            parentTreeItem = new GenericParentTreeItem(undefined, {
-                ...baseTreeItemOptions,
-                loadMoreChildrenImpl: () => {
-                    const removePlatformFlagItem = new GenericTreeItem(undefined, {
-                        contextValue: createUniversallyUniqueContextValue(['removePlatformFlagItem']),
-                        label: localize('removePlatformFlag', 'Remove unsupported ACR "--platform" flag'),
-                        iconPath: new ThemeIcon('dash', new ThemeColor('terminal.ansiWhite')),
-                    });
-                    return Promise.resolve([removePlatformFlagItem]);
-                }
-            });
-        }
+	public createSuccessOutput(context: T): ExecuteActivityOutput {
+		const baseTreeItemOptions = {
+			contextValue: createUniversallyUniqueContextValue([
+				"uploadSourceCodeStepSuccessItem",
+				activitySuccessContext,
+			]),
+			label: localize(
+				"uploadSourceCodeLabel",
+				'Upload source code from "{1}" directory to registry "{0}"',
+				context.registry?.name,
+				this._sourceFilePath,
+			),
+			iconPath: activitySuccessIcon,
+		};
 
-        return {
-            item: parentTreeItem ?? new GenericTreeItem(undefined, { ...baseTreeItemOptions }),
-            message: localize('uploadedSourceCodeSuccess', 'Uploaded source code from "{1}" directory to registry "{0}" for remote build.', context.registry?.name, this._sourceFilePath)
-        };
-    }
+		let parentTreeItem: GenericParentTreeItem | undefined;
+		if (this._customDockerfileDirPath) {
+			parentTreeItem = new GenericParentTreeItem(undefined, {
+				...baseTreeItemOptions,
+				loadMoreChildrenImpl: () => {
+					const removePlatformFlagItem = new GenericTreeItem(
+						undefined,
+						{
+							contextValue: createUniversallyUniqueContextValue([
+								"removePlatformFlagItem",
+							]),
+							label: localize(
+								"removePlatformFlag",
+								'Remove unsupported ACR "--platform" flag',
+							),
+							iconPath: new ThemeIcon(
+								"dash",
+								new ThemeColor("terminal.ansiWhite"),
+							),
+						},
+					);
+					return Promise.resolve([removePlatformFlagItem]);
+				},
+			});
+		}
 
-    public createFailOutput(context: T): ExecuteActivityOutput {
-        return {
-            item: new GenericParentTreeItem(undefined, {
-                contextValue: createUniversallyUniqueContextValue(['uploadSourceCodeStepFailItem', activityFailContext]),
-                label: localize('uploadSourceCodeLabel', 'Upload source code from "{1}" directory to registry "{0}"', context.registry?.name, this._sourceFilePath),
-                iconPath: activityFailIcon
-            }),
-            message: localize('uploadedSourceCodeFail', 'Failed to upload source code from "{1}" directory to registry "{0}" for remote build.', context.registry?.name, this._sourceFilePath)
-        };
-    }
+		return {
+			item:
+				parentTreeItem ??
+				new GenericTreeItem(undefined, { ...baseTreeItemOptions }),
+			message: localize(
+				"uploadedSourceCodeSuccess",
+				'Uploaded source code from "{1}" directory to registry "{0}" for remote build.',
+				context.registry?.name,
+				this._sourceFilePath,
+			),
+		};
+	}
+
+	public createFailOutput(context: T): ExecuteActivityOutput {
+		return {
+			item: new GenericParentTreeItem(undefined, {
+				contextValue: createUniversallyUniqueContextValue([
+					"uploadSourceCodeStepFailItem",
+					activityFailContext,
+				]),
+				label: localize(
+					"uploadSourceCodeLabel",
+					'Upload source code from "{1}" directory to registry "{0}"',
+					context.registry?.name,
+					this._sourceFilePath,
+				),
+				iconPath: activityFailIcon,
+			}),
+			message: localize(
+				"uploadedSourceCodeFail",
+				'Failed to upload source code from "{1}" directory to registry "{0}" for remote build.',
+				context.registry?.name,
+				this._sourceFilePath,
+			),
+		};
+	}
 }
