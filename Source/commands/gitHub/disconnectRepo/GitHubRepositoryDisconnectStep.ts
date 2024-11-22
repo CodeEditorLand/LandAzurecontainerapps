@@ -38,7 +38,9 @@ export class GitHubRepositoryDisconnectStep extends AzureWizardExecuteStep<IDisc
 			);
 
 		const rgName: string = context.containerApp.resourceGroup;
+
 		const caName: string = context.containerApp.name;
+
 		const scName: string = "current";
 
 		const requestOptions = {

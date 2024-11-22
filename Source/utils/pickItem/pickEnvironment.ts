@@ -12,9 +12,11 @@ import { type PickItemOptions } from "./PickItemOptions";
 
 export function getPickEnvironmentSteps(skipIfOne: boolean = false, subscriptionId?: string, environmentName?: string | RegExp): AzureWizardPromptStep<AzureResourceQuickPickWizardContext>[] {
     const tdp: ResourceGroupsTreeDataProvider = ext.rgApiV2.resources.azureResourceTreeDataProvider;
+
     const types = [AzExtResourceType.ContainerAppsEnvironment];
 
     let environmentFilter: RegExp | undefined;
+
     if (environmentName) {
         environmentFilter = environmentName instanceof RegExp ? environmentName : new RegExp(`^${environmentName}$`);
     } else {

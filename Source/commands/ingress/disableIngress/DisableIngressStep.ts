@@ -27,6 +27,7 @@ export class DisableIngressStep extends IngressUpdateStepBase<IngressBaseContext
 			"disablingIngress",
 			"Disabling ingress...",
 		);
+
 		const workCompleted: string = localize(
 			"disableCompleted",
 			'Disabled ingress for container app "{0}"',

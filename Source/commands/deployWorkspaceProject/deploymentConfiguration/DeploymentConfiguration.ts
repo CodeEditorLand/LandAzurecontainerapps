@@ -14,6 +14,7 @@ export interface DeploymentConfiguration {
 	configurationIdx?: number;
 	shouldSaveDeploySettings?: boolean;
 	rootFolder?: WorkspaceFolder;
+
 	dockerfilePath?: string;
 	srcPath?: string;
 	envPath?: string;

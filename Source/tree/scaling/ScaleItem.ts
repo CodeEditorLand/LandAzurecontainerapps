@@ -90,6 +90,7 @@ export class ScaleItem extends RevisionDraftDescendantBase {
 
 	getChildren(): TreeElementBase[] {
 		const replicasLabel: string = localize("minMax", "Min / max replicas");
+
 		return [
 			createGenericElement({
 				label: this.replicasHaveUnsavedChanges()
@@ -120,6 +121,7 @@ export class ScaleItem extends RevisionDraftDescendantBase {
 
 		const draftTemplate =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this)?.scale;
+
 		const currentTemplate = this.parentResource.template?.scale;
 
 		if (!draftTemplate) {
@@ -140,6 +142,7 @@ export class ScaleItem extends RevisionDraftDescendantBase {
 
 		const draftTemplate =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this)?.scale;
+
 		const currentTemplate = this.parentResource.template?.scale;
 
 		if (!draftTemplate) {

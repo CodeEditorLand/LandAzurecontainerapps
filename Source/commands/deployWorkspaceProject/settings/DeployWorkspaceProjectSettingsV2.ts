@@ -10,6 +10,7 @@ export interface DeployWorkspaceProjectSettingsV2 {
 export interface DeploymentConfigurationSettings {
 	label?: string;
 	type?: string;
+
 	dockerfilePath?: string;
 	srcPath?: string;
 	envPath?: string;

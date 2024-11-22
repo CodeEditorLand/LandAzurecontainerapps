@@ -46,6 +46,7 @@ export interface RevisionsItemModel extends ContainerAppsItem {
 }
 
 const revisionStateActiveContextValue: string = "revisionState:active";
+
 const revisionStateInactiveContextValue: string = "revisionState:inactive";
 
 export class RevisionItem implements RevisionsItemModel {
@@ -159,6 +160,7 @@ export class RevisionItem implements RevisionsItemModel {
 
 	private get iconPath(): TreeItemIconPath {
 		let id: string;
+
 		let colorId: string;
 
 		if (!this.revision.active) {
@@ -170,15 +172,21 @@ export class RevisionItem implements RevisionsItemModel {
 				case KnownRevisionProvisioningState.Provisioning:
 					id = "play-circle";
 					colorId = "testing.iconUnset";
+
 					break;
+
 				case KnownRevisionProvisioningState.Failed:
 					id = "error";
 					colorId = "testing.iconFailed";
+
 					break;
+
 				case KnownRevisionProvisioningState.Provisioned:
 					id = "pass";
 					colorId = "testing.iconPassed";
+
 					break;
+
 				case KnownRevisionProvisioningState.Deprovisioned:
 				default:
 					id = "circle-slash";

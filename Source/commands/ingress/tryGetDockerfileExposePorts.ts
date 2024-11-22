@@ -13,9 +13,11 @@ export async function tryGetDockerfileExposePorts(
 	}
 
 	const content: string = await AzExtFsExtra.readFile(dockerfilePath);
+
 	const lines: string[] = content.split("\n");
 
 	const portRanges: PortRange[] = [];
+
 	for (const line of lines) {
 		if (!/^EXPOSE/i.test(line.trim())) {
 			continue;
@@ -26,6 +28,7 @@ export async function tryGetDockerfileExposePorts(
 		// Note: (?<=\s) prevents the last number in a range 3000-3010 from being selected
 		const singlePorts: string[] =
 			line.match(/(?<=\s)\d{2,5}(?!(\-)|(\/udp))\b/g) ?? [];
+
 		for (const sp of singlePorts) {
 			portRanges.push(new PortRange(parseInt(sp)));
 		}
@@ -33,6 +36,7 @@ export async function tryGetDockerfileExposePorts(
 		// Identify all port ranges
 		// Example format: `3000-3010`
 		const portRange: string[] = line.match(/\d{2,5}\-\d{2,5}/g) ?? [];
+
 		for (const pr of portRange) {
 			const [start, end] = pr.split("-");
 			portRanges.push(new PortRange(parseInt(start), parseInt(end)));

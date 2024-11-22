@@ -26,6 +26,7 @@ export async function getDeployWorkspaceProjectResults(
 	let listedCredentials:
 		| { username: string; password: RegistryPassword }
 		| undefined;
+
 	if (!registryCredentials?.identity) {
 		listedCredentials = await listCredentialsFromAcr(context);
 	}
@@ -50,6 +51,7 @@ export async function tryGetLogAnalyticsWorkspace(
 	context: DeployWorkspaceProjectContext,
 ): Promise<Workspace | undefined> {
 	const resourceGroupName = context.resourceGroup?.name;
+
 	const logAnalyticsCustomerId =
 		context.managedEnvironment?.appLogsConfiguration
 			?.logAnalyticsConfiguration?.customerId;
@@ -59,8 +61,10 @@ export async function tryGetLogAnalyticsWorkspace(
 	}
 
 	const client = await createOperationalInsightsManagementClient(context);
+
 	const workspaces: Workspace[] = await uiUtils.listAllIterator(
 		client.workspaces.listByResourceGroup(resourceGroupName),
 	);
+
 	return workspaces.find((w) => w.customerId === logAnalyticsCustomerId);
 }

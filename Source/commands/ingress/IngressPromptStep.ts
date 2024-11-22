@@ -53,6 +53,7 @@ export class IngressPromptStep extends AzureWizardPromptStep<IngressContext> {
 		context: IngressContext,
 	): Promise<IWizardOptions<IngressContext> | undefined> {
 		const promptSteps: AzureWizardPromptStep<IngressContext>[] = [];
+
 		const executeSteps: AzureWizardExecuteStep<IngressContext>[] = [];
 
 		if (context.enableIngress) {

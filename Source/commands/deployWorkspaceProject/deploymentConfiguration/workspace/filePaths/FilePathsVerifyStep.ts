@@ -58,6 +58,7 @@ export abstract class FilePathsVerifyStep extends AzureWizardExecuteStep<Workspa
 
 		if (!context[this.contextKey] && this.configPath) {
 			const fullPath = path.join(rootPath, this.configPath);
+
 			if (await this.verifyFilePath(fullPath)) {
 				context[this.contextKey] = fullPath;
 			}

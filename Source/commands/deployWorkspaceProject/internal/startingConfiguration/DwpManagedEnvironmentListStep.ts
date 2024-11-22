@@ -38,6 +38,7 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 			"selectManagedEnvironment",
 			"Select a container apps environment",
 		);
+
 		const picks: IAzureQuickPickItem<ManagedEnvironment | undefined>[] =
 			await this.getPicks(context);
 
@@ -47,6 +48,7 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 		}
 
 		await this.setRecommendedPicks(context, picks);
+
 		const pick = await context.ui.showQuickPick(picks, {
 			placeHolder,
 			suppressPersistence: true,
@@ -64,6 +66,7 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 		);
 
 		const managedEnvironment: ManagedEnvironment | undefined = pick.data;
+
 		if (!managedEnvironment) {
 			// User is choosing to create a new managed environment
 			return;
@@ -86,6 +89,7 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 	): Promise<IAzureQuickPickItem<ManagedEnvironment | undefined>[]> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		const managedEnvironments: ManagedEnvironment[] =
 			await uiUtils.listAllIterator(
 				context.resourceGroup
@@ -140,11 +144,13 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 			await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
 				nonNullProp(context, "rootFolder"),
 			);
+
 		if (!deploymentConfigurations?.length) {
 			return;
 		}
 
 		const client = await createContainerAppsAPIClient(context);
+
 		for (const config of deploymentConfigurations) {
 			try {
 				if (config.resourceGroup && config.containerApp) {
@@ -152,9 +158,11 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 						config.resourceGroup,
 						config.containerApp,
 					);
+
 					const recommendedPick = picks.find(
 						(p) => p.data?.id === containerApp.managedEnvironmentId,
 					);
+
 					if (recommendedPick) {
 						recommendedPick.description =
 							recommendedPickDescription;

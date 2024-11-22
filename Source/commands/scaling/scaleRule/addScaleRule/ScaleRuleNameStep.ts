@@ -56,9 +56,11 @@ export class ScaleRuleNameStep extends AzureWizardPromptStep<IAddScaleRuleContex
 	): Promise<string | undefined> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		const resourceGroupName: string = context.containerApp.resourceGroup;
 
 		let scaleRules: ScaleRule[] | undefined;
+
 		if (
 			context.containerApp.revisionsMode ===
 			KnownActiveRevisionsMode.Single

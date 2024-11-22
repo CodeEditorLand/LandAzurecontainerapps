@@ -54,14 +54,17 @@ export class SourcePathStep extends AzureWizardPromptStep<BuildImageInAzureImage
 		context: BuildImageInAzureImageSourceContext,
 	): IAzureQuickPickItem<string | undefined>[] {
 		const rootPath: string = context.rootFolder.uri.fsPath;
+
 		const directories: string[] = path
 			.relative(rootPath, path.dirname(context.dockerfilePath))
 			.split(path.sep);
+
 		const picks: IAzureQuickPickItem<string | undefined>[] = [
 			{ label: "." + path.sep, data: rootPath },
 		];
 
 		let p: string = "";
+
 		for (const directory of directories) {
 			p += path.sep + directory;
 			picks.push({ label: "." + p, data: rootPath + p });
@@ -69,6 +72,7 @@ export class SourcePathStep extends AzureWizardPromptStep<BuildImageInAzureImage
 
 		picks.reverse();
 		picks.push(browseItem);
+
 		return picks;
 	}
 
@@ -80,6 +84,7 @@ export class SourcePathStep extends AzureWizardPromptStep<BuildImageInAzureImage
 		}
 
 		const rootPath: string = context.rootFolder.uri.fsPath;
+
 		return (
 			path.relative(rootPath, context.dockerfilePath) ===
 			path.basename(context.dockerfilePath)

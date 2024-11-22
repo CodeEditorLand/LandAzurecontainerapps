@@ -17,6 +17,7 @@ export class ContainerAppUpdateStep<T extends ImageSourceContext> extends AzureW
 
     public async execute(context: T, progress: Progress<{ message?: string | undefined; increment?: number | undefined }>): Promise<void> {
         const containerApp: ContainerAppModel = nonNullProp(context, 'containerApp');
+
         const containerAppEnvelope = await getContainerEnvelopeWithSecrets(context, context.subscription, containerApp);
 
         containerAppEnvelope.configuration.secrets = context.secrets;

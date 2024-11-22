@@ -138,6 +138,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 
 		const draftTemplate =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this)?.containers;
+
 		const currentTemplate = this.parentResource.template?.containers;
 
 		if (!draftTemplate) {

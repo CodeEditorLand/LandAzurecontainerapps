@@ -21,6 +21,7 @@ export class ContainerAppOverwriteConfirmStep<
 			context,
 			"containerApp",
 		);
+
 		const warning: string =
 			localize(
 				"confirmDeploy",

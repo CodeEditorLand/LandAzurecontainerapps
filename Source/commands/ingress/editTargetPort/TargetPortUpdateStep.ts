@@ -24,6 +24,7 @@ export class TargetPortUpdateStep extends IngressUpdateStepBase<IngressBaseConte
 		}>,
 	): Promise<void> {
 		const containerApp = nonNullProp(context, "containerApp");
+
 		const ingress = nonNullValueAndProp(
 			containerApp.configuration,
 			"ingress",
@@ -34,6 +35,7 @@ export class TargetPortUpdateStep extends IngressUpdateStepBase<IngressBaseConte
 			"updatingTargetPort",
 			"Updating target port...",
 		);
+
 		const workCompleted: string = localize(
 			"updatedTargetPort",
 			'Updated target port to {0} for container app "{1}"',

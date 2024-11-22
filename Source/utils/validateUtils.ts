@@ -9,6 +9,7 @@ export namespace validateUtils {
 	const thirtyTwoBitMaxSafeInteger: number = 2147483647;
 	// Estimated using UTF-8 encoding, where a character can be up to ~4 bytes long
 	const maxSafeCharacterLength: number = thirtyTwoBitMaxSafeInteger / 32;
+
 	const allowedSymbols: string = "[-/\\^$*+?.()|[]{}]";
 
 	/**
@@ -95,10 +96,13 @@ export namespace validateUtils {
 			new RegExp(allowedSymbols, "g"),
 			"\\$&",
 		);
+
 		const pattern: RegExp = new RegExp(
 			`^[a-z0-9](?:[a-z0-9${symbolPattern}]*[a-z0-9])?$`,
 		);
+
 		const symbolsRepeatPattern: RegExp = new RegExp("[^a-z0-9]{2}", "g");
+
 		return (
 			pattern.test(value) &&
 			(!!canSymbolsRepeat || !symbolsRepeatPattern.test(value))
@@ -116,6 +120,7 @@ export namespace validateUtils {
 		const nonConsecutive: string = canSymbolsRepeat
 			? ""
 			: localize("nonConsecutive", "non-consecutive ");
+
 		return localize(
 			"invalidLowerAlphanumericWithSymbols",
 			`A name must consist of lower-case alphanumeric characters or the following {0}symbols: "{1}", and must start and end with a lower case alphanumeric character.`,

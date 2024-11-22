@@ -44,6 +44,7 @@ export class ManagedEnvironmentNameStep extends AzureWizardPromptStep<ManagedEnv
 		name = name ? name.trim() : "";
 
 		const { minLength, maxLength } = { minLength: 4, maxLength: 20 };
+
 		if (!/^[a-z]([-a-z0-9]*[a-z0-9])?$/.test(name)) {
 			return localize(
 				"invalidChar",
@@ -74,6 +75,7 @@ export class ManagedEnvironmentNameStep extends AzureWizardPromptStep<ManagedEnv
 			context.resourceGroup,
 			"name",
 		);
+
 		if (
 			!(await ManagedEnvironmentNameStep.isNameAvailable(
 				context,
@@ -99,11 +101,13 @@ export class ManagedEnvironmentNameStep extends AzureWizardPromptStep<ManagedEnv
 	): Promise<boolean> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		try {
 			await client.managedEnvironments.get(
 				resourceGroupName,
 				environmentName,
 			);
+
 			return false;
 		} catch (_e) {
 			return true;

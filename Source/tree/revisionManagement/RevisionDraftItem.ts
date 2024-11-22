@@ -77,6 +77,7 @@ export class RevisionDraftItem
 				? unsavedChangesTrueContextValue
 				: unsavedChangesFalseContextValue,
 		);
+
 		return createContextValue(values);
 	}
 
@@ -102,6 +103,7 @@ export class RevisionDraftItem
 			ext.revisionDraftFileSystem.getRevisionDraftFile(
 				item,
 			)?.baseRevisionName;
+
 		return item.revision.name === revisionDraftBaseName;
 	}
 
@@ -145,6 +147,7 @@ export class RevisionDraftItem
 							context,
 							createSubscriptionContext(this.subscription),
 						]);
+
 					return uiUtils.listAllIterator(
 						client.containerAppsRevisions.listRevisions(
 							this.containerApp.resourceGroup,
@@ -158,10 +161,12 @@ export class RevisionDraftItem
 			ext.revisionDraftFileSystem.getRevisionDraftFile(
 				this,
 			)?.baseRevisionName;
+
 		const baseRevision: Revision | undefined = revisions?.find(
 			(revision) =>
 				baseRevisionName && revision.name === baseRevisionName,
 		);
+
 		const draftTemplate: Template | undefined =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this);
 

@@ -18,6 +18,7 @@ export interface DeployWorkspaceProjectOptionsContract {
 	// Workspace deployment paths (absolute fs path)
 	rootPath?: string;
 	srcPath?: string;
+
 	dockerfilePath?: string;
 
 	// Options

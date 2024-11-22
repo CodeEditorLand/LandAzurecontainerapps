@@ -23,6 +23,7 @@ import { ManagedEnvironmentItem } from "./ManagedEnvironmentItem";
 
 export interface TreeElementBase extends ResourceModelBase {
 	getChildren?(): vscode.ProviderResult<TreeElementBase[]>;
+
 	getTreeItem(): vscode.TreeItem | Thenable<vscode.TreeItem>;
 
 	viewProperties?: ViewPropertiesModel;
@@ -70,12 +71,14 @@ export class ContainerAppsBranchDataProvider
 			"getResourceItem",
 			async (context: IActionContext) => {
 				context.errorHandling.rethrow = true;
+
 				const managedEnvironment = await ManagedEnvironmentItem.Get(
 					context,
 					element.subscription,
 					nonNullProp(element, "resourceGroup"),
 					element.name,
 				);
+
 				return new ManagedEnvironmentItem(
 					element.subscription,
 					element,
@@ -92,6 +95,7 @@ export class ContainerAppsBranchDataProvider
 
 	async getTreeItem(element: TreeElementBase): Promise<vscode.TreeItem> {
 		const ti = await element.getTreeItem();
+
 		return ti;
 	}
 

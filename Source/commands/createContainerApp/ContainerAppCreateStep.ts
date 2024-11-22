@@ -61,6 +61,7 @@ export class ContainerAppCreateStep<
 			context.resourceGroup,
 			"name",
 		);
+
 		const containerAppName: string = nonNullProp(
 			context,
 			"newContainerAppName",

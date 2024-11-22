@@ -25,6 +25,7 @@ export async function buildImageInAzure(
 		);
 
 	let run = await getRun();
+
 	while (
 		run.status === KnownRunStatus.Started ||
 		run.status === KnownRunStatus.Queued ||

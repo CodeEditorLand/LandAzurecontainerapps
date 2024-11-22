@@ -55,12 +55,14 @@ export class AppResourcesNameStep extends AzureWizardPromptStep<DeployWorkspaceP
 					const resourceGroupName: string =
 						context.resourceGroup?.name ||
 						nonNullProp(context, "newResourceGroupName");
+
 					const isAvailable: boolean =
 						await ContainerAppNameStep.isNameAvailable(
 							context,
 							resourceGroupName,
 							name,
 						);
+
 					return isAvailable
 						? undefined
 						: localize(

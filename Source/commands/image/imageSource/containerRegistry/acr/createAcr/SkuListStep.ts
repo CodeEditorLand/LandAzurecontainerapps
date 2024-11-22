@@ -15,6 +15,7 @@ import { type CreateAcrContext } from "./CreateAcrContext";
 export class SkuListStep extends AzureWizardPromptStep<CreateAcrContext> {
 	public async prompt(context: CreateAcrContext): Promise<void> {
 		const placeHolder: string = localize("sku", "Select a SKU");
+
 		const picks: IAzureQuickPickItem<KnownSkuName>[] = [
 			{ label: KnownSkuName.Basic, data: KnownSkuName.Basic },
 			{ label: KnownSkuName.Standard, data: KnownSkuName.Standard },

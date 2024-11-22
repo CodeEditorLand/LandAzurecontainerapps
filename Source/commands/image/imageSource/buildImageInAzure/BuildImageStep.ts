@@ -40,6 +40,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 		context.registryDomain = acrDomain;
 
 		const run = await buildImageInAzure(context);
+
 		const outputImages = run?.outputImages;
 		context.telemetry.properties.outputImagesCount =
 			outputImages?.length?.toString();
@@ -55,6 +56,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 					nonNullValue(context.run.runId),
 				)
 			).logLink;
+
 			const response: AzExtPipelineResponse =
 				await sendRequestWithTimeout(
 					context,
@@ -62,6 +64,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 					2500,
 					undefined,
 				);
+
 			const content: string = nonNullProp(response, "bodyAsText");
 
 			this.acrBuildError = {
@@ -73,6 +76,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 			const viewLogsButton: MessageItem = {
 				title: localize("viewLogs", "View Logs"),
 			};
+
 			const errorMessage = localize(
 				"noImagesBuilt",
 				"Failed to build image. View logs for more details.",
@@ -87,6 +91,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 				});
 
 			context.errorHandling.suppressDisplay = true;
+
 			throw new Error(errorMessage);
 		}
 	}
@@ -127,6 +132,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 		context: BuildImageInAzureImageSourceContext,
 	): ExecuteActivityOutput {
 		let loadMoreChildrenImpl: (() => Promise<AzExtTreeItem[]>) | undefined;
+
 		if (this.acrBuildError) {
 			loadMoreChildrenImpl = () => {
 				const buildImageLogsItem = new GenericTreeItem(undefined, {
@@ -144,6 +150,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 					commandId: "containerApps.openAcrBuildLogs",
 				});
 				buildImageLogsItem.commandArgs = [this.acrBuildError];
+
 				return Promise.resolve([buildImageLogsItem]);
 			};
 		}

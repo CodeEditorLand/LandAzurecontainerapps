@@ -50,6 +50,7 @@ export class LogAnalyticsListStep extends AzureWizardPromptStep<ManagedEnvironme
 
 		const opClient =
 			await createOperationalInsightsManagementClient(context);
+
 		const workspaces: Workspace[] = await uiUtils.listAllIterator(
 			opClient.workspaces.list(),
 		);

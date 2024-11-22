@@ -32,7 +32,9 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 			context,
 			"containerApp",
 		);
+
 		const secretName: string = nonNullProp(context, "secretName");
+
 		const containerAppEnvelope = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,
@@ -51,6 +53,7 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 			secretName,
 			containerApp.name,
 		);
+
 		const deletingSecret: string = localize(
 			"deletingSecret",
 			"Deleting secret...",

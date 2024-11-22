@@ -44,6 +44,7 @@ export class SecretsItem implements ContainerAppsItem {
 	async getChildren(): Promise<TreeElementBase[]> {
 		const secrets: Secret[] =
 			this.containerApp.configuration?.secrets ?? [];
+
 		return secrets
 			.map(
 				(secret) =>

@@ -97,6 +97,7 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
             }
 
             const children: TreeElementBase[] = [];
+
             const client: ContainerAppsAPIClient = await createContainerAppsAPIClient([context, createSubscriptionContext(this.subscription)]);
 
             if (this.containerApp.revisionsMode === KnownActiveRevisionsMode.Single) {
@@ -108,6 +109,7 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
 
             children.push(new ConfigurationItem(this.subscription, this.containerApp));
             children.push(new LogsGroupItem(this.subscription, this.containerApp));
+
             return children;
         });
 
@@ -133,7 +135,9 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
 
     static async List(context: IActionContext, subscription: AzureSubscription, managedEnvironmentId: string): Promise<ContainerAppModel[]> {
         const subContext = createSubscriptionContext(subscription);
+
         const client: ContainerAppsAPIClient = await createContainerAppsAPIClient([context, subContext]);
+
         return (await uiUtils.listAllIterator(client.containerApps.listBySubscription()))
             .filter(ca => ca.managedEnvironmentId && ca.managedEnvironmentId === managedEnvironmentId)
             .map(ContainerAppItem.CreateContainerAppModel);
@@ -141,11 +145,13 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
 
     static async Get(context: IActionContext, subscription: AzureSubscription, resourceGroupName: string, containerAppName: string): Promise<ContainerAppModel> {
         const client: ContainerAppsAPIClient = await createContainerAppsClient(context, subscription);
+
         return ContainerAppItem.CreateContainerAppModel(await client.containerApps.get(resourceGroupName, containerAppName));
     }
 
     static CreateContainerAppModel(containerApp: ContainerApp): ContainerAppModel {
         const revisionsMode = containerApp.configuration?.activeRevisionsMode as KnownActiveRevisionsMode ?? KnownActiveRevisionsMode.Single;
+
         return {
             id: nonNullProp(containerApp, 'id'),
             name: nonNullProp(containerApp, 'name'),
@@ -158,6 +164,7 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
 
     async delete(context: IActionContext & { suppressPrompt?: boolean }): Promise<void> {
         const confirmMessage: string = localize('confirmDeleteContainerApp', 'Are you sure you want to delete container app "{0}"?', this.name);
+
         const deleteContainerApp: string = localize('deleteContainerApp', 'Delete container app "{0}"', this.name);
 
         const wizardContext: IDeleteContainerAppWizardContext = {
@@ -186,6 +193,7 @@ export class ContainerAppItem implements ContainerAppsItem, RevisionsDraftModel 
 
     hasUnsavedChanges(): boolean {
         const draftTemplate: Template | undefined = ext.revisionDraftFileSystem.parseRevisionDraft(this);
+
         if (!draftTemplate) {
             return false;
         }
@@ -210,6 +218,7 @@ export async function getContainerEnvelopeWithSecrets(context: IActionContext, s
     }
 
     const concreteContainerAppEnvelope = <Required<ContainerApp>>containerAppEnvelope;
+
     const webClient: ContainerAppsAPIClient = await createContainerAppsAPIClient([context, createSubscriptionContext(subscription)]);
 
     concreteContainerAppEnvelope.configuration.secrets = ((await webClient.containerApps.listSecrets(containerApp.resourceGroup, containerApp.name)).value);

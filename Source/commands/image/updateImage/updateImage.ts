@@ -32,6 +32,7 @@ export type UpdateImageContext = ImageSourceBaseContext & ExecuteActivityContext
  */
 export async function updateImage(context: IActionContext, node?: ContainerAppItem | RevisionItem): Promise<void> {
     let item: ContainerAppItem | RevisionItem | RevisionDraftItem | undefined = node;
+
     if (!item) {
         const containerAppItem: ContainerAppItem = await pickContainerApp(context);
 
@@ -47,6 +48,7 @@ export async function updateImage(context: IActionContext, node?: ContainerAppIt
     }
 
     const { subscription, containerApp } = item;
+
     const subscriptionContext: ISubscriptionContext = createSubscriptionContext(subscription);
 
     const wizardContext: UpdateImageContext = {
@@ -61,6 +63,7 @@ export async function updateImage(context: IActionContext, node?: ContainerAppIt
     wizardContext.telemetry.properties.revisionMode = containerApp.revisionsMode;
 
     const parentResource: ContainerAppModel | Revision = getParentResourceFromItem(item);
+
     const wizard: AzureWizard<UpdateImageContext> = new AzureWizard(wizardContext, {
         title: localize('updateImage', 'Update container image for "{0}" (draft)', parentResource.name),
         promptSteps: [

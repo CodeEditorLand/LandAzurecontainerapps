@@ -46,6 +46,7 @@ export async function deployImageApi(
 	deployImageOptions: DeployImageToAcaOptionsContract,
 ): Promise<void> {
 	const node = await pickContainerApp(context);
+
 	const { subscription } = node;
 
 	Object.assign(
@@ -60,6 +61,7 @@ export async function deployImageApi(
 	context.registryDomain = getDomainFromRegistryName(
 		deployImageOptions.registryName,
 	);
+
 	if (context.registryDomain === acrDomain) {
 		context.registry = await getRegistryFromAcrName(
 			<ISubscriptionActionContext>context,
@@ -78,12 +80,14 @@ export async function deployImageApi(
 
 	if (deployImageOptions.secret) {
 		context.telemetry.properties.hasRegistrySecrets = "true";
+
 		return callWithMaskHandling<void>(
 			() => deployImage(context, node),
 			deployImageOptions.secret,
 		);
 	} else {
 		context.telemetry.properties.hasRegistrySecrets = "false";
+
 		return deployImage(context, node);
 	}
 }

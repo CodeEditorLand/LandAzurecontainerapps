@@ -61,6 +61,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 		);
 
 		let result: Registry | typeof noMatchingResources | undefined;
+
 		do {
 			result = (
 				await context.ui.showQuickPick(this.getPicks(context), {
@@ -83,6 +84,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 	> {
 		const promptSteps: AzureWizardPromptStep<ContainerRegistryImageSourceContext>[] =
 			[];
+
 		const executeSteps: AzureWizardExecuteStep<ContainerRegistryImageSourceContext>[] =
 			[];
 
@@ -118,7 +120,9 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 
 		// Try to suggest a registry only when the user is deploying to a Container App
 		let suggestedRegistry: string | undefined;
+
 		let srExists: boolean = false;
+
 		if (context.containerApp) {
 			const { registryDomain, registryName, imageNameReference } =
 				parseImageName(
@@ -141,6 +145,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 					!!suggestedRegistry && r.loginServer === suggestedRegistry,
 			);
 			srExists = srIndex !== -1;
+
 			if (srExists) {
 				const sr: Registry = registries.splice(srIndex, 1)[0];
 				registries.unshift(sr);
@@ -150,6 +155,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 		const picks: IAzureQuickPickItem<
 			Registry | typeof noMatchingResources | undefined
 		>[] = [];
+
 		if (!this.options?.suppressCreate) {
 			picks.push({
 				label: localize(
@@ -190,6 +196,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 	): Promise<Registry[]> {
 		const client: ContainerRegistryManagementClient =
 			await createContainerRegistryManagementClient(context);
+
 		return await uiUtils.listAllIterator(client.registries.list());
 	}
 }
@@ -203,6 +210,7 @@ async function tryConfigureResourceGroupForRegistry(
 		context as Partial<ContainerAppCreateBaseContext> &
 			Partial<ManagedEnvironmentCreateContext> &
 			CreateAcrContext;
+
 	if (
 		resourceCreationContext.resourceGroup ||
 		resourceCreationContext.newResourceGroupName
@@ -218,12 +226,14 @@ async function tryConfigureResourceGroupForRegistry(
 					resourceCreationContext.managedEnvironment.id,
 				)
 			: undefined);
+
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(resourceCreationContext);
 
 	resourceCreationContext.resourceGroup = resourceGroups.find(
 		(rg) => resourceGroupName && rg.name === resourceGroupName,
 	);
+
 	if (!resourceCreationContext.resourceGroup) {
 		promptSteps.push(new ResourceGroupListStep());
 	}

@@ -23,13 +23,17 @@ export const rootFilter = {
 
 export namespace IngressConstants {
     export const external: string = localize('external', 'External');
+
     export const internal: string = localize('internal', 'Internal');
+
     export const externalDesc: string = localize('externalDesc', 'Accepting traffic from anywhere');
+
     export const internalDesc: string = localize('internalDesc', 'Only allowing traffic within your vNet');
 }
 
 export namespace RevisionConstants {
     export const multiple: IAzureQuickPickItem<string> = { label: localize('multiple', 'Multiple'), description: localize('multipleDesc', 'Several revisions active simultaneously'), data: 'multiple' };
+
     export const single: IAzureQuickPickItem<string> = { label: localize('single', 'Single'), description: localize('singleDesc', 'One active revision at a time'), data: 'single' };
 }
 

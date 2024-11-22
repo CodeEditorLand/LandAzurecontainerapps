@@ -11,6 +11,7 @@ import {
 import { extensions, type Extension, type WorkspaceFolder } from "vscode";
 
 const azdExtensionId: string = "ms-azuretools.azure-dev";
+
 const azureYamlFile: string = "azure.yaml";
 
 export function isAzdExtensionInstalled(): boolean {
@@ -27,6 +28,7 @@ export async function isAzdWorkspaceProject(
 		rootFolder.uri.fsPath,
 		azureYamlFile,
 	);
+
 	return await AzExtFsExtra.pathExists(azureYamlPath);
 }
 

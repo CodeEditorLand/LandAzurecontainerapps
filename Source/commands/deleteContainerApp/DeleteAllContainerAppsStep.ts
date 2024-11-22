@@ -30,6 +30,7 @@ export class DeleteAllContainerAppsStep extends AzureWizardExecuteStep<IDeleteCo
 		)
 			? context.containerAppNames
 			: [context.containerAppNames];
+
 		const webClient: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient([context, context.subscription]);
 
@@ -40,6 +41,7 @@ export class DeleteAllContainerAppsStep extends AzureWizardExecuteStep<IDeleteCo
 					'Deleting container app "{0}"...',
 					containerAppName,
 				);
+
 				const deleted: string = localize(
 					"deletedContainerApp",
 					'Deleted container app "{0}".',

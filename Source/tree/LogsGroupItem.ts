@@ -13,6 +13,7 @@ import { localize } from "../utils/localize";
 import { type TreeElementBase } from "./ContainerAppsBranchDataProvider";
 
 const logStreamItemContextValue: string = "logStreamItem";
+
 const logsItemContextValue: string = "logsItem";
 
 export class LogsGroupItem implements TreeElementBase {
@@ -40,7 +41,9 @@ export class LogsGroupItem implements TreeElementBase {
 
 	async getChildren(): Promise<TreeElementBase[]> {
 		const openInPortal = "azureResourceGroups.openInPortal";
+
 		const startStreamingLogs = "containerApps.startStreamingLogs";
+
 		return [
 			createGenericElement({
 				contextValue: logStreamItemContextValue,

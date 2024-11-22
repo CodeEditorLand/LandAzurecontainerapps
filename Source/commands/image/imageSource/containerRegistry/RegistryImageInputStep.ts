@@ -19,6 +19,7 @@ export class RegistryImageInputStep extends AzureWizardPromptStep<ContainerRegis
 			"registryImagePrompt",
 			"Enter the container image with tag",
 		);
+
 		const placeHolder: string = localize(
 			"registryImagePlaceHolder",
 			"For example: `mcr.microsoft.com/azuredocs/containerapps-helloworld:latest`",
@@ -26,6 +27,7 @@ export class RegistryImageInputStep extends AzureWizardPromptStep<ContainerRegis
 
 		// Try to suggest an image name only when the user is deploying to a Container App
 		let value: string | undefined;
+
 		if (context.containerApp) {
 			const { registryDomain, imageNameReference } = parseImageName(
 				getLatestContainerAppImage(context.containerApp),

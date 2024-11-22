@@ -23,6 +23,7 @@ export class DeleteEnvironmentConfirmationStep extends AzureWizardPromptStep<IDe
 		this.managedEnvironmentName = context.managedEnvironmentName;
 
 		const numOfResources = context.containerAppNames.length;
+
 		const hasNoResources: boolean = !numOfResources;
 
 		const deleteEnv: string = localize(
@@ -30,6 +31,7 @@ export class DeleteEnvironmentConfirmationStep extends AzureWizardPromptStep<IDe
 			'Are you sure you want to delete container apps environment "{0}"?',
 			this.managedEnvironmentName,
 		);
+
 		const deleteEnvAndApps: string = localize(
 			"confirmDeleteEnvAndApps",
 			'Are you sure you want to delete container apps environment "{0}"? Deleting this will delete {1} container app(s) in this environment.',
@@ -39,6 +41,7 @@ export class DeleteEnvironmentConfirmationStep extends AzureWizardPromptStep<IDe
 
 		const deleteConfirmation: string | undefined =
 			settingUtils.getSetting("deleteConfirmation");
+
 		if (deleteConfirmation === "ClickButton") {
 			const message: string = hasNoResources
 				? deleteEnv
@@ -65,6 +68,7 @@ export class DeleteEnvironmentConfirmationStep extends AzureWizardPromptStep<IDe
 			if (!this.isNameEqualToEnvironment(result)) {
 				// Check again just in case `validateInput` didn't prevent the input box from closing
 				context.telemetry.properties.cancelStep = "mismatchDelete";
+
 				throw new UserCancelledError();
 			}
 		}

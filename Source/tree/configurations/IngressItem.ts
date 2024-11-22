@@ -23,6 +23,7 @@ import {
 const label: string = localize("ingress", "Ingress");
 
 const targetPortItemContextValue: string = "targetPortItem";
+
 const visibilityItemContextValue: string = "visibilityItem";
 
 export class IngressEnabledItem implements ContainerAppsItem {
@@ -58,6 +59,7 @@ export class IngressEnabledItem implements ContainerAppsItem {
 		const label: string = this.ingress.external
 			? IngressConstants.external
 			: IngressConstants.internal;
+
 		const description: string = this.ingress.external
 			? IngressConstants.externalDesc
 			: IngressConstants.internalDesc;

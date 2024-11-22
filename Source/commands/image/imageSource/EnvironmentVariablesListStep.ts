@@ -98,6 +98,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 			"Select a {0} file to set the environment variables for the container instance",
 			".env",
 		);
+
 		const skipLabel: string | undefined = showHasExistingData
 			? localize("useExisting", "Use existing configuration")
 			: undefined;
@@ -120,6 +121,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 		if (!envPath || !(await AzExtFsExtra.pathExists(envPath))) {
 			this._setEnvironmentVariableOption =
 				SetEnvironmentVariableOption.SkipForNow;
+
 			return [];
 		}
 
@@ -127,6 +129,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 			SetEnvironmentVariableOption.ProvideFile;
 
 		const data: string = await AzExtFsExtra.readFile(envPath);
+
 		const envData: DotenvParseOutput = parse(data);
 
 		return Object.keys(envData).map((name) => {
@@ -138,6 +141,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 		rootFolder?: WorkspaceFolder,
 	): Promise<boolean> {
 		let envFileUris: Uri[];
+
 		if (rootFolder) {
 			const relativePattern: RelativePattern = new RelativePattern(
 				rootFolder,

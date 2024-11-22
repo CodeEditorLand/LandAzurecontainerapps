@@ -40,6 +40,7 @@ export class AcrPullEnableStep extends AzureWizardExecuteStep<ManagedIdentityReg
 	): Promise<void> {
 		const client: AuthorizationManagementClient =
 			await createAuthorizationManagementClient(context);
+
 		const roleCreateParams: RoleAssignmentCreateParameters = {
 			description: "acr pull",
 			roleDefinitionId: `/providers/Microsoft.Authorization/roleDefinitions/${acrPullRoleId}`,

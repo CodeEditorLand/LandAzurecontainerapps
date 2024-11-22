@@ -42,6 +42,7 @@ export class ManagedEnvironmentCreateStep extends AzureWizardExecuteStep<Managed
 	): Promise<void> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		const opClient =
 			await createOperationalInsightsManagementClient(context);
 
@@ -49,10 +50,12 @@ export class ManagedEnvironmentCreateStep extends AzureWizardExecuteStep<Managed
 			context.resourceGroup,
 			"name",
 		);
+
 		const managedEnvironmentName = nonNullProp(
 			context,
 			"newManagedEnvironmentName",
 		);
+
 		const logAnalyticsWorkspace = nonNullProp(
 			context,
 			"logAnalyticsWorkspace",

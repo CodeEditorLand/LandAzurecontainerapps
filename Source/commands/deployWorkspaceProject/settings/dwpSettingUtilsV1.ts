@@ -25,11 +25,13 @@ export namespace dwpSettingUtilsV1 {
 				`${deployWorkspaceProjectPrefix}.containerAppName`,
 				settingsPath,
 			);
+
 		const containerAppResourceGroupName: string | undefined =
 			settingUtils.getWorkspaceSetting(
 				`${deployWorkspaceProjectPrefix}.containerAppResourceGroupName`,
 				settingsPath,
 			);
+
 		const containerRegistryName: string | undefined =
 			settingUtils.getWorkspaceSetting(
 				`${deployWorkspaceProjectPrefix}.containerRegistryName`,
@@ -52,6 +54,7 @@ export namespace dwpSettingUtilsV1 {
 	): Promise<void> {
 		const settingsPath: string =
 			settingUtils.getDefaultRootWorkspaceSettingsPath(rootFolder);
+
 		for (const key of Object.keys(settings)) {
 			await settingUtils.updateWorkspaceSetting(
 				`${deployWorkspaceProjectPrefix}.${key}`,

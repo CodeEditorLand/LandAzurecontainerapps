@@ -40,7 +40,9 @@ export class AcrPullVerifyStep extends AzureWizardExecuteStep<ManagedIdentityReg
 	): Promise<void> {
 		const client: AuthorizationManagementClient =
 			await createAuthorizationManagementClient(context);
+
 		const registryId: string = nonNullValueAndProp(context.registry, "id");
+
 		const managedEnvironmentIdentity: string = nonNullValueAndProp(
 			context.managedEnvironment?.identity,
 			"principalId",
@@ -49,6 +51,7 @@ export class AcrPullVerifyStep extends AzureWizardExecuteStep<ManagedIdentityReg
 		progress.report({
 			message: localize("verifyingAcrPull", "Verifying ACR pull role..."),
 		});
+
 		const roleAssignments: RoleAssignment[] = await uiUtils.listAllIterator(
 			client.roleAssignments.listForScope(registryId, {
 				// $filter=principalId eq {id}

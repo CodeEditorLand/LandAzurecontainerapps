@@ -44,6 +44,7 @@ function getPickScaleSteps(
 	options?: RevisionDraftPickItemOptions,
 ): AzureWizardPromptStep<QuickPickWizardContext>[] {
 	const promptSteps: AzureWizardPromptStep<QuickPickWizardContext>[] = [];
+
 	if (
 		containerAppItem.containerApp.revisionsMode ===
 		KnownActiveRevisionsMode.Multiple
@@ -63,6 +64,7 @@ function getPickScaleSteps(
 	}
 
 	promptSteps.push(getPickScaleStep());
+
 	return promptSteps;
 }
 
@@ -98,6 +100,7 @@ export async function pickScale(
 	options?: RevisionDraftPickItemOptions,
 ): Promise<ScaleItem> {
 	const containerAppItem: ContainerAppItem = await pickContainerApp(context);
+
 	return await runQuickPickWizard(
 		context,
 		{

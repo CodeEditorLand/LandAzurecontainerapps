@@ -77,6 +77,7 @@ export async function deployWorkspaceProjectInternal(
 	);
 
 	let activityContext: Partial<ExecuteActivityContext>;
+
 	if (options.suppressActivity) {
 		activityContext = { suppressNotification: true };
 	} else {

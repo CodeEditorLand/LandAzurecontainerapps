@@ -54,6 +54,7 @@ export function parseImageName(imageName?: string): ParsedImageName {
 	const match: RegExpMatchArray | null = imageName.match(
 		/^(?:(?<registryName>[^/]+)\/)?(?:(?<namespace>[^/]+(?:\/[^/]+)*)\/)?(?<repositoryName>[^/:]+)(?::(?<tag>[^/]+))?$/,
 	);
+
 	return {
 		imageNameReference: imageName,
 		registryDomain: match?.groups?.registryName
@@ -92,18 +93,22 @@ export function getRegistryDomainFromContext(
 	switch (true) {
 		case !!context.registryDomain:
 			return context.registryDomain;
+
 		case !!context.image:
 			const registryName: string | undefined = parseImageName(
 				context.image,
 			).registryName;
+
 			return registryName
 				? getDomainFromRegistryName(registryName)
 				: undefined;
+
 		case !!context.registry?.loginServer || !!context.registryName:
 			return getDomainFromRegistryName(
 				context.registry?.loginServer ||
 					nonNullProp(context, "registryName"),
 			);
+
 		default:
 			// If no image by this point, assume we're creating a new ACR
 			return acrDomain;
@@ -119,6 +124,8 @@ export async function getRegistryFromAcrName(
 ): Promise<Registry> {
 	const client: ContainerRegistryManagementClient =
 		await createContainerRegistryManagementClient(context);
+
 	const registries = await uiUtils.listAllIterator(client.registries.list());
+
 	return registries.find((r) => r.loginServer === acrName) as Registry;
 }

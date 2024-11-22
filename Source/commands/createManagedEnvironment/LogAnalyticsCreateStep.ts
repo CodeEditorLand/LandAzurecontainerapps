@@ -34,7 +34,9 @@ export class LogAnalyticsCreateStep extends AzureWizardExecuteStep<ManagedEnviro
 	): Promise<void> {
 		const opClient =
 			await createOperationalInsightsManagementClient(context);
+
 		const resourceGroup = nonNullProp(context, "resourceGroup");
+
 		const workspaceName =
 			context.newLogAnalyticsWorkspaceName ||
 			nonNullProp(context, "newManagedEnvironmentName");

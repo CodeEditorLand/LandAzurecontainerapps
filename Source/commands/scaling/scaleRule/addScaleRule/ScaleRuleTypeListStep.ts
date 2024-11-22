@@ -43,10 +43,13 @@ export class ScaleRuleTypeListStep extends AzureWizardPromptStep<IAddScaleRuleCo
 		context: IAddScaleRuleContext,
 	): Promise<IWizardOptions<IAddScaleRuleContext>> {
 		const promptSteps: AzureWizardPromptStep<IAddScaleRuleContext>[] = [];
+
 		switch (context.newRuleType) {
 			case ScaleRuleTypes.HTTP:
 				promptSteps.push(new HttpConcurrentRequestsStep());
+
 				break;
+
 			case ScaleRuleTypes.Queue:
 				promptSteps.push(
 					new QueueNameStep(),
@@ -54,7 +57,9 @@ export class ScaleRuleTypeListStep extends AzureWizardPromptStep<IAddScaleRuleCo
 					new SecretListStep(),
 					new QueueAuthTriggerStep(),
 				);
+
 				break;
+
 			default:
 		}
 		return { promptSteps };

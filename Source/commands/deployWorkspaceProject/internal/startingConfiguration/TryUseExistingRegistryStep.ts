@@ -35,6 +35,7 @@ export class TryUseExistingResourceGroupRegistryStep<
 				context.resourceGroup?.name
 			) {
 				context.registry = r;
+
 				break;
 			}
 		}

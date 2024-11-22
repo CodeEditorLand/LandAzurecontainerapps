@@ -94,12 +94,14 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	createRevisionDraft(item: ContainerAppItem | RevisionsItemModel): void {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		if (this.draftStore.has(uri.path)) {
 			return;
 		}
 
 		// Branching path reasoning: https://github.com/microsoft/vscode-azurecontainerapps/blob/main/src/commands/revisionDraft/README.md
 		let file: RevisionDraftFile | undefined;
+
 		if (
 			ContainerAppItem.isContainerAppItem(item) ||
 			item.containerApp.revisionsMode === KnownActiveRevisionsMode.Single
@@ -151,6 +153,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	parseRevisionDraft(item: ContainerAppsItem): Template | undefined {
 		const uri: URI = this.buildUriFromItem(item);
+
 		if (!this.draftStore.has(uri.path)) {
 			return undefined;
 		}
@@ -160,11 +163,13 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	readFile(uri: Uri): Uint8Array {
 		const contents = this.draftStore.get(uri.path)?.contents;
+
 		return contents ? Buffer.from(contents) : Buffer.from("");
 	}
 
 	doesContainerAppsItemHaveRevisionDraft(item: ContainerAppsItem): boolean {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		return this.draftStore.has(uri.path);
 	}
 
@@ -172,6 +177,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		item: ContainerAppsItem,
 	): RevisionDraftFile | undefined {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		return this.draftStore.get(uri.path);
 	}
 
@@ -196,6 +202,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		item: ContainerAppItem | RevisionsItemModel,
 	): Promise<void> {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		if (!this.draftStore.has(uri.path)) {
 			this.createRevisionDraft(item);
 		}
@@ -212,6 +219,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		const file: RevisionDraftFile | undefined = this.draftStore.get(
 			uri.path,
 		);
+
 		if (!file || Buffer.from(file.contents).equals(Buffer.from(contents))) {
 			return;
 		}
@@ -243,6 +251,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		template: Template,
 	): void {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		if (!this.draftStore.has(uri.path)) {
 			this.createRevisionDraft(item);
 		}
@@ -255,6 +264,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	discardRevisionDraft(item: ContainerAppsItem): void {
 		const uri: Uri = this.buildUriFromItem(item);
+
 		if (!this.draftStore.has(uri.path)) {
 			return;
 		}
@@ -272,7 +282,9 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		const parsedResourceId: ParsedAzureResourceId = parseAzureResourceId(
 			item.containerApp.id,
 		);
+
 		const shortenedContainerAppId: string = `${parsedResourceId.subscriptionId?.slice(0, 5)}.../resourceGroups/${parsedResourceId.resourceGroup}/containerApps/${parsedResourceId.resourceName}`;
+
 		return URI.parse(
 			`${RevisionDraftFileSystem.scheme}:/${shortenedContainerAppId}.containerapp-template.json`,
 		);

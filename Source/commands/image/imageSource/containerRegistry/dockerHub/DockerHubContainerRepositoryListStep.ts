@@ -31,17 +31,21 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 			nonNullProp(context, "dockerHubNamespace"),
 			cachedPicks.next,
 		);
+
 		if (response.count === 0) {
 			return [noMatchingResourcesQp];
 		}
 
 		let suggestedRepository: string | undefined;
+
 		let srExists: boolean = false;
+
 		if (context.containerApp) {
 			const { registryDomain, namespace, repositoryName } =
 				parseImageName(
 					getLatestContainerAppImage(context.containerApp),
 				);
+
 			if (
 				context.containerApp.revisionsMode ===
 					KnownActiveRevisionsMode.Single &&
@@ -56,6 +60,7 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 				(r) => !!suggestedRepository && r.name === suggestedRepository,
 			);
 			srExists = srIndex !== -1;
+
 			if (srExists) {
 				const sr: DockerHubV2Repository = response.results.splice(
 					srIndex,
@@ -85,6 +90,7 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 
 		if (response.next) {
 			cachedPicks.next = response.next;
+
 			return cachedPicks.cache.concat(loadMoreQp);
 		}
 

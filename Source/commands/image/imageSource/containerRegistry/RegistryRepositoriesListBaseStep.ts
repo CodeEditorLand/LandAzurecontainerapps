@@ -19,10 +19,12 @@ export abstract class RegistryRepositoriesListStepBase extends AzureWizardPrompt
 		context: ContainerRegistryImageSourceContext,
 	): Promise<void> {
 		const picksCache: QuickPicksCache = { cache: [], next: null };
+
 		const placeHolder: string = localize(
 			"selectRepo",
 			"Select a repository",
 		);
+
 		let result: QuickPickItem | undefined;
 
 		do {

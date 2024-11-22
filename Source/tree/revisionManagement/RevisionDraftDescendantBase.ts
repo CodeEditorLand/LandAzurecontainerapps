@@ -45,10 +45,12 @@ export abstract class RevisionDraftDescendantBase
 			...args,
 		);
 		descendant.init();
+
 		return descendant;
 	}
 
 	abstract getTreeItem(): TreeItem | Promise<TreeItem>;
+
 	getChildren?(): TreeElementBase[] | Promise<TreeElementBase[]>;
 
 	/**

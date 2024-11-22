@@ -53,6 +53,7 @@ export abstract class OverwriteConfirmStepBase<
 			context,
 			"containerApp",
 		);
+
 		if (containerApp.template?.volumes) {
 			return true;
 		} else if (containerApp.template?.containers) {

@@ -80,10 +80,12 @@ export class UploadSourceCodeStep<
 			context.rootFolder.uri.fsPath,
 			this._sourceFilePath,
 		);
+
 		let items = await AzExtFsExtra.readDirectory(source);
 		items = items.filter((i) => !vcsIgnoreList.includes(i.name));
 
 		await this.buildCustomDockerfileIfNecessary(context);
+
 		if (this._customDockerfileDirPath) {
 			// Create an uncompressed tarball with the base project
 			const tempTarFilePath: string = context.tarFilePath.replace(
@@ -144,12 +146,15 @@ export class UploadSourceCodeStep<
 				context.resourceGroupName,
 				context.registryName,
 			);
+
 		const uploadUrl: string = nonNullValue(sourceUploadLocation.uploadUrl);
+
 		const relativePath: string = nonNullValue(
 			sourceUploadLocation.relativePath,
 		);
 
 		const storageBlob = await import("@azure/storage-blob");
+
 		const blobClient = new storageBlob.BlockBlobClient(uploadUrl);
 		await blobClient.uploadFile(context.tarFilePath);
 
@@ -168,12 +173,14 @@ export class UploadSourceCodeStep<
 		// Build a custom Dockerfile if it has ACR's unsupported `--platform` flag
 		// See: https://github.com/Azure/acr/issues/697
 		const platformRegex: RegExp = /^(FROM.*)\s--platform=\S+(.*)$/gm;
+
 		let dockerfileContent: string = await AzExtFsExtra.readFile(
 			context.dockerfilePath,
 		);
 
 		if (!platformRegex.test(dockerfileContent)) {
 			context.telemetry.properties.buildCustomDockerfile = "false";
+
 			return;
 		}
 
@@ -184,16 +191,19 @@ export class UploadSourceCodeStep<
 				'Detected a "--platform" flag in the Dockerfile. This flag is not supported in ACR. Attempting to provide a Dockerfile with the "--platform" flag removed.',
 			),
 		);
+
 		dockerfileContent = dockerfileContent.replace(platformRegex, "$1$2");
 
 		const customDockerfileDirPath: string = path.join(
 			tmpdir(),
 			randomUUID(),
 		);
+
 		const dockerfileRelativePath: string = path.relative(
 			context.srcPath,
 			context.dockerfilePath,
 		);
+
 		const customDockerfilePath = path.join(
 			customDockerfileDirPath,
 			dockerfileRelativePath,
@@ -219,6 +229,7 @@ export class UploadSourceCodeStep<
 		};
 
 		let parentTreeItem: GenericParentTreeItem | undefined;
+
 		if (this._customDockerfileDirPath) {
 			parentTreeItem = new GenericParentTreeItem(undefined, {
 				...baseTreeItemOptions,
@@ -239,6 +250,7 @@ export class UploadSourceCodeStep<
 							),
 						},
 					);
+
 					return Promise.resolve([removePlatformFlagItem]);
 				},
 			});

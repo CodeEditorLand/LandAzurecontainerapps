@@ -16,6 +16,7 @@ export interface ContainerRegistryImageSourceBaseContext
 		ImageSourceBaseContext {
 	registryDomain?: SupportedRegistries;
 	registry?: Registry;
+
 	dockerHubNamespace?: string;
 
 	repositoryName?: string;

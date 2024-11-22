@@ -31,6 +31,7 @@ export class DockerHubContainerTagListStep extends RepositoryTagListStepBase {
 
 		if (response.next) {
 			cachedPicks.next = response.next;
+
 			return cachedPicks.cache.concat(loadMoreQp);
 		}
 

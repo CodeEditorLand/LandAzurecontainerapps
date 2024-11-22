@@ -99,6 +99,7 @@ export class ScaleRuleItem extends RevisionDraftDescendantBase {
 
 		const currentRules: ScaleRule[] =
 			this.parentResource.template?.scale?.rules ?? [];
+
 		const currentRule: ScaleRule | undefined = currentRules.find(
 			(rule) => rule.name === this.scaleRule.name,
 		);

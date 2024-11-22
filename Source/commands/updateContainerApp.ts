@@ -12,9 +12,12 @@ import { createContainerAppsAPIClient } from "../utils/azureClients";
 
 export async function updateContainerApp(context: IActionContext, subscription: AzureSubscription, containerApp: ContainerApp, updatedSetting?: Omit<ContainerApp, 'location'>): Promise<ContainerAppModel> {
     const client: ContainerAppsAPIClient = await createContainerAppsAPIClient([context, createSubscriptionContext(subscription)]);
+
     const resourceGroupName = getResourceGroupFromId(nonNullProp(containerApp, 'id'));
+
     const name = nonNullProp(containerApp, 'name');
     // If no update setting is provided, just use the original containerApp; otherwise, merge the update settings with the original containerApp
     const updatedApp: ContainerApp = !updatedSetting ? containerApp : { ...updatedSetting, location: containerApp.location };
+
     return ContainerAppItem.CreateContainerAppModel(await client.containerApps.beginUpdateAndWait(resourceGroupName, name, updatedApp));
 }

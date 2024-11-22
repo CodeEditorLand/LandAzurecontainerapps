@@ -47,6 +47,7 @@ export abstract class AzureResourceVerifyStepBase extends AzureWizardExecuteStep
 
 		const settings: DeploymentConfigurationSettings | undefined =
 			context.deploymentConfigurationSettings;
+
 		if (!settings?.[this.deploymentSettingsKey]) {
 			return;
 		}

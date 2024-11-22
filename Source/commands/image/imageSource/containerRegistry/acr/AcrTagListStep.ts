@@ -25,6 +25,7 @@ export class AcrTagListStep extends RepositoryTagListStepBase {
 			context,
 			nonNullValue(context.registry),
 		);
+
 		const repoClient = client.getRepository(
 			nonNullProp(context, "repositoryName"),
 		);
@@ -37,10 +38,12 @@ export class AcrTagListStep extends RepositoryTagListStepBase {
 				const tagsWithDates = m.tags.map((t) => {
 					return { tag: t, date: m.lastUpdatedOn };
 				});
+
 				return allTags.concat(tagsWithDates);
 			},
 			[],
 		);
+
 		return tags.map((t) => {
 			{
 				return { label: t.tag, description: dayjs(t.date).fromNow() };

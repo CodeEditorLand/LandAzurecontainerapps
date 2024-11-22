@@ -32,6 +32,7 @@ export class DeploymentConfigurationListStep extends AzureWizardPromptStep<Works
 			await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
 				nonNullProp(context, "rootFolder"),
 			);
+
 		if (!deploymentConfigurations?.length) {
 			return;
 		}
@@ -69,6 +70,7 @@ export class DeploymentConfigurationListStep extends AzureWizardPromptStep<Works
 					"User chose to create a new app configuration.",
 				),
 			);
+
 			return undefined;
 		}
 

@@ -43,6 +43,7 @@ export class ContainerAppNameStep extends AzureWizardPromptStep<ContainerAppCrea
 		name = name ? name.trim() : "";
 
 		const { minLength, maxLength } = { minLength: 1, maxLength: 32 };
+
 		if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(name)) {
 			return localize(
 				"invalidChar",
@@ -67,6 +68,7 @@ export class ContainerAppNameStep extends AzureWizardPromptStep<ContainerAppCrea
 		const resourceGroupName: string = getResourceGroupFromId(
 			nonNullValueAndProp(context.managedEnvironment, "id"),
 		);
+
 		if (
 			!(await ContainerAppNameStep.isNameAvailable(
 				context,
@@ -91,8 +93,10 @@ export class ContainerAppNameStep extends AzureWizardPromptStep<ContainerAppCrea
 	): Promise<boolean> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		try {
 			await client.containerApps.get(resourceGroupName, containerAppName);
+
 			return false;
 		} catch (_e) {
 			return true;

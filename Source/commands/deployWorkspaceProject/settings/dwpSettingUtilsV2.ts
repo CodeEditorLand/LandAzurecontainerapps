@@ -17,6 +17,7 @@ export namespace dwpSettingUtilsV2 {
 	): Promise<DeploymentConfigurationSettings[] | undefined> {
 		const settingsPath: string =
 			settingUtils.getDefaultRootWorkspaceSettingsPath(rootFolder);
+
 		return settingUtils.getWorkspaceSetting(
 			deploymentConfigurationsSetting,
 			settingsPath,

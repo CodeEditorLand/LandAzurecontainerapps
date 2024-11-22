@@ -90,11 +90,14 @@ function createExecuteActivityOutput(
 			: options.activityStatus === "Fail"
 				? activityFailContext
 				: activityProgressContext;
+
 	const contextValue = createUniversallyUniqueContextValue([
 		`${options.stepName}${options.activityStatus}Item`,
 		activityContext,
 	]);
+
 	const label = options.treeItemLabel;
+
 	const iconPath =
 		options.activityStatus === "Success"
 			? activitySuccessIcon

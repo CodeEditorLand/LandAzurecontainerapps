@@ -38,12 +38,14 @@ export async function getResourcesFromContainerAppHelper(
 		await uiUtils.listAllIterator(
 			client.managedEnvironments.listBySubscription(),
 		);
+
 	const managedEnvironment = managedEnvironments.find(
 		(env) => env.id === containerApp.managedEnvironmentId,
 	);
 
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(context);
+
 	const resourceGroup = resourceGroups.find(
 		(rg) => rg.name === containerApp.resourceGroup,
 	);
@@ -61,6 +63,7 @@ export async function getResourcesFromManagedEnvironmentHelper(
 ): Promise<ContainerAppsResources> {
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(context);
+
 	const resourceGroup = resourceGroups.find(
 		(rg) =>
 			rg.name ===

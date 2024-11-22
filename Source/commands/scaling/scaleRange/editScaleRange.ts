@@ -19,6 +19,7 @@ import { ScaleRangeUpdateStep } from "./ScaleRangeUpdateStep";
 
 export async function editScaleRange(context: IActionContext, node?: ScaleItem): Promise<void> {
     const item: ScaleItem = node ?? await pickScale(context, { autoSelectDraft: true });
+
     const { containerApp, revision, subscription } = item;
 
     if (!isTemplateItemEditable(item)) {
@@ -26,6 +27,7 @@ export async function editScaleRange(context: IActionContext, node?: ScaleItem):
     }
 
     const parentResource: ContainerAppModel | Revision = getParentResource(containerApp, revision);
+
     let template: Template | undefined;
 
     if (ext.revisionDraftFileSystem.doesContainerAppsItemHaveRevisionDraft(item)) {
@@ -35,6 +37,7 @@ export async function editScaleRange(context: IActionContext, node?: ScaleItem):
     }
 
     const scale: Scale = nonNullValueAndProp(template, 'scale');
+
     const wizardContext: ScaleRangeContext = {
         ...context,
         ...createSubscriptionContext(subscription),

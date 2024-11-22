@@ -25,6 +25,7 @@ export class ToggleIngressVisibilityStep extends IngressUpdateStepBase<IngressBa
 		}>,
 	): Promise<void> {
 		const containerApp = nonNullProp(context, "containerApp");
+
 		const ingress = nonNullValueAndProp(
 			containerApp.configuration,
 			"ingress",
@@ -51,6 +52,7 @@ export class ToggleIngressVisibilityStep extends IngressUpdateStepBase<IngressBa
 			"updatingVisibility",
 			"Updating ingress visibility...",
 		);
+
 		const workCompleted: string = localize(
 			"updatedVisibility",
 			'Updated container app "{0}" ingress visibility to "{1}"',

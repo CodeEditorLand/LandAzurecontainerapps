@@ -20,6 +20,7 @@ export interface IngressBaseContext
 
 	// For detecting an expose port using a workspace Dockerfile
 	dockerfilePath?: string;
+
 	dockerfileExposePorts?: PortRange[];
 	alwaysPromptIngress?: boolean;
 }

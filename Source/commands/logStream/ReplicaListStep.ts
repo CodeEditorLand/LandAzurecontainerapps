@@ -45,6 +45,7 @@ export class ReplicaListStep extends AzureWizardPromptStep<IStreamLogsContext> {
 				context,
 				createSubscriptionContext(context.subscription),
 			]);
+
 		const replicas = (
 			await client.containerAppsRevisionReplicas.listReplicas(
 				context.resourceGroupName,
@@ -52,11 +53,13 @@ export class ReplicaListStep extends AzureWizardPromptStep<IStreamLogsContext> {
 				nonNullValue(context.revision?.name),
 			)
 		).value;
+
 		if (replicas.length === 0) {
 			throw new Error(localize("noReplicas", "No replicas found."));
 		} else {
 			return replicas.map((r) => {
 				const date = r.createdTime;
+
 				return {
 					label: nonNullProp(r, "name"),
 					description: dayjs(date).fromNow(),

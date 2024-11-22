@@ -35,10 +35,12 @@ export class ContainerRegistryListStep extends AzureWizardPromptStep<ContainerRe
 			"selectTag",
 			"Select a container registry",
 		);
+
 		const picks: IAzureQuickPickItem<SupportedRegistries | undefined>[] =
 			[];
 
 		picks.push({ label: "Azure Container Registry", data: acrDomain });
+
 		if (env.uiKind === UIKind.Desktop) {
 			// this will fails in vscode.dev due to browser CORS access policies
 			picks.push({ label: "Docker Hub Registry", data: dockerHubDomain });
@@ -69,6 +71,7 @@ export class ContainerRegistryListStep extends AzureWizardPromptStep<ContainerRe
 
 		const promptSteps: AzureWizardPromptStep<ContainerRegistryImageSourceContext>[] =
 			[];
+
 		switch (context.registryDomain) {
 			case acrDomain:
 				promptSteps.push(
@@ -76,14 +79,18 @@ export class ContainerRegistryListStep extends AzureWizardPromptStep<ContainerRe
 					new AcrRepositoriesListStep(),
 					new AcrTagListStep(),
 				);
+
 				break;
+
 			case dockerHubDomain:
 				promptSteps.push(
 					new DockerHubNamespaceInputStep(),
 					new DockerHubContainerRepositoryListStep(),
 					new DockerHubContainerTagListStep(),
 				);
+
 				break;
+
 			default:
 				promptSteps.push(new RegistryImageInputStep());
 		}

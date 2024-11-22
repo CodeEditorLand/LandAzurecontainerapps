@@ -32,6 +32,7 @@ export class SecretCreateStep extends AzureWizardExecuteStep<ISecretContext> {
 			context,
 			"containerApp",
 		);
+
 		const containerAppEnvelope = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,

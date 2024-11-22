@@ -41,6 +41,7 @@ export function getActiveLogStreams(
 	context: IStreamLogsContext,
 ): Map<string, ILogStream> {
 	const activeStreams = new Map<string, ILogStream>();
+
 	for (const [key, value] of logStreams) {
 		if (
 			value.data.containerApp === context.containerApp.name &&
@@ -71,6 +72,7 @@ export async function logStreamRequest(
 		context,
 		createSubscriptionContext(context.subscription),
 	]);
+
 	const token = await client.containerApps.getAuthToken(
 		context.resourceGroupName,
 		context.containerApp.name,
@@ -79,7 +81,9 @@ export async function logStreamRequest(
 	const endpoint = nonNullValue(context.container?.logStreamEndpoint);
 
 	const logStreamId = getLogStreamId(context);
+
 	const logStream: ILogStream | undefined = logStreams.get(logStreamId);
+
 	if (logStream && logStream.isConnected) {
 		logStream.outputChannel.show();
 		void context.ui.showWarningMessage(
@@ -89,6 +93,7 @@ export async function logStreamRequest(
 				context.replica?.name,
 			),
 		);
+
 		return logStream;
 	} else {
 		const outputChannel: vscode.OutputChannel = logStream
@@ -117,6 +122,7 @@ export async function logStreamRequest(
 
 						const genericClient: ServiceClient =
 							await createGenericClient(context, undefined);
+
 						const headers = createHttpHeaders({
 							authorization: `Bearer ${token.token}`,
 						});

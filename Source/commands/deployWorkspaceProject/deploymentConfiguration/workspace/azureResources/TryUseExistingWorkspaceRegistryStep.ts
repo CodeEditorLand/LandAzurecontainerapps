@@ -38,6 +38,7 @@ export class TryUseExistingWorkspaceRegistryStep<
 			await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
 				nonNullProp(context, "rootFolder"),
 			);
+
 		if (!settings?.length) {
 			return;
 		}
@@ -60,6 +61,7 @@ export class TryUseExistingWorkspaceRegistryStep<
 		}
 
 		const registries: Registry[] = await AcrListStep.getRegistries(context);
+
 		const registryMap: Map<string, Registry> = new Map();
 
 		for (const registry of registries) {
@@ -85,6 +87,7 @@ export class TryUseExistingWorkspaceRegistryStep<
 						context.registry?.name,
 					),
 				);
+
 				break;
 			}
 		}

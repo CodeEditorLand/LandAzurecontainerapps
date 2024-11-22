@@ -19,6 +19,7 @@ import { ScaleRuleTypeListStep } from "./ScaleRuleTypeListStep";
 
 export async function addScaleRule(context: IActionContext, node?: ScaleRuleGroupItem): Promise<void> {
     const item: ScaleRuleGroupItem = node ?? await pickScaleRuleGroup(context, { autoSelectDraft: true });
+
     const { subscription, containerApp, revision } = item;
 
     const parentResource: ContainerAppModel | Revision = getParentResource(containerApp, revision);

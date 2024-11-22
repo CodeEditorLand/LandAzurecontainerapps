@@ -42,6 +42,7 @@ export async function deployRevisionDraft(
 	}
 
 	const item: ContainerAppItem | RevisionDraftItem = nonNullValue(node);
+
 	const { subscription, containerApp } = item;
 
 	const wizardContext: DeployRevisionDraftContext = {

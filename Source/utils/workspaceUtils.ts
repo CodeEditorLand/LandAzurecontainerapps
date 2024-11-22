@@ -60,6 +60,7 @@ export async function selectWorkspaceFile(
 			context.rootFolder ?? nonNullValue(workspace.workspaceFolders?.[0]),
 			globPattern ?? "**/*",
 		);
+
 		const files: Uri[] = await workspace.findFiles(pattern);
 
 		// If dockerfile(s), log the count
@@ -98,6 +99,7 @@ export async function selectWorkspaceFile(
 	quickPicks.push(browseItem);
 
 	const skipForNow: string = "skipForNow";
+
 	if (options.allowSkip) {
 		quickPicks.push({
 			label:
@@ -111,6 +113,7 @@ export async function selectWorkspaceFile(
 	const input: string | undefined = (
 		await context.ui.showQuickPick(quickPicks, { placeHolder })
 	).data;
+
 	if (input === skipForNow) {
 		return undefined;
 	} else {

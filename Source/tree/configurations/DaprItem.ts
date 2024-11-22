@@ -14,8 +14,11 @@ import { type ContainerAppModel } from "../ContainerAppItem";
 import { type TreeElementBase } from "../ContainerAppsBranchDataProvider";
 
 const daprDisabledItemContextValue: string = "daprDisabledItem";
+
 const daprAppIdItemContextValue: string = "daprAppIdItem";
+
 const daprAppPortItemContextValue: string = "daprAppPortItem";
+
 const daprAppProtocolItemContextValue: string = "daprAppProtocolItem";
 
 export class DaprEnabledItem implements TreeElementBase {

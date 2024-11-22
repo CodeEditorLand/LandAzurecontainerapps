@@ -37,6 +37,7 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 	): Promise<void> {
 		const registryDomain: SupportedRegistries | undefined =
 			getRegistryDomainFromContext(context);
+
 		const hasExistingConfiguration: boolean =
 			!!context.containerApp?.configuration?.registries?.some((r) => {
 				if (!r.server) {
@@ -96,11 +97,13 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 	): Promise<IWizardOptions<RegistryCredentialsContext> | undefined> {
 		const promptSteps: AzureWizardPromptStep<RegistryCredentialsContext>[] =
 			[];
+
 		const executeSteps: AzureWizardExecuteStep<RegistryCredentialsContext>[] =
 			[];
 
 		const registryDomain: SupportedRegistries | undefined =
 			getRegistryDomainFromContext(context);
+
 		switch (context.newRegistryCredentialType) {
 			case RegistryCredentialType.SystemAssigned:
 				executeSteps.push(
@@ -111,7 +114,9 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 						registryDomain,
 					),
 				);
+
 				break;
+
 			case RegistryCredentialType.DockerLogin:
 				promptSteps.push(new AcrEnableAdminUserConfirmStep());
 				executeSteps.push(
@@ -120,7 +125,9 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 						registryDomain,
 					),
 				);
+
 				break;
+
 			default:
 		}
 
@@ -136,6 +143,7 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 		context: RegistryCredentialsContext,
 	): Promise<IAzureQuickPickItem<RegistryCredentialType>[]> {
 		const picks: IAzureQuickPickItem<RegistryCredentialType>[] = [];
+
 		const registryDomain = getRegistryDomainFromContext(context);
 
 		if (registryDomain === acrDomain) {

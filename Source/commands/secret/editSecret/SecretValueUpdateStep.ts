@@ -32,6 +32,7 @@ export class SecretValueUpdateStep extends AzureWizardExecuteStep<ISecretContext
 			context,
 			"containerApp",
 		);
+
 		const containerAppEnvelope = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,

@@ -35,6 +35,7 @@ export class ScaleRangePromptStep extends AzureWizardPromptStep<ScaleRangeContex
 
 	private validateInput(range: string | undefined): string | undefined {
 		const formatRegex = /^\d{1,3}-\d{1,4}$/;
+
 		if (!range || !formatRegex.test(range)) {
 			return localize(
 				"enterRange",
@@ -44,6 +45,7 @@ export class ScaleRangePromptStep extends AzureWizardPromptStep<ScaleRangeContex
 		}
 
 		const [min, max] = range.split("-").map((range) => Number(range));
+
 		if (min > maxReplicas || max > maxReplicas) {
 			return localize(
 				"maxRangeExceeded",

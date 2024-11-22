@@ -41,6 +41,7 @@ export function getPickRevisionStep(
 	revisionName?: string | RegExp,
 ): AzureWizardPromptStep<QuickPickWizardContext> {
 	let revisionFilter: RegExp | undefined;
+
 	if (revisionName) {
 		revisionFilter =
 			revisionName instanceof RegExp

@@ -24,6 +24,7 @@ export class ConvertSettingsStep extends AzureWizardExecuteStep<ConvertSettingsC
 			await dwpSettingUtilsV1.getDeployWorkspaceProjectSettings(
 				nonNullProp(context, "rootFolder"),
 			);
+
 		const settingsContentsV2:
 			| DeploymentConfigurationSettings[]
 			| undefined =

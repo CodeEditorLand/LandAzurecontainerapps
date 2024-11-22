@@ -26,10 +26,12 @@ export async function getContainerAppSourceControl(
 		context,
 		createSubscriptionContext(subscription),
 	]);
+
 	const sourceControlsIterator =
 		client.containerAppsSourceControls.listByContainerApp(
 			containerApp.resourceGroup,
 			containerApp.name,
 		);
+
 	return (await uiUtils.listAllIterator(sourceControlsIterator))[0];
 }

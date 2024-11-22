@@ -27,6 +27,7 @@ export class QueueAuthTriggerStep extends AzureWizardPromptStep<IAddScaleRuleCon
 
 	private validateInput(name: string | undefined): string | undefined {
 		name = name ? name.trim() : "";
+
 		if (!name.length) {
 			return localize("fieldRequired", "The field is required.");
 		}

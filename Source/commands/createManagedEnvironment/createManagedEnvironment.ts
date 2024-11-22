@@ -50,8 +50,10 @@ export async function createManagedEnvironment(
 		"createManagedEnv",
 		"Create container apps environment",
 	);
+
 	const promptSteps: AzureWizardPromptStep<ManagedEnvironmentCreateContext>[] =
 		[];
+
 	const executeSteps: AzureWizardExecuteStep<ManagedEnvironmentCreateContext>[] =
 		[];
 
@@ -78,6 +80,7 @@ export async function createManagedEnvironment(
 		});
 
 	await wizard.prompt();
+
 	const newManagedEnvName = nonNullProp(
 		wizardContext,
 		"newManagedEnvironmentName",

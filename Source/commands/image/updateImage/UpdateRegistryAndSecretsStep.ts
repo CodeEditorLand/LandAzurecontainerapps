@@ -37,6 +37,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 			context,
 			"containerApp",
 		);
+
 		const containerAppEnvelope = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,
@@ -56,6 +57,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		) {
 			context.telemetry.properties.skippedRegistryCredentialUpdate =
 				"true";
+
 			return;
 		}
 
@@ -97,6 +99,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 	): boolean {
 		originalSecrets?.sort((a, b) => sortAlphabeticallyByKey(a, b, "name"));
 		newSecrets?.sort((a, b) => sortAlphabeticallyByKey(a, b, "name"));
+
 		return deepEqual(originalSecrets, newSecrets);
 	}
 
@@ -110,6 +113,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		newRegistries?.sort((a, b) =>
 			sortAlphabeticallyByKey(a, b, "passwordSecretRef"),
 		);
+
 		return deepEqual(originalRegistries, newRegistries);
 	}
 }
@@ -124,6 +128,8 @@ function sortAlphabeticallyByKey<T extends Secret | RegistryCredentials>(
 	}
 
 	const valOne = a[key] as string;
+
 	const valTwo = b[key] as string;
+
 	return valOne.localeCompare(valTwo);
 }

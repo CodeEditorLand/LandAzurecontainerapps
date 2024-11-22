@@ -13,6 +13,7 @@ export function getDefaultPort(
 		context.containerApp?.configuration?.ingress?.targetPort;
 
 	let dockerfilePortSuggestion: number | undefined;
+
 	if (
 		// If there's already a deployment port, don't suggest a new port if it's already a port within range of the current Dockerfile expose ports
 		(currentDeploymentPort &&

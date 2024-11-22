@@ -20,6 +20,7 @@ import { type RevisionsItemModel } from "../revisionManagement/RevisionItem";
 
 export class EnvironmentVariableItem implements RevisionsItemModel {
 	_hideValue: boolean;
+
 	constructor(
 		public readonly subscription: AzureSubscription,
 		public readonly containerApp: ContainerAppModel,

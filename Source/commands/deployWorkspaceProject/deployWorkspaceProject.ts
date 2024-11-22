@@ -57,8 +57,10 @@ export async function deployWorkspaceProject(
 			context,
 			ext.rgApiV2.resources.azureResourceTreeDataProvider,
 		));
+
 	const subscriptionContext: ISubscriptionContext =
 		createSubscriptionContext(subscription);
+
 	const containerAppContext: IContainerAppContext = Object.assign(context, {
 		...subscriptionContext,
 		subscription,
@@ -74,6 +76,7 @@ export async function deployWorkspaceProject(
 	);
 
 	let deploymentConfiguration: DeploymentConfiguration;
+
 	if (item) {
 		ext.outputChannel.appendLog(
 			localize(
@@ -119,6 +122,7 @@ export async function deployWorkspaceProject(
 		);
 
 	displayNotification(deployWorkspaceProjectContext);
+
 	return await getDeployWorkspaceProjectResults(
 		deployWorkspaceProjectContext,
 	);
@@ -126,6 +130,7 @@ export async function deployWorkspaceProject(
 
 function displayNotification(context: DeployWorkspaceProjectContext): void {
 	const browse: string = localize("browse", "Browse");
+
 	const viewOutput: string = localize("viewOutput", "View Output");
 
 	const message: string = localize(
@@ -133,6 +138,7 @@ function displayNotification(context: DeployWorkspaceProjectContext): void {
 		'Finished deploying workspace project to container app "{0}".',
 		context.containerApp?.name,
 	);
+
 	const buttonMessages: string[] = context.targetPort
 		? [browse, viewOutput]
 		: [viewOutput];

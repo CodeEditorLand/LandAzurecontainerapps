@@ -46,6 +46,7 @@ export class DeployWorkspaceProjectSaveSettingsStep extends AzureWizardExecuteSt
 		});
 
 		const rootFolder: WorkspaceFolder = nonNullProp(context, "rootFolder");
+
 		const deploymentConfigurations: DeploymentConfigurationSettings[] =
 			(await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
 				rootFolder,
@@ -55,6 +56,7 @@ export class DeployWorkspaceProjectSaveSettingsStep extends AzureWizardExecuteSt
 			context.configurationIdx !== undefined
 				? deploymentConfigurations?.[context.configurationIdx].label
 				: undefined;
+
 		const deploymentConfiguration: DeploymentConfigurationSettings = {
 			label:
 				configurationLabel ||

@@ -22,10 +22,12 @@ export async function getManagedEnvironmentFromContainerApp(
 ): Promise<ManagedEnvironment> {
 	const client: ContainerAppsAPIClient =
 		await createContainerAppsAPIClient(context);
+
 	const managedEnvironments: ManagedEnvironment[] =
 		await uiUtils.listAllIterator(
 			client.managedEnvironments.listBySubscription(),
 		);
+
 	return nonNullValue(
 		managedEnvironments.find(
 			(m) => m.id === containerApp.managedEnvironmentId,

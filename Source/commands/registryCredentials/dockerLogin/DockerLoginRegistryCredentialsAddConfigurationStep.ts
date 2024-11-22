@@ -70,7 +70,9 @@ export class DockerLoginRegistryCredentialsAddConfigurationStep extends AzureWiz
 		context: DockerLoginRegistryCredentialsContext,
 	): Promise<RegistryCredentialAndSecret> {
 		const registry = nonNullProp(context, "registry");
+
 		const { username, password } = await listCredentialsFromAcr(context);
+
 		const passwordName = `${registry.name?.toLocaleLowerCase()}-${password?.name}`;
 
 		return {
@@ -98,6 +100,7 @@ export class DockerLoginRegistryCredentialsAddConfigurationStep extends AzureWiz
 					| undefined,
 				nonNullProp(context, "registryName"),
 			);
+
 		const passwordSecretRef: string = `${loginServer.replace(/[^a-z0-9-]+/g, "")}-${context.username}`;
 
 		return {

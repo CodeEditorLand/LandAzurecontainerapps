@@ -23,6 +23,7 @@ export class RootFolderStep extends AzureWizardPromptStep<BuildImageInAzureImage
 			"selectRootWorkspace",
 			"Select the project's root directory",
 		);
+
 		const rootFolder: WorkspaceFolder | undefined =
 			await getRootWorkspaceFolder(context, prompt);
 

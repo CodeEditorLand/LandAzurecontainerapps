@@ -19,13 +19,20 @@ import { type ContainerAppsBranchDataProvider } from "./tree/ContainerAppsBranch
  */
 export namespace ext {
 	export let context: ExtensionContext;
+
 	export let outputChannel: IAzExtOutputChannel;
+
 	export let ignoreBundle: boolean | undefined;
+
 	export const prefix: string = "containerApps";
+
 	export let experimentationService: IExperimentationServiceAdapter;
+
 	export let revisionDraftFileSystem: RevisionDraftFileSystem;
+
 	export let rgApiV2: AzureResourcesExtensionApi;
 
 	export let state: TreeElementStateManager;
+
 	export let branchDataProvider: ContainerAppsBranchDataProvider;
 }

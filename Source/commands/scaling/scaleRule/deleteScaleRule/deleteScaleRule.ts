@@ -17,6 +17,7 @@ import { DeleteScaleRuleStep } from "./DeleteScaleRuleStep";
 
 export async function deleteScaleRule(context: IActionContext, node?: ScaleRuleItem): Promise<void> {
     const item: ScaleRuleItem = node ?? await pickScaleRule(context, { autoSelectDraft: true });
+
     const { subscription, containerApp, revision } = item;
 
     const parentResource: ContainerAppModel | Revision = getParentResource(containerApp, revision);
@@ -31,6 +32,7 @@ export async function deleteScaleRule(context: IActionContext, node?: ScaleRuleI
     }
 
     const confirmMessage = localize('confirmMessage', 'Are you sure you want to delete this scale rule?');
+
     const wizard: AzureWizard<ScaleRuleContext> = new AzureWizard(wizardContext, {
         title: localize('deleteScaleRuleTitle', 'Delete scale rule from "{0}" (draft)', parentResource.name),
         promptSteps: [

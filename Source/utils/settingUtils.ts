@@ -69,8 +69,10 @@ export namespace settingUtils {
 	): T | undefined {
 		const projectConfiguration: WorkspaceConfiguration =
 			workspace.getConfiguration(prefix);
+
 		const result: { globalValue?: T; defaultValue?: T } | undefined =
 			projectConfiguration.inspect<T>(key);
+
 		return result?.globalValue === undefined
 			? result?.defaultValue
 			: result?.globalValue;
@@ -99,6 +101,7 @@ export namespace settingUtils {
 
 		const configurationLevel: ConfigurationTarget | undefined =
 			getLowestConfigurationLevel(projectConfiguration, key);
+
 		if (
 			!configurationLevel ||
 			(configurationLevel && configurationLevel < targetLimit)
@@ -125,6 +128,7 @@ export namespace settingUtils {
 				prefix,
 				fsPath ? Uri.file(fsPath) : undefined,
 			);
+
 		return projectConfiguration.get<T>(key);
 	}
 
@@ -141,11 +145,14 @@ export namespace settingUtils {
 			workspace.workspaceFolders.length > 0
 		) {
 			let result: string | undefined;
+
 			for (const folder of workspace.workspaceFolders) {
 				const projectConfiguration: WorkspaceConfiguration =
 					workspace.getConfiguration(prefix, folder.uri);
+
 				const folderResult: string | undefined =
 					projectConfiguration.get<string>(key);
+
 				if (!result) {
 					result = folderResult;
 				} else if (folderResult && result !== folderResult) {
@@ -175,6 +182,7 @@ export namespace settingUtils {
 		const configuration = projectConfiguration.inspect(key);
 
 		let lowestLevelConfiguration: ConfigurationTarget | undefined;
+
 		if (configuration?.workspaceFolderValue !== undefined) {
 			lowestLevelConfiguration = ConfigurationTarget.WorkspaceFolder;
 		} else if (configuration?.workspaceValue !== undefined) {

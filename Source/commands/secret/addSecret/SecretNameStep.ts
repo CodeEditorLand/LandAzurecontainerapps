@@ -42,6 +42,7 @@ export class SecretNameStep extends AzureWizardPromptStep<ISecretContext> {
 
 		const secrets: Secret[] =
 			context.containerApp?.configuration?.secrets ?? [];
+
 		if (
 			secrets.some(
 				(secret) =>

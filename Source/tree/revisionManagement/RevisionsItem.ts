@@ -51,6 +51,7 @@ export class RevisionsItem implements ContainerAppsItem {
 				? revisionDraftTrueContextValue
 				: revisionDraftFalseContextValue,
 		);
+
 		return createContextValue(values);
 	}
 
@@ -60,6 +61,7 @@ export class RevisionsItem implements ContainerAppsItem {
 
 	async getChildren(): Promise<TreeElementBase[]> {
 		let revisionDraftBase: Revision | undefined;
+
 		const revisionDraftBaseName: string | undefined =
 			ext.revisionDraftFileSystem.getRevisionDraftFile(
 				this,
@@ -74,12 +76,14 @@ export class RevisionsItem implements ContainerAppsItem {
 							context,
 							createSubscriptionContext(this.subscription),
 						]);
+
 						const revisions = await uiUtils.listAllIterator(
 							client.containerAppsRevisions.listRevisions(
 								this.containerApp.resourceGroup,
 								this.containerApp.name,
 							),
 						);
+
 						return revisions.map((revision) => {
 							if (revision.name === revisionDraftBaseName) {
 								revisionDraftBase = revision;

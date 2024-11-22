@@ -83,6 +83,7 @@ export class ConfigurationItem implements ContainerAppsItem {
 							)
 						: createDaprDisabledItem(this.containerApp),
 				);
+
 				return children;
 			},
 		);

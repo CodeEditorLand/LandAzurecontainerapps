@@ -14,6 +14,7 @@ import { type WorkspaceFileTelemetryProps } from "./WorkspaceFileTelemetryProps"
 export interface DeployWorkspaceProjectTelemetryProps
 	extends DeployWorkspaceProjectInternalTelemetryProps {
 	choseExistingWorkspaceConfiguration?: "true" | "false";
+
 	defaultedRegistry?: "true" | "false";
 }
 

@@ -62,6 +62,7 @@ export async function createRevisionDraft(
 	}
 
 	const { subscription, containerApp } = containerAppsItem;
+
 	const containerAppContext: IContainerAppContext = {
 		...context,
 		...createSubscriptionContext(subscription),
@@ -75,6 +76,7 @@ export async function createRevisionDraft(
 	 */
 	const revisionName: string | undefined =
 		await promptForRevisionName(containerAppContext);
+
 	const revisionItem: RevisionItem = await pickRevision(
 		context,
 		containerAppsItem,
@@ -91,6 +93,7 @@ async function promptForRevisionName(
 ): Promise<string | undefined> {
 	const revisionPicks: IAzureQuickPickItem<Revision | undefined>[] =
 		await getRevisionNamePicks(context);
+
 	if (revisionPicks.length === 1) {
 		return revisionPicks[0].data?.name;
 	}
@@ -113,6 +116,7 @@ async function getRevisionNamePicks(
 		context.containerApp,
 		"resourceGroup",
 	);
+
 	const caName: string = nonNullValueAndProp(context.containerApp, "name");
 
 	const client: ContainerAppsAPIClient =
@@ -122,6 +126,7 @@ async function getRevisionNamePicks(
 		rgName,
 		caName,
 	);
+
 	const revisions: Revision[] =
 		await uiUtils.listAllIterator(revisionsIterator);
 
@@ -143,16 +148,19 @@ async function getRevisionNamePicks(
 	return revisions
 		.map((revision: Revision) => {
 			const revisionName = nonNullProp(revision, "name");
+
 			const day = revision.createdTime?.toLocaleDateString(undefined, {
 				day: "2-digit",
 				month: "2-digit",
 				year: "2-digit",
 			});
+
 			const time = revision.createdTime?.toLocaleTimeString(undefined, {
 				hour: "2-digit",
 				minute: "2-digit",
 				second: "2-digit",
 			});
+
 			const timeAgo = dayjs(revision.createdTime).fromNow();
 
 			return {
@@ -173,6 +181,7 @@ async function getRevisionNamePicks(
 				b: IAzureQuickPickItem<Revision>,
 			) => {
 				const aCreatedTime = nonNullValueAndProp(a.data, "createdTime");
+
 				const bCreatedTime = nonNullValueAndProp(b.data, "createdTime");
 
 				if (aCreatedTime > bCreatedTime) {

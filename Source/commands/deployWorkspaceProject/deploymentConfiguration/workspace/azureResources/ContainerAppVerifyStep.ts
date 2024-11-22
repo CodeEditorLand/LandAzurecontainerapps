@@ -26,6 +26,7 @@ export class ContainerAppVerifyStep extends AzureResourceVerifyStepBase {
 	): Promise<void> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		const containerApp: ContainerApp = await client.containerApps.get(
 			nonNullValueAndProp(context.resourceGroup, "name"),
 			nonNullValueAndProp(

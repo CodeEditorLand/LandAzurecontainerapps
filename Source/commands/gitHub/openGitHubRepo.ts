@@ -28,6 +28,7 @@ export async function openGitHubRepo(
 
 	const sourceControl: SourceControl | undefined =
 		await getContainerAppSourceControl(context, subscription, containerApp);
+
 	if (!sourceControl) {
 		throw new Error(
 			localize(

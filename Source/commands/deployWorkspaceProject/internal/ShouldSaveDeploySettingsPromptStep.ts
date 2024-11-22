@@ -24,12 +24,14 @@ export class ShouldSaveDeploySettingsPromptStep extends AzureWizardPromptStep<De
 				context,
 				"rootFolder",
 			);
+
 			const rootPath: string = rootFolder.uri.fsPath;
 
 			const settings: DeploymentConfigurationSettings[] | undefined =
 				await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
 					rootFolder,
 				);
+
 			const setting: DeploymentConfigurationSettings | undefined =
 				settings?.[context.configurationIdx];
 
@@ -60,6 +62,7 @@ export class ShouldSaveDeploySettingsPromptStep extends AzureWizardPromptStep<De
 
 			if (!hasNewSettings) {
 				context.telemetry.properties.hasNewSettings = "false";
+
 				return;
 			}
 		}
@@ -69,7 +72,9 @@ export class ShouldSaveDeploySettingsPromptStep extends AzureWizardPromptStep<De
 		const saveOrOverwrite: string = context.configurationIdx
 			? localize("overwrite", "overwrite")
 			: localize("save", "save");
+
 		const saveItem = { title: localize("saveItem", "Save") };
+
 		const dontSaveItem = { title: localize("dontSaveItem", "Don't Save") };
 
 		const userResponse = await context.ui.showWarningMessage(

@@ -53,6 +53,7 @@ export class AddScaleRuleStep<
 
 	private buildRule(context: T): ScaleRule {
 		const scaleRule: ScaleRule = { name: context.newRuleName };
+
 		switch (context.newRuleType) {
 			case ScaleRuleTypes.HTTP:
 				scaleRule.http = {
@@ -63,7 +64,9 @@ export class AddScaleRuleStep<
 						),
 					},
 				};
+
 				break;
+
 			case ScaleRuleTypes.Queue:
 				scaleRule.azureQueue = {
 					queueName: context.newQueueName,
@@ -75,7 +78,9 @@ export class AddScaleRuleStep<
 						},
 					],
 				};
+
 				break;
+
 			default:
 		}
 		return scaleRule;
@@ -90,10 +95,12 @@ export class AddScaleRuleStep<
 			case ScaleRuleTypes.HTTP:
 				// Portal only allows one HTTP rule per revision
 				const idx: number = scaleRules.findIndex((rule) => rule.http);
+
 				if (idx !== -1) {
 					scaleRules.splice(idx, 1);
 				}
 				break;
+
 			case ScaleRuleTypes.Queue:
 			default:
 		}

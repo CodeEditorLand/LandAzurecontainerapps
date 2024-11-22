@@ -29,6 +29,7 @@ export abstract class IngressUpdateStepBase<
 		options: IngressOptions,
 	): Promise<void> {
 		const containerApp = nonNullProp(context, "containerApp");
+
 		const { ingress, working, workCompleted } = options;
 
 		progress.report({ message: working });

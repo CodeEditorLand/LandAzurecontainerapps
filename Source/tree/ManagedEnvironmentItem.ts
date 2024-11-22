@@ -65,6 +65,7 @@ export class ManagedEnvironmentItem implements TreeElementBase {
 		values.push(nonNullValueAndProp(this.managedEnvironment, "name"));
 
 		values.push(ManagedEnvironmentItem.contextValue);
+
 		return createContextValue(values);
 	}
 
@@ -126,8 +127,10 @@ export class ManagedEnvironmentItem implements TreeElementBase {
 		subscription: AzureSubscription,
 	): Promise<ManagedEnvironment[]> {
 		const subContext = createSubscriptionContext(subscription);
+
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient([context, subContext]);
+
 		return await uiUtils.listAllIterator(
 			client.managedEnvironments.listBySubscription(),
 		);
@@ -140,8 +143,10 @@ export class ManagedEnvironmentItem implements TreeElementBase {
 		name: string,
 	): Promise<ManagedEnvironmentModel> {
 		const subContext = createSubscriptionContext(subscription);
+
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient([context, subContext]);
+
 		return ManagedEnvironmentItem.CreateManagedEnvironmentModel(
 			await client.managedEnvironments.get(resourceGroup, name),
 		);
@@ -164,6 +169,7 @@ function createAzureResourceModel<T extends Resource>(
 	resource: T,
 ): T & ResourceModel {
 	const id = nonNullProp(resource, "id");
+
 	return {
 		id,
 		name: nonNullProp(resource, "name"),

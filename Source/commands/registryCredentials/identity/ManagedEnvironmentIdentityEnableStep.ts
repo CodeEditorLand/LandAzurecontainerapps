@@ -41,10 +41,12 @@ export class ManagedEnvironmentIdentityEnableStep extends AzureWizardExecuteStep
 	): Promise<void> {
 		const client: ContainerAppsAPIClient =
 			await createContainerAppsAPIClient(context);
+
 		const managedEnvironment: ManagedEnvironment = nonNullProp(
 			context,
 			"managedEnvironment",
 		);
+
 		const parsedResourceId: ParsedAzureResourceId = parseAzureResourceId(
 			nonNullProp(managedEnvironment, "id"),
 		);

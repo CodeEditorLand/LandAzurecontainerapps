@@ -27,6 +27,7 @@ export class SecretListStep extends AzureWizardPromptStep<ISecretContext> {
 			context,
 			"containerApp",
 		);
+
 		const containerAppWithSecrets = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,
@@ -43,6 +44,7 @@ export class SecretListStep extends AzureWizardPromptStep<ISecretContext> {
 			},
 			...secrets.map((secret) => {
 				const secretName: string = nonNullProp(secret, "name");
+
 				return { label: secretName, data: secretName };
 			}),
 		];

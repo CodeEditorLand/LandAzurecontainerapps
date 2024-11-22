@@ -19,6 +19,7 @@ export class DeployWorkspaceProjectConfirmStep extends OverwriteConfirmStepBase<
 		context: DeployWorkspaceProjectInternalContext,
 	): Promise<void> {
 		const resourcesToCreate: string[] = [];
+
 		if (!context.resourceGroup) {
 			resourcesToCreate.push("resource group");
 		}
@@ -37,7 +38,9 @@ export class DeployWorkspaceProjectConfirmStep extends OverwriteConfirmStepBase<
 		}
 
 		let confirmMessage: string | undefined;
+
 		let outputMessage: string | undefined;
+
 		if (resourcesToCreate.length) {
 			confirmMessage = localize(
 				"resourceCreationConfirm",

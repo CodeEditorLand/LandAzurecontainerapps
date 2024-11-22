@@ -18,8 +18,11 @@ export class RevisionDraftDeployPromptStep<T extends RevisionDraftContext> exten
 
     public async prompt(context: T): Promise<void> {
         const yes: string = localize('yes', 'Yes');
+
         const no: string = localize('no', 'No');
+
         const dontAskAgain: string = localize('dontAskAgain', 'No, don\'t ask again');
+
         const picks: IAzureQuickPickItem<string>[] = [
             { label: yes, data: yes },
             { label: no, data: no },
@@ -35,6 +38,7 @@ export class RevisionDraftDeployPromptStep<T extends RevisionDraftContext> exten
             context.shouldDeployRevisionDraft = true;
         } else {
             context.shouldDeployRevisionDraft = false;
+
             if (result === dontAskAgain) {
                 await settingUtils.updateGlobalSetting(showDraftCommandDeployPopupSetting, false);
             }

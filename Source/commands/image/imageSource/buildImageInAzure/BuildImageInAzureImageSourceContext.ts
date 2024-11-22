@@ -18,6 +18,7 @@ export interface BuildImageInAzureImageSourceBaseContext
 	extends ContainerRegistryImageSourceBaseContext {
 	rootFolder: vscode.WorkspaceFolder;
 	srcPath: string;
+
 	dockerfilePath: string;
 	imageName: string;
 	os: AcrBuildSupportedOS;

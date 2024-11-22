@@ -41,6 +41,7 @@ export async function toggleIngressVisibility(
 		containerApp.configuration,
 		"ingress",
 	);
+
 	const title: string = localize(
 		"toggleIngressVisibility",
 		'Toggle ingress visibility to "{0}" for container app "{1}"',

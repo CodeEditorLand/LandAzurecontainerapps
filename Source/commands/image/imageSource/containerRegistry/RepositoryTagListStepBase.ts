@@ -15,7 +15,9 @@ export abstract class RepositoryTagListStepBase extends AzureWizardPromptStep<Co
 		context: ContainerRegistryImageSourceContext,
 	): Promise<void> {
 		const picksCache: QuickPicksCache = { cache: [], next: null };
+
 		let result: QuickPickItem;
+
 		const placeHolder: string = localize("selectTag", "Select a tag");
 
 		do {

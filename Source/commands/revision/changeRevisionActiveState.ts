@@ -45,6 +45,7 @@ export async function executeRevisionOperation(
 		async () => {
 			const appClient: ContainerAppsAPIClient =
 				await createContainerAppsClient(context, item.subscription);
+
 			const revisionName: string =
 				item instanceof RevisionItem
 					? nonNullProp(item.revision, "name")

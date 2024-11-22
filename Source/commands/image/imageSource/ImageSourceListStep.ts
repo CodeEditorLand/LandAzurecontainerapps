@@ -57,6 +57,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 			"imageBuildSourcePrompt",
 			"Select an image source for the container app",
 		);
+
 		const picks: IAzureQuickPickItem<ImageSource | undefined>[] = [
 			{
 				label: imageSourceLabels[0],
@@ -78,6 +79,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 		const isVirtualWorkspace =
 			!!workspace.workspaceFolders?.length &&
 			workspace.workspaceFolders.every((f) => f.uri.scheme !== "file");
+
 		if (env.uiKind === UIKind.Desktop && !isVirtualWorkspace) {
 			picks.push({
 				label: imageSourceLabels[2],
@@ -100,6 +102,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 		context: ImageSourceContext,
 	): Promise<IWizardOptions<ImageSourceContext> | undefined> {
 		const promptSteps: AzureWizardPromptStep<ImageSourceContext>[] = [];
+
 		const executeSteps: AzureWizardExecuteStep<ImageSourceContext>[] = [];
 
 		switch (context.imageSource) {
@@ -107,7 +110,9 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 				executeSteps.push(new QuickStartImageConfigureStep());
 				context.telemetry.properties.imageSource =
 					ImageSource.QuickstartImage;
+
 				break;
+
 			case ImageSource.ContainerRegistry:
 				promptSteps.push(
 					new ContainerRegistryListStep(),
@@ -116,7 +121,9 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 				executeSteps.push(new ContainerRegistryImageConfigureStep());
 				context.telemetry.properties.imageSource =
 					ImageSource.ContainerRegistry;
+
 				break;
+
 			case ImageSource.RemoteAcrBuild:
 				promptSteps.push(
 					new RootFolderStep(),
@@ -136,7 +143,9 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 				);
 				context.telemetry.properties.imageSource =
 					ImageSource.RemoteAcrBuild;
+
 				break;
+
 			default:
 		}
 

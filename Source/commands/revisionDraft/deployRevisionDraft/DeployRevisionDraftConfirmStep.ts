@@ -16,6 +16,7 @@ export class DeployRevisionDraftConfirmStep extends OverwriteConfirmStepBase<Dep
 			'This will deploy any unsaved changes to container app "{0}".',
 			context.containerApp?.name,
 		);
+
 		if (this.hasUnsupportedFeatures(context)) {
 			warning += "\n\n" + this.unsupportedFeaturesWarning;
 		}

@@ -26,15 +26,19 @@ export async function showContainerAppNotification(
 				'Successfully created new container app "{0}".',
 				containerApp.name,
 			);
+
 			const deployedCa: string = localize(
 				"deployedCa",
 				'Successfully updated container app "{0}"',
 				containerApp.name,
 			);
+
 			const message = isUpdate ? deployedCa : createdCa;
 
 			const browse: MessageItem = { title: localize("browse", "Browse") };
+
 			const buttons: MessageItem[] = [];
+
 			if (isIngressEnabled(containerApp)) {
 				buttons.push(browse);
 			}
@@ -44,6 +48,7 @@ export async function showContainerAppNotification(
 			);
 
 			context.telemetry.properties.clicked = "canceled";
+
 			if (result === browse) {
 				await browseContainerApp(containerApp);
 				context.telemetry.properties.clicked = "browse";

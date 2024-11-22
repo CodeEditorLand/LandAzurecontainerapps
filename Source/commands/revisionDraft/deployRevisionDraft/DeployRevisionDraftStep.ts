@@ -35,6 +35,7 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 			context,
 			"containerApp",
 		);
+
 		const containerAppEnvelope = await getContainerEnvelopeWithSecrets(
 			context,
 			context.subscription,
@@ -43,7 +44,9 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 		containerAppEnvelope.template = nonNullProp(context, "template");
 
 		let updating: string | undefined;
+
 		let description: string | undefined;
+
 		if (
 			context.containerApp?.revisionsMode ===
 			KnownActiveRevisionsMode.Single
@@ -74,6 +77,7 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 					context.subscription,
 					containerAppEnvelope,
 				);
+
 				const updatedContainerApp = await ContainerAppItem.Get(
 					context,
 					context.subscription,

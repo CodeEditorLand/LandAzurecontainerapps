@@ -62,12 +62,14 @@ export async function deployWorkspaceProjectApi(
 							showLoadingPrompt: false,
 						},
 					);
+
 				const subscriptionContext: ISubscriptionContext =
 					createSubscriptionContext(subscription);
 
 				const rootFolder: WorkspaceFolder | undefined = rootPath
 					? getWorkspaceFolderFromPath(rootPath)
 					: undefined;
+
 				const resourceGroup: ResourceGroup | undefined = resourceGroupId
 					? await getResourceGroupFromId(
 							{ ...context, ...subscriptionContext },
@@ -157,5 +159,6 @@ async function getResourceGroupFromId(
 ): Promise<ResourceGroup | undefined> {
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(context);
+
 	return resourceGroups.find((rg) => rg.id === resourceGroupId);
 }

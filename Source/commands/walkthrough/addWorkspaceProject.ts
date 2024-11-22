@@ -30,6 +30,7 @@ export async function addWorkspaceProjectWalkthrough(
 		);
 
 		workspace.updateWorkspaceFolders(0, workspace.workspaceFolders.length);
+
 		throw new UserCancelledError();
 	}
 

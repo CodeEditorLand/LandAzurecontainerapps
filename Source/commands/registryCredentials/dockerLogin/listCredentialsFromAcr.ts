@@ -23,13 +23,16 @@ export async function listCredentialsFromAcr(
 ): Promise<{ username: string; password: RegistryPassword }> {
 	const containerClient: ContainerRegistryManagementClient =
 		await createContainerRegistryManagementClient(context);
+
 	const credentials = await containerClient.registries.listCredentials(
 		getResourceGroupFromId(nonNullValueAndProp(context.registry, "id")),
 		nonNullValueAndProp(context.registry, "name"),
 	);
+
 	const password = credentials.passwords?.find(
 		(cred) => cred.name === "password" || cred.name === "password2",
 	);
+
 	return {
 		username: nonNullProp(credentials, "username"),
 		password: nonNullValue(password),

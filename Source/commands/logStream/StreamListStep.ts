@@ -16,8 +16,10 @@ import { getActiveLogStreams, type ILogStream } from "./logStreamRequest";
 export class StreamListStep extends AzureWizardPromptStep<IStreamLogsContext> {
 	public async prompt(context: IStreamLogsContext): Promise<void> {
 		const placeHolder: string = localize("selectStream", "Select a stream");
+
 		const picks: IAzureQuickPickItem<ILogStream | undefined>[] =
 			this.getPicks(context);
+
 		if (picks.length > 1) {
 			picks.push({
 				label: localize("stopAll", "Stop all streams"),

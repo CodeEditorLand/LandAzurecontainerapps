@@ -22,6 +22,7 @@ export async function getReposForNamespace(
 ): Promise<DockerHubV2ApiResponse<DockerHubV2Repository>> {
 	const url =
 		nextUrl || `https://hub.docker.com/v2/repositories/${namespace}`;
+
 	return <DockerHubV2ApiResponse<DockerHubV2Repository>>(
 		(<AzExtPipelineResponse>(
 			await sendRequestWithTimeout(
@@ -43,6 +44,7 @@ export async function getTagsForRepo(
 	const url =
 		nextUrl ||
 		`https://hub.docker.com/v2/repositories/${namespace}/${name}/tags`;
+
 	return <DockerHubV2ApiResponse<DockerHubV2Tags>>(
 		(<AzExtPipelineResponse>(
 			await sendRequestWithTimeout(

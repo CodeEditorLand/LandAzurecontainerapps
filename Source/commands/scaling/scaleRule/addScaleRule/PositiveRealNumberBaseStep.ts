@@ -16,6 +16,7 @@ export abstract class PositiveRealNumberBaseStep extends AzureWizardPromptStep<I
 		input = input ? input.trim() : "";
 
 		const thirtyTwoBitMaxSafeInteger = 2147483647;
+
 		if (!/^[1-9]+[0-9]*$/.test(input)) {
 			return localize(
 				"invalidPositiveRealNumber",

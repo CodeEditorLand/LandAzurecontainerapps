@@ -61,6 +61,7 @@ export async function createContainerApp(
 		node.resource,
 		"resourceGroup",
 	);
+
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(wizardContext);
 	wizardContext.resourceGroup = nonNullValue(
@@ -107,6 +108,7 @@ export async function createContainerApp(
 	);
 
 	const createdContainerApp = nonNullProp(wizardContext, "containerApp");
+
 	if (!wizardContext.suppressNotification) {
 		void showContainerAppNotification(createdContainerApp);
 	}

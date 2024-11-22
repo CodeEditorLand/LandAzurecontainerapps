@@ -20,6 +20,7 @@ export class TarFileStep extends AzureWizardExecuteStep<BuildImageInAzureImageSo
 		const id: number = Math.floor(
 			Math.random() * Math.pow(10, idPrecision),
 		);
+
 		const archive = `sourceArchive${id}.tar.gz`;
 		context.tarFilePath = path.join(os.tmpdir(), archive);
 	}

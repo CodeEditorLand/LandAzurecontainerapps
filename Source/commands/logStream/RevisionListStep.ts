@@ -44,6 +44,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 					context,
 					createSubscriptionContext(context.subscription),
 				]);
+
 			const revisionData =
 				await client.containerAppsRevisions.getRevision(
 					context.resourceGroupName,
@@ -53,6 +54,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 			context.revision = revisionData;
 		} else {
 			const picks = await this.getPicks(context);
+
 			if (picks.length === 1) {
 				context.revision = picks[0].data;
 			}
@@ -71,6 +73,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 				context,
 				createSubscriptionContext(context.subscription),
 			]);
+
 		if (!this.revisions) {
 			this.revisions = await uiUtils.listAllIterator(
 				client.containerAppsRevisions.listRevisions(
@@ -82,6 +85,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 
 		return this.revisions.map((r) => {
 			const date = r.createdTime;
+
 			return {
 				label: nonNullProp(r, "name"),
 				description: dayjs(date).fromNow(),

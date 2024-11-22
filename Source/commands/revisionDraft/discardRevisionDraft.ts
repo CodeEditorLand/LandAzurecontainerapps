@@ -18,6 +18,7 @@ export async function discardRevisionDraft(
 	node?: ContainerAppItem | RevisionDraftItem,
 ): Promise<void> {
 	const containerAppsItem = node ?? (await pickContainerApp(context));
+
 	if (
 		!ext.revisionDraftFileSystem.doesContainerAppsItemHaveRevisionDraft(
 			containerAppsItem,

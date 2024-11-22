@@ -108,6 +108,7 @@ export class ScaleRuleGroupItem extends RevisionDraftDescendantBase {
 
 		const draftTemplate: ScaleRule[] | undefined =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this)?.scale?.rules;
+
 		const currentTemplate: ScaleRule[] | undefined =
 			this.parentResource.template?.scale?.rules;
 

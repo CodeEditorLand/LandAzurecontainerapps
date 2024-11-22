@@ -27,17 +27,21 @@ export class AcrRepositoriesListStep extends RegistryRepositoriesListStepBase {
 			context,
 			nonNullValue(context.registry),
 		);
+
 		const repositoryNames: string[] = await uiUtils.listAllIterator(
 			client.listRepositoryNames(),
 		);
 
 		let suggestedRepository: string | undefined;
+
 		let srExists: boolean = false;
+
 		if (context.containerApp) {
 			const { registryDomain, registryName, repositoryName } =
 				parseImageName(
 					getLatestContainerAppImage(context.containerApp),
 				);
+
 			if (
 				context.containerApp.revisionsMode ===
 					KnownActiveRevisionsMode.Single &&
@@ -53,6 +57,7 @@ export class AcrRepositoriesListStep extends RegistryRepositoriesListStepBase {
 				(rn) => !!suggestedRepository && rn === suggestedRepository,
 			);
 			srExists = srIndex !== -1;
+
 			if (srExists) {
 				const sr: string = repositoryNames.splice(srIndex, 1)[0];
 				repositoryNames.unshift(sr);

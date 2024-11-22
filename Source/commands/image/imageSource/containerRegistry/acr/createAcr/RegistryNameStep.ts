@@ -38,6 +38,7 @@ export class RegistryNameStep extends AzureWizardPromptStep<CreateAcrContext> {
 		name = name ? name.trim() : "";
 
 		const { minLength, maxLength } = { minLength: 5, maxLength: 50 };
+
 		if (name.length < minLength || name.length > maxLength) {
 			return localize(
 				"validationLengthError",
@@ -63,6 +64,7 @@ export class RegistryNameStep extends AzureWizardPromptStep<CreateAcrContext> {
 			context,
 			name,
 		);
+
 		if (!registryNameStatus.nameAvailable) {
 			return (
 				registryNameStatus.message ??
@@ -82,6 +84,7 @@ export class RegistryNameStep extends AzureWizardPromptStep<CreateAcrContext> {
 		try {
 			const client: ContainerRegistryManagementClient =
 				await createContainerRegistryManagementClient(context);
+
 			return await client.registries.checkNameAvailability({
 				name: name,
 				type: "Microsoft.ContainerRegistry/registries",
@@ -99,10 +102,13 @@ export class RegistryNameStep extends AzureWizardPromptStep<CreateAcrContext> {
 		name: string,
 	): Promise<string> {
 		let registryAvailable: boolean = false;
+
 		let generatedName: string = "";
 
 		const timeoutSeconds: number = 15;
+
 		const timeoutMs: number = timeoutSeconds * 1000;
+
 		const start: number = Date.now();
 
 		do {
@@ -129,6 +135,7 @@ export class RegistryNameStep extends AzureWizardPromptStep<CreateAcrContext> {
 
 		function generateRelatedName(name: string): string {
 			const suffix = randomUtils.getRandomHexString(6);
+
 			return (name.substring(0, 43) + suffix).replace(
 				/[^a-zA-Z0-9]+/g,
 				"",

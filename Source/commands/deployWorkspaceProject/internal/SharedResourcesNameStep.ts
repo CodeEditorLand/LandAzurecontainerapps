@@ -89,6 +89,7 @@ export class SharedResourcesNameStep extends AzureWizardPromptStep<DeployWorkspa
 
 		if (!context.managedEnvironment && !context.newManagedEnvironmentName) {
 			const result = ManagedEnvironmentNameStep.validateInput(name);
+
 			if (result) {
 				return result;
 			}
@@ -98,7 +99,9 @@ export class SharedResourcesNameStep extends AzureWizardPromptStep<DeployWorkspa
 			// Skip checking newRegistryName since it gets set every time validateNameAvailability is run
 			// No symbols are allowed for ACR names
 			const nameWithoutSymbols: string = name.replace(/[^a-z0-9]+/g, "");
+
 			const result = RegistryNameStep.validateInput(nameWithoutSymbols);
+
 			if (result) {
 				return result;
 			}
@@ -133,6 +136,7 @@ export class SharedResourcesNameStep extends AzureWizardPromptStep<DeployWorkspa
 						context,
 						name,
 					));
+
 				if (!resourceGroupAvailable) {
 					return `Resource group: ${resourceNameUnavailable}`;
 				}
@@ -145,6 +149,7 @@ export class SharedResourcesNameStep extends AzureWizardPromptStep<DeployWorkspa
 							name,
 							name,
 						));
+
 					if (!managedEnvironmentAvailable) {
 						return `Container apps environment: ${resourceNameUnavailable}`;
 					}

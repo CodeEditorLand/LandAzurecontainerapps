@@ -24,6 +24,7 @@ export class OSPickStep extends AzureWizardPromptStep<BuildImageInAzureImageSour
 			"imageOSPrompt",
 			"Select image base OS",
 		);
+
 		const picks: IAzureQuickPickItem<AcrBuildSupportedOS>[] = [
 			{
 				label: AcrBuildSupportedOS.Linux,

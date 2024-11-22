@@ -44,6 +44,7 @@ export class DockerHubNamespaceInputStep extends AzureWizardPromptStep<Container
 		name = name ? name.trim() : "";
 
 		const { minLength, maxLength } = { minLength: 4, maxLength: 30 };
+
 		if (/\W/.test(name)) {
 			return localize(
 				"invalidNamespace",
@@ -65,10 +66,12 @@ export class DockerHubNamespaceInputStep extends AzureWizardPromptStep<Container
 		context: ContainerRegistryImageSourceContext,
 	): string {
 		let suggestedNamespace: string | undefined;
+
 		if (context.containerApp) {
 			const { registryDomain, namespace } = parseImageName(
 				getLatestContainerAppImage(context.containerApp),
 			);
+
 			if (
 				context.containerApp.revisionsMode ===
 					KnownActiveRevisionsMode.Single &&

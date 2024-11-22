@@ -39,6 +39,7 @@ export async function deleteManagedEnvironment(
 		subscription,
 		managedEnvironment.id,
 	);
+
 	const resourceGroupName = getResourceGroupFromId(managedEnvironment.id);
 
 	const wizardContext: IDeleteManagedEnvironmentContext = {

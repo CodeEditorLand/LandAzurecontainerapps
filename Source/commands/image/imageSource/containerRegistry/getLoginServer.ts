@@ -14,8 +14,10 @@ export function getLoginServer(
 	switch (context.registryDomain) {
 		case acrDomain:
 			return nonNullValue(context.registry?.loginServer);
+
 		case dockerHubDomain:
 			return `${dockerHubDomain}/${context.dockerHubNamespace}`;
+
 		default:
 			return context.registryDomain || "";
 	}

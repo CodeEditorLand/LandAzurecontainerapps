@@ -20,6 +20,7 @@ export class RegistryCredentialsAndSecretsConfigurationStep extends AzureWizardE
 
 	public async execute(context: RegistryCredentialsContext): Promise<void> {
 		let secrets: Secret[] = [];
+
 		let registryCredentials: RegistryCredentials[] = [];
 
 		if (context.containerApp) {

@@ -29,6 +29,7 @@ export async function deployImage(
 	node: ContainerAppItem,
 ): Promise<void> {
 	const { subscription, containerApp } = node;
+
 	const subscriptionContext: ISubscriptionContext =
 		createSubscriptionContext(subscription);
 
