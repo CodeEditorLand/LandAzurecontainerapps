@@ -31,6 +31,7 @@ import { EnvironmentVariablesItem } from "./EnvironmentVariablesItem";
 import { ImageItem } from "./ImageItem";
 
 export const container: string = localize("container", "Container");
+
 export const containers: string = localize("containers", "Containers");
 
 export class ContainersItem extends RevisionDraftDescendantBase {

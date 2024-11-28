@@ -9,14 +9,20 @@ import { type QuickPickItem } from "vscode";
 import { localize } from "./utils/localize";
 
 export const managedEnvironmentsId = "managedEnvironments";
+
 export const containerAppsId = "containerApps";
+
 export const appProvider: string = "Microsoft.App";
+
 export const webProvider: string = "Microsoft.Web";
+
 export const registryProvider: string = "Microsoft.ContainerRegistry";
+
 export const operationalInsightsProvider: string =
 	"Microsoft.OperationalInsights";
 
 export const containerAppsWebProvider: string = `${webProvider}/${containerAppsId}`;
+
 export const managedEnvironmentsAppProvider: string = `${appProvider}/${managedEnvironmentsId}`;
 
 export const rootFilter = {
@@ -85,8 +91,11 @@ export enum ImageSource {
 }
 
 export const acrDomain = "azurecr.io";
+
 export const dockerHubDomain = "docker.io";
+
 export const dockerHubRegistry = "index.docker.io";
+
 export const quickStartImageName =
 	"mcr.microsoft.com/azuredocs/containerapps-helloworld:latest";
 
@@ -97,6 +106,7 @@ export const browseItem: IAzureQuickPickItem<undefined> = {
 	description: "",
 	data: undefined,
 };
+
 export const loadMoreQp: IAzureQuickPickItem = {
 	label: "$(sync) Load More",
 	data: undefined,
@@ -104,6 +114,7 @@ export const loadMoreQp: IAzureQuickPickItem = {
 };
 
 export const noMatchingResources = "noMatchingResources";
+
 export const noMatchingResourcesQp: IAzureQuickPickItem<
 	typeof noMatchingResources
 > = {
@@ -115,23 +126,30 @@ export const noMatchingResourcesQp: IAzureQuickPickItem<
 export type QuickPicksCache = { cache: QuickPickItem[]; next: string | null };
 
 export const vscodeFolder: string = ".vscode";
+
 export const settingsFile: string = "settings.json";
+
 export const relativeSettingsFilePath: string = `${vscodeFolder}/${settingsFile}`;
 
 // Originally from the Docker extension: https://github.com/microsoft/vscode-docker/blob/main/src/constants.ts
 export const dockerfileGlobPattern =
 	"{*.[dD][oO][cC][kK][eE][rR][fF][iI][lL][eE],[dD][oO][cC][kK][eE][rR][fF][iI][lL][eE],[dD][oO][cC][kK][eE][rR][fF][iI][lL][eE].*}";
+
 export const envFileGlobPattern = "*.{env,env.*}";
+
 export const dockerFilePick = localize(
 	"dockerFilePick",
 	"Choose a Dockerfile from your source code directory.",
 );
 
 export const revisionModeSingleContextValue: string = "revisionMode:single";
+
 export const revisionModeMultipleContextValue: string = "revisionMode:multiple";
 
 export const revisionDraftTrueContextValue: string = "revisionDraft:true";
+
 export const revisionDraftFalseContextValue: string = "revisionDraft:false";
 
 export const unsavedChangesTrueContextValue: string = "unsavedChanges:true";
+
 export const unsavedChangesFalseContextValue: string = "unsavedChanges:false";

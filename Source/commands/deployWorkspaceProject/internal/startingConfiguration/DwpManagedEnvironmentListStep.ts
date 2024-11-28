@@ -30,6 +30,7 @@ const recommendedPickDescription: string = localize(
 	"recommended",
 	"(Recommended)",
 );
+
 export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployWorkspaceProjectInternalContext> {
 	public async prompt(
 		context: DeployWorkspaceProjectInternalContext,
