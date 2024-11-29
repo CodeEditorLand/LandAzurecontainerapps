@@ -25,6 +25,7 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 		context: ISecretContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -42,6 +43,7 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 		);
 
 		containerAppEnvelope.configuration.secrets ||= [];
+
 		containerAppEnvelope.configuration.secrets =
 			containerAppEnvelope.configuration.secrets.filter(
 				(secret) => secret.name !== secretName,
@@ -60,6 +62,7 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 		);
 
 		context.activityTitle = deleteSecret;
+
 		progress.report({ message: deletingSecret });
 
 		await updateContainerApp(
@@ -74,7 +77,9 @@ export class SecretDeleteStep extends AzureWizardExecuteStep<ISecretContext> {
 			secretName,
 			containerApp.name,
 		);
+
 		ext.outputChannel.appendLog(deletedSecret);
+
 		ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);
 	}
 

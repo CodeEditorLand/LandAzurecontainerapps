@@ -26,6 +26,7 @@ export class StreamListStep extends AzureWizardPromptStep<IStreamLogsContext> {
 				data: undefined,
 			});
 		}
+
 		context.logStreamToStop = (
 			await context.ui.showQuickPick(picks, {
 				placeHolder,

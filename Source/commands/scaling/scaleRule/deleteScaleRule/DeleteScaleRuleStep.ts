@@ -23,16 +23,19 @@ export class DeleteScaleRuleStep<
 
 	public async execute(context: T): Promise<void> {
 		this.revisionDraftTemplate.scale ||= {};
+
 		this.revisionDraftTemplate.scale.rules ||= [];
 
 		const index = this.revisionDraftTemplate.scale.rules.findIndex(
 			(r) => r.name === nonNullValueAndProp(context.scaleRule, "name"),
 		);
+
 		this.revisionDraftTemplate.scale.rules.splice(index, 1);
 
 		await this.updateRevisionDraftWithTemplate(context);
 
 		const resourceName = getParentResourceFromItem(this.baseItem).name;
+
 		ext.outputChannel.appendLog(
 			localize(
 				"deletedScaleRule",

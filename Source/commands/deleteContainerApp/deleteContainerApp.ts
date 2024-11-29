@@ -13,5 +13,6 @@ export async function deleteContainerApp(
 	node?: ContainerAppItem,
 ): Promise<void> {
 	node ??= await pickContainerApp(context);
+
 	await node.delete(context);
 }

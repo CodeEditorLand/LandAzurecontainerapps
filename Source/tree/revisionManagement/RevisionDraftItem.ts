@@ -42,12 +42,15 @@ export class RevisionDraftItem
 	implements RevisionsItemModel, RevisionsDraftModel
 {
 	static readonly idSuffix: string = "/revisionDraft";
+
 	static readonly contextValue: string = "revisionDraftItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		RevisionDraftItem.contextValue,
 	);
 
 	id: string;
+
 	revisionsMode: KnownActiveRevisionsMode;
 
 	constructor(
@@ -56,6 +59,7 @@ export class RevisionDraftItem
 		readonly revision: Revision,
 	) {
 		this.id = RevisionDraftItem.getRevisionDraftItemId(containerApp.id);
+
 		this.revisionsMode = containerApp.revisionsMode;
 	}
 
@@ -72,6 +76,7 @@ export class RevisionDraftItem
 
 	private async getContextValues(): Promise<string> {
 		const values: string[] = [RevisionDraftItem.contextValue];
+
 		values.push(
 			(await this.hasUnsavedChanges())
 				? unsavedChangesTrueContextValue

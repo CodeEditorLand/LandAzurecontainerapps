@@ -29,10 +29,12 @@ export class AcrEnableAdminUserStep extends AzureWizardExecuteStep<DockerLoginRe
 		context: DockerLoginRegistryCredentialsContext,
 	): Promise<void> {
 		const registry = nonNullValue(context.registry);
+
 		registry.adminUserEnabled = true;
 
 		const client: ContainerRegistryManagementClient =
 			await createContainerRegistryManagementClient(context);
+
 		context.registry = await client.registries.beginUpdateAndWait(
 			getResourceGroupFromId(nonNullProp(registry, "id")),
 			nonNullProp(registry, "name"),

@@ -58,17 +58,20 @@ export async function createManagedEnvironment(
 		[];
 
 	promptSteps.push(new ManagedEnvironmentNameStep());
+
 	executeSteps.push(
 		getVerifyProvidersStep<ManagedEnvironmentCreateContext>(),
 		new ResourceGroupCreateStep(),
 		new LogAnalyticsCreateStep(),
 		new ManagedEnvironmentCreateStep(),
 	);
+
 	LocationListStep.addProviderForFiltering(
 		wizardContext,
 		appProvider,
 		managedEnvironmentsId,
 	);
+
 	LocationListStep.addStep(wizardContext, promptSteps);
 
 	const wizard: AzureWizard<ManagedEnvironmentCreateContext> =
@@ -85,12 +88,15 @@ export async function createManagedEnvironment(
 		wizardContext,
 		"newManagedEnvironmentName",
 	);
+
 	wizardContext.newResourceGroupName = newManagedEnvName;
+
 	wizardContext.activityTitle = localize(
 		"createNamedManagedEnv",
 		'Create container apps environment "{0}"',
 		newManagedEnvName,
 	);
+
 	await wizard.execute();
 
 	ext.branchDataProvider.refresh();

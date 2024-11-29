@@ -31,6 +31,7 @@ export class TryUseExistingWorkspaceRegistryStep<
 		context: T,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -79,7 +80,9 @@ export class TryUseExistingWorkspaceRegistryStep<
 
 			if (registryMap.has(setting.containerRegistry)) {
 				context.registry = registryMap.get(setting.containerRegistry);
+
 				context.telemetry.properties.defaultedRegistry = "true";
+
 				ext.outputChannel.appendLog(
 					localize(
 						"useExistingWorkspaceAcrSuccess",

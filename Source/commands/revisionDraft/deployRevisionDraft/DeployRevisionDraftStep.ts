@@ -28,6 +28,7 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 		context: DeployRevisionDraftContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -41,6 +42,7 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 			context.subscription,
 			containerApp,
 		);
+
 		containerAppEnvelope.template = nonNullProp(context, "template");
 
 		let updating: string | undefined;
@@ -55,9 +57,11 @@ export class DeployRevisionDraftStep extends AzureWizardExecuteStep<DeployRevisi
 				"creatingRevision",
 				"Updating container app...",
 			);
+
 			description = localize("updating", "Updating...");
 		} else {
 			updating = localize("creatingRevision", "Creating revision...");
+
 			description = updating;
 		}
 

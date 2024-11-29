@@ -13,6 +13,8 @@ export interface IDeleteContainerAppWizardContext
 	extends IActionContext,
 		ExecuteActivityContext {
 	subscription: ISubscriptionContext;
+
 	resourceGroupName: string;
+
 	containerAppNames: string | string[];
 }

@@ -16,6 +16,7 @@ export class SecretValueStep extends AzureWizardPromptStep<ISecretContext> {
 			password: true,
 			validateInput: this.validateInput,
 		});
+
 		context.valuesToMask.push(context.newSecretValue);
 	}
 

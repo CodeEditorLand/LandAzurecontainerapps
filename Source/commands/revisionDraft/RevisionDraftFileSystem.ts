@@ -52,8 +52,11 @@ interface WriteFileOptions {
 
 export class RevisionDraftFile implements FileStat {
 	type: FileType = FileType.File;
+
 	size: number;
+
 	ctime: number;
+
 	mtime: number;
 
 	contents: Uint8Array;
@@ -67,8 +70,11 @@ export class RevisionDraftFile implements FileStat {
 		readonly baseRevisionName: string,
 	) {
 		this.contents = contents;
+
 		this.size = contents.byteLength;
+
 		this.ctime = Date.now();
+
 		this.mtime = Date.now();
 	}
 }
@@ -83,7 +89,9 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	private readonly emitter: EventEmitter<FileChangeEvent[]> =
 		new EventEmitter<FileChangeEvent[]>();
+
 	private readonly bufferedEvents: FileChangeEvent[] = [];
+
 	private fireSoonHandle?: NodeJS.Timer;
 
 	private draftStore: Map<string, RevisionDraftFile> = new Map();
@@ -113,6 +121,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 					4,
 				),
 			);
+
 			file = new RevisionDraftFile(
 				revisionContent,
 				item.containerApp,
@@ -133,6 +142,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 					4,
 				),
 			);
+
 			file = new RevisionDraftFile(
 				revisionContent,
 				item.containerApp,
@@ -148,6 +158,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		);
 
 		this.draftStore.set(uri.path, file);
+
 		this.fireSoon({ type: FileChangeType.Created, uri });
 	}
 
@@ -208,6 +219,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		}
 
 		const textDoc: TextDocument = await workspace.openTextDocument(uri);
+
 		await window.showTextDocument(textDoc);
 	}
 
@@ -231,10 +243,13 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		}
 
 		file.contents = contents;
+
 		file.size = contents.byteLength;
+
 		file.mtime = Date.now();
 
 		this.draftStore.set(uri.path, file);
+
 		this.fireSoon({ type: FileChangeType.Changed, uri });
 
 		// Currently the container app id reveals only the hidden container app resources, so we'll have to make due with expanding the parent for now
@@ -243,6 +258,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 			file.containerApp.managedEnvironmentId,
 			{ select: false, expand: true },
 		);
+
 		ext.state.notifyChildrenChanged(file.containerApp.managedEnvironmentId);
 	}
 
@@ -259,6 +275,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 		const newContent: Uint8Array = Buffer.from(
 			JSON.stringify(template, undefined, 4),
 		);
+
 		this.writeFile(uri, newContent, { isCommandEntrypoint: true });
 	}
 
@@ -274,6 +291,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 	delete(uri: Uri): void {
 		this.draftStore.delete(uri.path);
+
 		this.fireSoon({ type: FileChangeType.Deleted, uri });
 	}
 
@@ -300,6 +318,7 @@ export class RevisionDraftFileSystem implements FileSystemProvider {
 
 		this.fireSoonHandle = setTimeout(() => {
 			this.emitter.fire(this.bufferedEvents);
+
 			this.bufferedEvents.length = 0;
 		}, 5);
 	}

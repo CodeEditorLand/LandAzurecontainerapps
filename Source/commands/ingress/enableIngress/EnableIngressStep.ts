@@ -29,6 +29,7 @@ export class EnableIngressStep extends AzureWizardExecuteStep<IngressBaseContext
 		context: IngressBaseContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {

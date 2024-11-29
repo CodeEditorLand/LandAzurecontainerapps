@@ -66,6 +66,7 @@ export async function addSecret(
 	);
 
 	const parentId: string = `${containerApp.id}/${SecretsItem.idSuffix}`;
+
 	await ext.state.showCreatingChild(
 		parentId,
 		localize("creatingSecret", "Creating secret..."),

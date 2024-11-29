@@ -59,6 +59,7 @@ export function registerCommands(): void {
 		"containerApps.createManagedEnvironment",
 		createManagedEnvironment,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deleteManagedEnvironment",
 		deleteManagedEnvironment,
@@ -69,30 +70,37 @@ export function registerCommands(): void {
 		"containerApps.browse",
 		browseContainerAppNode,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.createContainerApp",
 		createContainerApp,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.createContainerAppFromWorkspace",
 		deployWorkspaceProject,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deleteContainerApp",
 		deleteContainerApp,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.editContainerApp",
 		editContainerApp,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.openConsoleInPortal",
 		openConsoleInPortal,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.updateImage",
 		updateImage,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.toggleEnvironmentVariableVisibility",
 		async (context: IActionContext, item: EnvironmentVariableItem) => {
@@ -105,14 +113,17 @@ export function registerCommands(): void {
 		"containerApps.deployImageApi",
 		deployImageApi,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deployRevisionDraft",
 		deployRevisionDraft,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deployWorkspaceProject",
 		deployWorkspaceProject,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deployWorkspaceProjectToContainerApp",
 		deployWorkspaceProject,
@@ -123,10 +134,12 @@ export function registerCommands(): void {
 		"containerApps.connectToGitHub",
 		connectToGitHub,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.disconnectRepo",
 		disconnectRepo,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.openGitHubRepo",
 		openGitHubRepo,
@@ -137,14 +150,17 @@ export function registerCommands(): void {
 		"containerApps.enableIngress",
 		enableIngress,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.disableIngress",
 		disableIngress,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.toggleVisibility",
 		toggleIngressVisibility,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.editTargetPort",
 		editTargetPort,
@@ -152,10 +168,12 @@ export function registerCommands(): void {
 
 	// secret
 	registerCommandWithTreeNodeUnwrapping("containerApps.addSecret", addSecret);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.editSecretValue",
 		editSecretValue,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deleteSecret",
 		deleteSecret,
@@ -166,14 +184,17 @@ export function registerCommands(): void {
 		"containerApps.chooseRevisionMode",
 		chooseRevisionMode,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.activateRevision",
 		activateRevision,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deactivateRevision",
 		deactivateRevision,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.restartRevision",
 		restartRevision,
@@ -184,10 +205,12 @@ export function registerCommands(): void {
 		"containerApps.createRevisionDraft",
 		createRevisionDraft,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.editRevisionDraft",
 		editRevisionDraft,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.discardRevisionDraft",
 		discardRevisionDraft,
@@ -198,10 +221,12 @@ export function registerCommands(): void {
 		"containerApps.editScaleRange",
 		editScaleRange,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.addScaleRule",
 		addScaleRule,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.deleteScaleRule",
 		deleteScaleRule,
@@ -212,6 +237,7 @@ export function registerCommands(): void {
 		"containerApps.startStreamingLogs",
 		startStreamingLogs,
 	);
+
 	registerCommandWithTreeNodeUnwrapping(
 		"containerApps.stopStreamingLogs",
 		stopStreamingLogs,
@@ -219,10 +245,12 @@ export function registerCommands(): void {
 
 	// Suppress "Report an Issue" button for all errors in favor of the command
 	registerErrorHandler((c) => (c.errorHandling.suppressReportIssue = true));
+
 	registerReportIssueCommand("containerApps.reportIssue");
 
 	// registries
 	registerCommand("containerApps.createAcr", createAcr);
+
 	registerCommand("containerApps.openAcrBuildLogs", openAcrBuildLogs);
 
 	// walkthrough
@@ -230,18 +258,22 @@ export function registerCommands(): void {
 		"containerApps.walkthrough.gettingStarted.internal",
 		gettingStartedInternalWalkthrough,
 	);
+
 	registerCommand(
 		"containerApps.walkthrough.addWorkspaceProject",
 		addWorkspaceProjectWalkthrough,
 	);
+
 	registerCommand(
 		"containerApps.walkthrough.azureSignIn",
 		azureSignInWalkthrough,
 	);
+
 	registerCommand(
 		"containerApps.walkthrough.deployWorkspaceProject",
 		deployWorkspaceProjectWalkthrough,
 	);
+
 	registerCommand(
 		"containerApps.walkthrough.cleanUpResources",
 		cleanUpResourcesWalkthrough,

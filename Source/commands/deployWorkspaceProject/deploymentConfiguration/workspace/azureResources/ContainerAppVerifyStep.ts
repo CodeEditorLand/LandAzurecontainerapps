@@ -18,7 +18,9 @@ export class ContainerAppVerifyStep extends AzureResourceVerifyStepBase {
 	public priority: number = 205; /** Todo: Figure out a good priority level */
 
 	protected resourceType = "container app" as const;
+
 	protected deploymentSettingsKey = "containerApp" as const;
+
 	protected contextKey = "containerApp" as const;
 
 	protected async verifyResource(
@@ -34,6 +36,7 @@ export class ContainerAppVerifyStep extends AzureResourceVerifyStepBase {
 				"containerApp",
 			),
 		);
+
 		context.containerApp =
 			ContainerAppItem.CreateContainerAppModel(containerApp);
 	}

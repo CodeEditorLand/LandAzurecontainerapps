@@ -31,6 +31,7 @@ export class RegistryCreateStep extends AzureWizardExecuteStep<CreateAcrContext>
 		context: CreateAcrContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -40,6 +41,7 @@ export class RegistryCreateStep extends AzureWizardExecuteStep<CreateAcrContext>
 
 		const client: ContainerRegistryManagementClient =
 			await createContainerRegistryManagementClient(context);
+
 		context.registry = await client.registries.beginCreateAndWait(
 			nonNullValueAndProp(context.resourceGroup, "name"),
 			nonNullProp(context, "newRegistryName"),

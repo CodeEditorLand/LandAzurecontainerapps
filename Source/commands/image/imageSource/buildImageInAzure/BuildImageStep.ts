@@ -32,6 +32,7 @@ import { type BuildImageInAzureImageSourceContext } from "./BuildImageInAzureIma
 
 export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImageSourceContext> {
 	public priority: number = 550;
+
 	protected acrBuildError: AcrBuildResults;
 
 	public async execute(
@@ -42,11 +43,13 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 		const run = await buildImageInAzure(context);
 
 		const outputImages = run?.outputImages;
+
 		context.telemetry.properties.outputImagesCount =
 			outputImages?.length?.toString();
 
 		if (outputImages) {
 			const image = outputImages[0];
+
 			context.image = `${image.registry}/${image.repository}:${image.tag}`;
 		} else {
 			const logSasUrl = (
@@ -149,6 +152,7 @@ export class BuildImageStep extends AzureWizardExecuteStep<BuildImageInAzureImag
 					),
 					commandId: "containerApps.openAcrBuildLogs",
 				});
+
 				buildImageLogsItem.commandArgs = [this.acrBuildError];
 
 				return Promise.resolve([buildImageLogsItem]);

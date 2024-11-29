@@ -25,17 +25,21 @@ export class AddScaleRuleStep<
 
 	public async execute(context: T): Promise<void> {
 		this.revisionDraftTemplate.scale ||= {};
+
 		this.revisionDraftTemplate.scale.rules ||= [];
 
 		context.scaleRule = this.buildRule(context);
+
 		this.integrateRule(
 			context,
 			this.revisionDraftTemplate.scale.rules,
 			context.scaleRule,
 		);
+
 		await this.updateRevisionDraftWithTemplate(context);
 
 		const resourceName = getParentResourceFromItem(this.baseItem).name;
+
 		ext.outputChannel.appendLog(
 			localize(
 				"addedScaleRule",
@@ -83,6 +87,7 @@ export class AddScaleRuleStep<
 
 			default:
 		}
+
 		return scaleRule;
 	}
 
@@ -99,11 +104,13 @@ export class AddScaleRuleStep<
 				if (idx !== -1) {
 					scaleRules.splice(idx, 1);
 				}
+
 				break;
 
 			case ScaleRuleTypes.Queue:
 			default:
 		}
+
 		scaleRules.push(scaleRule);
 	}
 }

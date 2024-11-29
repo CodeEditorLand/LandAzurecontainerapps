@@ -26,11 +26,16 @@ import { type IStreamLogsContext } from "./IStreamLogsContext";
 
 export interface ILogStream extends vscode.Disposable {
 	isConnected: boolean;
+
 	outputChannel: vscode.OutputChannel;
+
 	data: {
 		containerApp?: string;
+
 		revision?: string;
+
 		replica?: string;
+
 		container?: string;
 	};
 }
@@ -86,6 +91,7 @@ export async function logStreamRequest(
 
 	if (logStream && logStream.isConnected) {
 		logStream.outputChannel.show();
+
 		void context.ui.showWarningMessage(
 			localize(
 				"logStreamAlreadyActive",
@@ -106,8 +112,11 @@ export async function logStreamRequest(
 						context.container?.name,
 					),
 				);
+
 		ext.context.subscriptions.push(outputChannel);
+
 		outputChannel.show();
+
 		outputChannel.appendLine(
 			localize("connectingToLogStream", "Connecting to log stream..."),
 		);
@@ -147,15 +156,20 @@ export async function logStreamRequest(
 								const newLogStream: ILogStream = {
 									dispose: (): void => {
 										logsResponse.readableStreamBody?.removeAllListeners();
+
 										abortController.abort();
+
 										outputChannel.show();
+
 										outputChannel.appendLine(
 											localize(
 												"logStreamDisconnected",
 												"Disconnected from log-streaming service.",
 											),
 										);
+
 										newLogStream.isConnected = false;
+
 										void onLogStreamEnded();
 									},
 									isConnected: true,
@@ -174,22 +188,28 @@ export async function logStreamRequest(
 									})
 									.on("error", (err: Error) => {
 										newLogStream.isConnected = false;
+
 										outputChannel.show();
+
 										outputChannel.appendLine(
 											localize(
 												"logStreamError",
 												"Error connecting to log-streaming service:",
 											),
 										);
+
 										outputChannel.appendLine(
 											parseError(err).message,
 										);
+
 										reject(err);
 									})
 									.on("complete", () => {
 										newLogStream.dispose();
 									});
+
 								logStreams.set(logStreamId, newLogStream);
+
 								onLogStreamCreated(newLogStream);
 							},
 						);

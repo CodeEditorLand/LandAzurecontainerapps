@@ -88,6 +88,7 @@ export class ShouldSaveDeploySettingsPromptStep extends AzureWizardPromptStep<De
 		);
 
 		context.shouldSaveDeploySettings = userResponse === saveItem;
+
 		context.telemetry.properties.shouldSaveDeploySettings =
 			context.shouldSaveDeploySettings ? "true" : "false";
 	}

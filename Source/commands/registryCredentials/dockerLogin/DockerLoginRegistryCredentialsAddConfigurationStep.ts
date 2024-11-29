@@ -23,6 +23,7 @@ import { listCredentialsFromAcr } from "./listCredentialsFromAcr";
 
 interface RegistryCredentialAndSecret {
 	registryCredential: RegistryCredentials;
+
 	secret: Secret;
 }
 
@@ -44,16 +45,20 @@ export class DockerLoginRegistryCredentialsAddConfigurationStep extends AzureWiz
 			// ACR
 			const acrRegistryCredentialAndSecret: RegistryCredentialAndSecret =
 				await this.getAcrCredentialAndSecret(context);
+
 			context.newRegistryCredential =
 				acrRegistryCredentialAndSecret.registryCredential;
+
 			context.newRegistrySecret = acrRegistryCredentialAndSecret.secret;
 		} else {
 			// Docker Hub or other third party registry...
 			if (context.registryName && context.username && context.secret) {
 				const thirdPartyRegistryCredentialAndSecret: RegistryCredentialAndSecret =
 					this.getThirdPartyRegistryCredentialAndSecret(context);
+
 				context.newRegistryCredential =
 					thirdPartyRegistryCredentialAndSecret.registryCredential;
+
 				context.newRegistrySecret =
 					thirdPartyRegistryCredentialAndSecret.secret;
 			}

@@ -11,6 +11,8 @@ export interface CreateAcrContext
 	extends IResourceGroupWizardContext,
 		ExecuteActivityContext {
 	newRegistryName?: string;
+
 	newRegistrySku?: KnownSkuName;
+
 	registry?: Registry;
 }

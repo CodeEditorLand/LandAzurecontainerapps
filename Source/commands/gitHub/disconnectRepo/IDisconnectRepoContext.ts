@@ -16,5 +16,6 @@ export interface IDisconnectRepoContext
 		ExecuteActivityContext {
 	// Make containerApp _required_
 	containerApp: ContainerAppModel;
+
 	sourceControl?: SourceControl;
 }

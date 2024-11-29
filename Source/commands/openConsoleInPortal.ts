@@ -15,6 +15,7 @@ export async function openConsoleInPortal(
 	node?: ContainerAppItem,
 ): Promise<void> {
 	node ??= await pickContainerApp(context);
+
 	await commands.executeCommand("azureResourceGroups.openInPortal", {
 		portalUrl: createPortalUrl(
 			node.subscription,

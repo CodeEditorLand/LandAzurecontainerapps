@@ -19,9 +19,11 @@ export interface ManagedEnvironmentCreateContext
 	subscription: AzureSubscription;
 
 	newManagedEnvironmentName?: string;
+
 	newLogAnalyticsWorkspaceName?: string; // This isn't normally populated by a name step, but we still allow this to be prepopulated
 
 	// created when the wizard is done executing
 	logAnalyticsWorkspace?: Workspace;
+
 	managedEnvironment?: ManagedEnvironment;
 }

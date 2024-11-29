@@ -31,6 +31,7 @@ export interface TreeElementBase extends ResourceModelBase {
 
 export interface ContainerAppsItem extends TreeElementBase {
 	subscription: AzureSubscription;
+
 	containerApp: ContainerAppModel;
 }
 
@@ -62,6 +63,7 @@ export class ContainerAppsBranchDataProvider
 					() => this.refresh(child),
 				);
 			}
+
 			return child;
 		});
 	}

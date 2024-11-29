@@ -46,6 +46,7 @@ export async function discardRevisionDraft(
 			async () => {
 				// Add a short delay to display the deleting message
 				await delay(5);
+
 				ext.revisionDraftFileSystem.discardRevisionDraft(
 					containerAppsItem,
 				);

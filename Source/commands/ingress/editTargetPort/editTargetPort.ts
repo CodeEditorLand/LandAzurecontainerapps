@@ -61,12 +61,14 @@ export async function editTargetPort(
 	});
 
 	await wizard.prompt();
+
 	wizardContext.activityTitle = localize(
 		"updateTargetPort",
 		'Update target port to {0} for container app "{1}"',
 		wizardContext.targetPort,
 		containerApp.name,
 	);
+
 	await wizard.execute();
 
 	ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);

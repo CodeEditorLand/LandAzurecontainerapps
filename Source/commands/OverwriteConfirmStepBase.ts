@@ -21,6 +21,7 @@ export abstract class OverwriteConfirmStepBase<
 	T extends OverwriteConfirmContext,
 > extends AzureWizardPromptStep<T> {
 	public hideStepCount: boolean = true;
+
 	protected readonly unsupportedFeaturesWarning: string = localize(
 		"unsupportedOverwriteConfirm",
 		"Any unsupported container app features in VS Code will be lost.",
@@ -39,6 +40,7 @@ export abstract class OverwriteConfirmStepBase<
 	}
 
 	protected abstract promptCore(context: T): Promise<void>;
+
 	public abstract shouldPrompt(context: T): boolean;
 
 	/**

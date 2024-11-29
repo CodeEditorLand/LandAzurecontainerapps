@@ -28,9 +28,11 @@ import { ImageItem } from "./ImageItem";
 
 export class ContainerItem extends RevisionDraftDescendantBase {
 	id: string;
+
 	label: string;
 
 	static readonly contextValue: string = "containerItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ContainerItem.contextValue,
 	);
@@ -45,6 +47,7 @@ export class ContainerItem extends RevisionDraftDescendantBase {
 		readonly container: Container,
 	) {
 		super(subscription, containerApp, revision);
+
 		this.id = `${this.parentResource.id}/${container.name}`;
 	}
 
@@ -107,6 +110,7 @@ export class ContainerItem extends RevisionDraftDescendantBase {
 
 		const currentContainers: Container[] =
 			this.parentResource.template?.containers ?? [];
+
 		const currentContainer: Container | undefined =
 			currentContainers[this.containersIdx];
 

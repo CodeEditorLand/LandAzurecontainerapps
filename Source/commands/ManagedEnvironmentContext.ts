@@ -10,5 +10,6 @@ import { type AzureSubscription } from "@microsoft/vscode-azureresources-api";
 export interface ManagedEnvironmentRequiredContext
 	extends ISubscriptionActionContext {
 	subscription: AzureSubscription;
+
 	managedEnvironment: ManagedEnvironment;
 }

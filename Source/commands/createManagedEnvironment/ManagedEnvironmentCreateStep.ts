@@ -37,6 +37,7 @@ export class ManagedEnvironmentCreateStep extends AzureWizardExecuteStep<Managed
 		context: ManagedEnvironmentCreateContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -65,6 +66,7 @@ export class ManagedEnvironmentCreateStep extends AzureWizardExecuteStep<Managed
 			"creatingManagedEnvironment",
 			"Creating environment...",
 		);
+
 		progress.report({ message: creating });
 
 		const sharedKeys = await opClient.sharedKeysOperations.getSharedKeys(

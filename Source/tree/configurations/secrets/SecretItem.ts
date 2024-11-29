@@ -12,6 +12,7 @@ import { SecretsItem } from "./SecretsItem";
 
 export class SecretItem implements ContainerAppsItem {
 	static readonly contextValue: string = "secretItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		SecretItem.contextValue,
 	);

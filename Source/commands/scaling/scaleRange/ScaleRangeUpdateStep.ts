@@ -23,17 +23,21 @@ export class ScaleRangeUpdateStep<
 
 	public async execute(context: T): Promise<void> {
 		this.revisionDraftTemplate.scale ||= {};
+
 		this.revisionDraftTemplate.scale.minReplicas = context.newMinRange;
+
 		this.revisionDraftTemplate.scale.maxReplicas = context.newMaxRange;
 
 		await this.updateRevisionDraftWithTemplate(context);
 
 		context.scaleMinRange = nonNullProp(context, "newMinRange");
+
 		context.scaleMaxRange = nonNullProp(context, "newMaxRange");
 
 		const parentResourceName = getParentResourceFromItem(
 			this.baseItem,
 		).name;
+
 		ext.outputChannel.appendLog(
 			localize(
 				"updatedScaleRange",

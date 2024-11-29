@@ -46,6 +46,7 @@ export class DeleteEnvironmentConfirmationStep extends AzureWizardPromptStep<IDe
 			const message: string = hasNoResources
 				? deleteEnv
 				: deleteEnvAndApps;
+
 			await context.ui.showWarningMessage(
 				message,
 				{ modal: true, stepName: "confirmDelete" },

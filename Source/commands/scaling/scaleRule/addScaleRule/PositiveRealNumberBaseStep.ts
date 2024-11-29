@@ -10,6 +10,7 @@ import { type IAddScaleRuleContext } from "./IAddScaleRuleContext";
 
 export abstract class PositiveRealNumberBaseStep extends AzureWizardPromptStep<IAddScaleRuleContext> {
 	public abstract prompt(context: IAddScaleRuleContext): Promise<void>;
+
 	public abstract shouldPrompt(context: IAddScaleRuleContext): boolean;
 
 	public validateInput(input: string | undefined): string | undefined {
@@ -23,12 +24,14 @@ export abstract class PositiveRealNumberBaseStep extends AzureWizardPromptStep<I
 				"The number entered must be a whole number greater than or equal to 1.",
 			);
 		}
+
 		if (Number(input) > thirtyTwoBitMaxSafeInteger) {
 			return localize(
 				"numberTooLarge",
 				"The number entered is too large.",
 			);
 		}
+
 		return undefined;
 	}
 }

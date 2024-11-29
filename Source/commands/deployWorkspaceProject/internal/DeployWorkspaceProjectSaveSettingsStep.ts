@@ -37,10 +37,12 @@ export class DeployWorkspaceProjectSaveSettingsStep extends AzureWizardExecuteSt
 		context: DeployWorkspaceProjectInternalContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
 		this.options.continueOnFail = true;
+
 		progress.report({
 			message: localize("saving", "Saving configuration..."),
 		});

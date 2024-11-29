@@ -22,6 +22,7 @@ export class DeleteAllContainerAppsStep extends AzureWizardExecuteStep<IDeleteCo
 		context: IDeleteContainerAppWizardContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -49,6 +50,7 @@ export class DeleteAllContainerAppsStep extends AzureWizardExecuteStep<IDeleteCo
 				);
 
 				progress.report({ message: deleting });
+
 				await webClient.containerApps.beginDeleteAndWait(
 					context.resourceGroupName,
 					containerAppName,

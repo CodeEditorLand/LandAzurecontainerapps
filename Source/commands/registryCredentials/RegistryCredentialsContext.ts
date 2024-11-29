@@ -20,6 +20,8 @@ export interface RegistryCredentialsContext
 	extends CredentialTypeContext,
 		ExecuteActivityContext {
 	newRegistryCredentialType?: RegistryCredentialType;
+
 	registryCredentials?: RegistryCredentials[];
+
 	secrets?: Secret[];
 }

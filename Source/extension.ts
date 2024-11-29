@@ -35,29 +35,37 @@ export async function activate(
 	// the entry point for vscode.dev is this activate, not main.js, so we need to instantiate perfStats here
 	// the perf stats don't matter for vscode because there is no main file to load-- we may need to see if we can track the download time
 	perfStats ||= { loadStartTime: Date.now(), loadEndTime: Date.now() };
+
 	ext.context = context;
+
 	ext.ignoreBundle = ignoreBundle;
+
 	ext.outputChannel = createAzExtOutputChannel(
 		"Azure Container Apps",
 		ext.prefix,
 	);
+
 	context.subscriptions.push(ext.outputChannel);
 
 	registerUIExtensionVariables(ext);
+
 	registerAzureUtilsExtensionVariables(ext);
 
 	await callWithTelemetryAndErrorHandling(
 		"containerApps.activate",
 		async (activateContext: IActionContext) => {
 			activateContext.telemetry.properties.isActivationEvent = "true";
+
 			activateContext.telemetry.measurements.mainFileLoad =
 				(perfStats.loadEndTime - perfStats.loadStartTime) / 1000;
 
 			registerCommands();
+
 			ext.experimentationService =
 				await createExperimentationService(context);
 
 			ext.revisionDraftFileSystem = new RevisionDraftFileSystem();
+
 			context.subscriptions.push(
 				vscode.workspace.registerFileSystemProvider(
 					RevisionDraftFileSystem.scheme,
@@ -66,8 +74,11 @@ export async function activate(
 			);
 
 			ext.state = new TreeElementStateManager();
+
 			ext.rgApiV2 = await getAzureResourcesExtensionApi(context, "2.0.0");
+
 			ext.branchDataProvider = new ContainerAppsBranchDataProvider();
+
 			ext.rgApiV2.resources.registerAzureResourceBranchDataProvider(
 				AzExtResourceType.ContainerAppsEnvironment,
 				ext.branchDataProvider,

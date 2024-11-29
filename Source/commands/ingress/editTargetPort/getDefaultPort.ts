@@ -29,6 +29,7 @@ export function getDefaultPort(
 
 	const suggestedPort: number =
 		dockerfilePortSuggestion || currentDeploymentPort || fallbackPort;
+
 	context.telemetry.properties.suggestedTargetPort =
 		suggestedPort?.toString();
 

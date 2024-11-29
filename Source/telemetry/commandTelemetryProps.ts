@@ -20,6 +20,7 @@ export interface DeployRevisionDraftTelemetryProps
 	extends AzdTelemetryProps,
 		OverwriteConfirmTelemetryProps {
 	revisionMode?: KnownActiveRevisionsMode;
+
 	commandUpdatesCount?: string; // Updates via revision draft commands
 	directUpdatesCount?: string; // Direct updates via 'editContainerApp' & 'editDraft'
 }
@@ -28,6 +29,7 @@ export interface UpdateImageTelemetryProps
 	extends AzdTelemetryProps,
 		ImageSourceTelemetryProps {
 	revisionMode?: KnownActiveRevisionsMode;
+
 	skippedRegistryCredentialUpdate?: "true" | "false";
 }
 

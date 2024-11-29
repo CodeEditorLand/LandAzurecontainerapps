@@ -24,6 +24,7 @@ export class GitHubRepositoryDisconnectStep extends AzureWizardExecuteStep<IDisc
 		context: IDisconnectRepoContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -57,6 +58,7 @@ export class GitHubRepositoryDisconnectStep extends AzureWizardExecuteStep<IDisc
 			'Disconnecting "{0}"...',
 			repo,
 		);
+
 		progress.report({ message: disconnecting });
 
 		await client.containerAppsSourceControls.beginDeleteAndWait(
@@ -65,6 +67,7 @@ export class GitHubRepositoryDisconnectStep extends AzureWizardExecuteStep<IDisc
 			scName,
 			{ requestOptions },
 		);
+
 		ext.state.notifyChildrenChanged(context.containerApp.id);
 
 		const disconnected: string = localize(
@@ -73,6 +76,7 @@ export class GitHubRepositoryDisconnectStep extends AzureWizardExecuteStep<IDisc
 			`${owner}/${repo}`,
 			context.containerApp.name,
 		);
+
 		ext.outputChannel.appendLog(disconnected);
 	}
 

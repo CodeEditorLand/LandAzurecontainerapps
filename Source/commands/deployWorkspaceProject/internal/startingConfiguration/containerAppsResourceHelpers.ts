@@ -23,7 +23,9 @@ import { createContainerAppsAPIClient } from "../../../../utils/azureClients";
 
 interface ContainerAppsResources {
 	resourceGroup?: ResourceGroup;
+
 	managedEnvironment?: ManagedEnvironment;
+
 	containerApp?: ContainerAppModel;
 }
 

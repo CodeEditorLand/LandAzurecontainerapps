@@ -62,6 +62,7 @@ export class ScaleRuleTypeListStep extends AzureWizardPromptStep<IAddScaleRuleCo
 
 			default:
 		}
+
 		return { promptSteps };
 	}
 }

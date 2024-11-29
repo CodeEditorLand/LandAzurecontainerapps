@@ -32,6 +32,7 @@ export async function buildImageInAzure(
 		run.status === KnownRunStatus.Running
 	) {
 		await delay(WAIT_MS);
+
 		run = await getRun();
 	}
 

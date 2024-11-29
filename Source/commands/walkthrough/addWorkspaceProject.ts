@@ -23,6 +23,7 @@ export async function addWorkspaceProjectWalkthrough(
 		const items: MessageItem[] = [
 			{ title: localize("continue", "Continue") },
 		];
+
 		await context.ui.showWarningMessage(
 			warning,
 			{ modal: true, stepName: "addWorkspaceProject.emptyWorkspace" },

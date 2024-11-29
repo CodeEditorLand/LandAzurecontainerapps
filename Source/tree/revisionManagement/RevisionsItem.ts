@@ -29,6 +29,7 @@ import { RevisionItem } from "./RevisionItem";
 
 export class RevisionsItem implements ContainerAppsItem {
 	static readonly contextValue: string = "revisionsItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		RevisionsItem.contextValue,
 	);
@@ -44,6 +45,7 @@ export class RevisionsItem implements ContainerAppsItem {
 
 	private get contextValue(): string {
 		const values: string[] = [RevisionsItem.contextValue];
+
 		values.push(
 			ext.revisionDraftFileSystem.doesContainerAppsItemHaveRevisionDraft(
 				this,
@@ -88,6 +90,7 @@ export class RevisionsItem implements ContainerAppsItem {
 							if (revision.name === revisionDraftBaseName) {
 								revisionDraftBase = revision;
 							}
+
 							return new RevisionItem(
 								this.subscription,
 								this.containerApp,

@@ -51,6 +51,7 @@ export class UploadSourceCodeStep<
 		context: T,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -58,15 +59,18 @@ export class UploadSourceCodeStep<
 			context.rootFolder.uri.fsPath === context.srcPath
 				? "."
 				: path.relative(context.rootFolder.uri.fsPath, context.srcPath);
+
 		context.telemetry.properties.sourceDepth =
 			this._sourceFilePath === "."
 				? "0"
 				: String(this._sourceFilePath.split(path.sep).length);
 
 		context.registryName = nonNullValue(context.registry?.name);
+
 		context.resourceGroupName = getResourceGroupFromId(
 			nonNullValue(context.registry?.id),
 		);
+
 		context.client = await createContainerRegistryManagementClient(context);
 
 		progress.report({
@@ -82,6 +86,7 @@ export class UploadSourceCodeStep<
 		);
 
 		let items = await AzExtFsExtra.readDirectory(source);
+
 		items = items.filter((i) => !vcsIgnoreList.includes(i.name));
 
 		await this.buildCustomDockerfileIfNecessary(context);
@@ -92,6 +97,7 @@ export class UploadSourceCodeStep<
 				/\.tar\.gz/,
 				".tar",
 			);
+
 			await tar.c(
 				{ cwd: source, file: tempTarFilePath },
 				items.map((i) => path.relative(source, i.fsPath)),
@@ -119,6 +125,7 @@ export class UploadSourceCodeStep<
 			try {
 				// Remove temporarily created resources
 				await AzExtFsExtra.deleteResource(tempTarFilePath);
+
 				await AzExtFsExtra.deleteResource(
 					this._customDockerfileDirPath,
 					{ recursive: true },
@@ -156,6 +163,7 @@ export class UploadSourceCodeStep<
 		const storageBlob = await import("@azure/storage-blob");
 
 		const blobClient = new storageBlob.BlockBlobClient(uploadUrl);
+
 		await blobClient.uploadFile(context.tarFilePath);
 
 		context.uploadedSourceLocation = relativePath;
@@ -185,6 +193,7 @@ export class UploadSourceCodeStep<
 		}
 
 		context.telemetry.properties.buildCustomDockerfile = "true";
+
 		ext.outputChannel.appendLog(
 			localize(
 				"removePlatformFlag",
@@ -208,6 +217,7 @@ export class UploadSourceCodeStep<
 			customDockerfileDirPath,
 			dockerfileRelativePath,
 		);
+
 		await AzExtFsExtra.writeFile(customDockerfilePath, dockerfileContent);
 
 		this._customDockerfileDirPath = customDockerfileDirPath;

@@ -22,6 +22,7 @@ export class ManagedEnvironmentNameStep extends AzureWizardPromptStep<ManagedEnv
 			"containerAppNamePrompt",
 			"Enter a container apps environment name.",
 		);
+
 		context.newManagedEnvironmentName = (
 			await context.ui.showInputBox({
 				prompt,

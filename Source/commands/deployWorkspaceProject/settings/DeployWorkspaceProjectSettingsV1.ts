@@ -5,6 +5,8 @@
 
 export interface DeployWorkspaceProjectSettingsV1 {
 	containerAppResourceGroupName?: string;
+
 	containerAppName?: string;
+
 	containerRegistryName?: string;
 }

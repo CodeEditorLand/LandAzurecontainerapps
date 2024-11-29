@@ -19,6 +19,7 @@ export class SecretNameStep extends AzureWizardPromptStep<ISecretContext> {
 					this.validateInput(context, val),
 			})
 		).trim();
+
 		context.valuesToMask.push(context.newSecretName);
 	}
 

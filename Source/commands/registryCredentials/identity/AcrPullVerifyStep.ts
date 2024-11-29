@@ -35,6 +35,7 @@ export class AcrPullVerifyStep extends AzureWizardExecuteStep<ManagedIdentityReg
 		context: ManagedIdentityRegistryCredentialsContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -55,6 +56,7 @@ export class AcrPullVerifyStep extends AzureWizardExecuteStep<ManagedIdentityReg
 		const roleAssignments: RoleAssignment[] = await uiUtils.listAllIterator(
 			client.roleAssignments.listForScope(registryId, {
 				// $filter=principalId eq {id}
+
 				filter: `principalId eq '{${managedEnvironmentIdentity}}'`,
 			}),
 		);

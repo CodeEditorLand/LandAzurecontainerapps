@@ -23,10 +23,15 @@ import { createContainerRegistryManagementClient } from "./azureClients";
 
 interface ParsedImageName {
 	imageNameReference?: string;
+
 	registryDomain?: SupportedRegistries;
+
 	registryName?: string;
+
 	namespace?: string;
+
 	repositoryName?: string;
+
 	tag?: string;
 }
 

@@ -65,6 +65,7 @@ export async function disableIngress(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);

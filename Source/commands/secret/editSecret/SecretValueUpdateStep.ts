@@ -25,6 +25,7 @@ export class SecretValueUpdateStep extends AzureWizardExecuteStep<ISecretContext
 		context: ISecretContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -44,10 +45,13 @@ export class SecretValueUpdateStep extends AzureWizardExecuteStep<ISecretContext
 		});
 
 		let didUpdateSecret: boolean = false;
+
 		containerAppEnvelope.configuration.secrets ||= [];
+
 		containerAppEnvelope.configuration.secrets.forEach((secret) => {
 			if (secret.name === context.secretName) {
 				secret.value = context.newSecretValue ?? secret.value;
+
 				didUpdateSecret = true;
 			}
 		});

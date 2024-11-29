@@ -5,6 +5,7 @@
 
 export interface AzureContainerAppsExtensionApi {
 	apiVersion: string;
+
 	deployWorkspaceProject(
 		options: DeployWorkspaceProjectOptionsContract,
 	): Promise<DeployWorkspaceProjectResults>;
@@ -13,10 +14,12 @@ export interface AzureContainerAppsExtensionApi {
 export interface DeployWorkspaceProjectOptionsContract {
 	// Existing resources
 	subscriptionId?: string;
+
 	resourceGroupId?: string;
 
 	// Workspace deployment paths (absolute fs path)
 	rootPath?: string;
+
 	srcPath?: string;
 
 	dockerfilePath?: string;
@@ -24,19 +27,27 @@ export interface DeployWorkspaceProjectOptionsContract {
 	// Options
 	suppressConfirmation?: boolean; // Suppress any [resource] confirmation prompts
 	suppressContainerAppCreation?: boolean;
+
 	shouldSaveDeploySettings?: boolean;
 }
 
 export interface DeployWorkspaceProjectResults {
 	resourceGroupId?: string;
+
 	logAnalyticsWorkspaceId?: string;
+
 	managedEnvironmentId?: string;
+
 	containerAppId?: string;
 
 	// ACR
 	registryId?: string;
+
 	registryLoginServer?: string;
+
 	registryUsername?: string;
+
 	registryPassword?: string;
+
 	imageName?: string;
 }

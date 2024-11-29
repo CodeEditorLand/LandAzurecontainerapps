@@ -13,7 +13,9 @@ export interface IDeleteManagedEnvironmentContext
 	extends IActionContext,
 		ExecuteActivityContext {
 	subscription: ISubscriptionContext;
+
 	resourceGroupName: string;
+
 	managedEnvironmentName: string;
 
 	containerAppNames: string[];

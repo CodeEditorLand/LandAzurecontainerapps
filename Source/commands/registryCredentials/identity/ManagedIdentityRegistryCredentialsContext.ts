@@ -17,5 +17,6 @@ export interface ManagedIdentityRegistryCredentialsContext
 	registryDomain?: SupportedRegistries;
 
 	hasAcrPullRole?: boolean;
+
 	newRegistryCredential?: RegistryCredentials;
 }

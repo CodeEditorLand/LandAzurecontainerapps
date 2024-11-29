@@ -26,17 +26,21 @@ export abstract class AzureResourceVerifyStepBase extends AzureWizardExecuteStep
 		| "resource group"
 		| "container app"
 		| "container registry";
+
 	protected abstract deploymentSettingsKey: keyof DeploymentConfigurationSettings;
+
 	protected abstract contextKey: keyof WorkspaceDeploymentConfigurationContext;
 
 	public async execute(
 		context: WorkspaceDeploymentConfigurationContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
 		this.options.continueOnFail = true;
+
 		progress.report({
 			message: localize(
 				`verifyingResourceType`,

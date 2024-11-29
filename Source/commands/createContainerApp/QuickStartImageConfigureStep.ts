@@ -13,24 +13,31 @@ export class QuickStartImageConfigureStep<
 	T extends ContainerAppCreateContext & ImageSourceContext,
 > extends AzureWizardActivityOutputExecuteStep<T> {
 	public priority: number = 610;
+
 	public stepName: string = "quickStartImageConfigureStep";
+
 	protected getSuccessString = () =>
 		localize(
 			"quickStartImageSuccess",
 			"Successfully configured quick start image.",
 		);
+
 	protected getFailString = () =>
 		localize(
 			"quickStartImageFail",
 			"Failed to configure quick start image.",
 		);
+
 	protected getTreeItemLabel = () =>
 		localize("quickStartImageLabel", "Configure quick start image");
 
 	public async execute(context: T): Promise<void> {
 		context.image = quickStartImageName;
+
 		context.enableIngress = true;
+
 		context.enableExternal = true;
+
 		context.targetPort = 80;
 	}
 

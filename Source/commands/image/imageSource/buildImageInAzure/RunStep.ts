@@ -28,6 +28,7 @@ export class RunStep extends AzureWizardExecuteStep<BuildImageInAzureImageSource
 		context: BuildImageInAzureImageSourceContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -46,6 +47,7 @@ export class RunStep extends AzureWizardExecuteStep<BuildImageInAzureImageSource
 			};
 
 			const retries = 3;
+
 			await retry(
 				async (currentAttempt: number): Promise<void> => {
 					const message: string =
@@ -57,7 +59,9 @@ export class RunStep extends AzureWizardExecuteStep<BuildImageInAzureImageSource
 									currentAttempt,
 									retries + 1,
 								);
+
 					progress.report({ message: message });
+
 					ext.outputChannel.appendLog(message);
 
 					context.run =

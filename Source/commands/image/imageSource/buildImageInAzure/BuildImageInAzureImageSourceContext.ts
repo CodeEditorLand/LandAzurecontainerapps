@@ -17,18 +17,25 @@ import { type AcrBuildSupportedOS } from "./OSPickStep";
 export interface BuildImageInAzureImageSourceBaseContext
 	extends ContainerRegistryImageSourceBaseContext {
 	rootFolder: vscode.WorkspaceFolder;
+
 	srcPath: string;
 
 	dockerfilePath: string;
+
 	imageName: string;
+
 	os: AcrBuildSupportedOS;
 
 	uploadedSourceLocation: string;
+
 	tarFilePath: string;
 
 	client: ContainerRegistryManagementClient;
+
 	resourceGroupName: string;
+
 	registryName: string;
+
 	run: AcrRun;
 }
 

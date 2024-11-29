@@ -11,8 +11,10 @@ export interface ScaleRangeContext
 	extends RevisionDraftContext,
 		ExecuteActivityContext {
 	newMinRange?: number;
+
 	newMaxRange?: number;
 
 	scaleMinRange: number;
+
 	scaleMaxRange: number;
 }

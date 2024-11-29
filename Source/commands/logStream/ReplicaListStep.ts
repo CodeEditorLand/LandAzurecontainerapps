@@ -26,6 +26,7 @@ export class ReplicaListStep extends AzureWizardPromptStep<IStreamLogsContext> {
 			"selectReplica",
 			"Select a replica",
 		);
+
 		context.replica = (
 			await context.ui.showQuickPick(this.getPicks(context), {
 				placeHolder,

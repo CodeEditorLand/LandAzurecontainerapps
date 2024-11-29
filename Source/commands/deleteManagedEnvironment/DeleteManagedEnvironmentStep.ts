@@ -22,6 +22,7 @@ export class DeleteManagedEnvironmentStep extends AzureWizardExecuteStep<IDelete
 		context: IDeleteManagedEnvironmentContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -32,6 +33,7 @@ export class DeleteManagedEnvironmentStep extends AzureWizardExecuteStep<IDelete
 			"deletingManagedEnv",
 			"This may take several minutes...",
 		);
+
 		progress.report({ message: deleting });
 
 		try {
@@ -56,6 +58,7 @@ export class DeleteManagedEnvironmentStep extends AzureWizardExecuteStep<IDelete
 			'Deleted container apps environment "{0}".',
 			context.managedEnvironmentName,
 		);
+
 		ext.outputChannel.appendLog(deleted);
 	}
 

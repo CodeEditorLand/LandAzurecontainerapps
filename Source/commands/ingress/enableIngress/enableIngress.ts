@@ -54,12 +54,14 @@ export async function enableIngress(
 	);
 
 	await wizard.prompt();
+
 	wizardContext.activityTitle = localize(
 		"enableIngress",
 		'Enable ingress on port {0} for container app "{1}"',
 		wizardContext.targetPort,
 		containerApp.name,
 	);
+
 	await wizard.execute();
 
 	ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);

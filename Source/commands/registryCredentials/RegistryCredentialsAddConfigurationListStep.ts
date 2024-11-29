@@ -119,6 +119,7 @@ export class RegistryCredentialsAddConfigurationListStep extends AzureWizardProm
 
 			case RegistryCredentialType.DockerLogin:
 				promptSteps.push(new AcrEnableAdminUserConfirmStep());
+
 				executeSteps.push(
 					new AcrEnableAdminUserStep(),
 					new DockerLoginRegistryCredentialsAddConfigurationStep(

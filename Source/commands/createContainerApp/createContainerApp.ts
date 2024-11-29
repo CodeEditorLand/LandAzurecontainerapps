@@ -64,6 +64,7 @@ export async function createContainerApp(
 
 	const resourceGroups: ResourceGroup[] =
 		await ResourceGroupListStep.getResourceGroups(wizardContext);
+
 	wizardContext.resourceGroup = nonNullValue(
 		resourceGroups.find((rg) => rg.name === resourceGroupName),
 	);
@@ -88,12 +89,14 @@ export async function createContainerApp(
 			showLoadingPrompt: true,
 		},
 	);
+
 	await wizard.prompt();
 
 	const newContainerAppName = nonNullProp(
 		wizardContext,
 		"newContainerAppName",
 	);
+
 	await ext.state.showCreatingChild(
 		node.managedEnvironment.id,
 		localize("creating", 'Creating "{0}"...', newContainerAppName),
@@ -103,6 +106,7 @@ export async function createContainerApp(
 				'Create container app "{0}"',
 				newContainerAppName,
 			);
+
 			await wizard.execute();
 		},
 	);

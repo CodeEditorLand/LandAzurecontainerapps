@@ -5,5 +5,6 @@
 
 export interface WorkspaceFileTelemetryProps {
 	dockerfileCount?: string;
+
 	environmentVariableFileCount?: string;
 }

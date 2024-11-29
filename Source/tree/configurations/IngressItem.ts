@@ -28,6 +28,7 @@ const visibilityItemContextValue: string = "visibilityItem";
 
 export class IngressEnabledItem implements ContainerAppsItem {
 	static readonly contextValue: string = "ingressEnabledItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		IngressEnabledItem.contextValue,
 	);
@@ -89,6 +90,7 @@ export class IngressEnabledItem implements ContainerAppsItem {
 
 export class IngressDisabledItem implements TreeElementBase {
 	static readonly contextValue: string = "ingressDisabledItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		IngressDisabledItem.contextValue,
 	);

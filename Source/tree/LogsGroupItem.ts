@@ -18,6 +18,7 @@ const logsItemContextValue: string = "logsItem";
 
 export class LogsGroupItem implements TreeElementBase {
 	static readonly contextValue: string = "logsGroupItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		LogsGroupItem.contextValue,
 	);

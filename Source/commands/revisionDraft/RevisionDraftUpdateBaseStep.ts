@@ -36,6 +36,7 @@ export abstract class RevisionDraftUpdateBaseStep<
 
 	constructor(readonly baseItem: ContainerAppItem | RevisionsItemModel) {
 		super();
+
 		this.revisionDraftTemplate = this.initRevisionDraftTemplate();
 	}
 
@@ -43,9 +44,11 @@ export abstract class RevisionDraftUpdateBaseStep<
 		context: T,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void>;
+
 	abstract shouldExecute(context: T): boolean;
 
 	private initRevisionDraftTemplate(): Template {
@@ -63,6 +66,7 @@ export abstract class RevisionDraftUpdateBaseStep<
 				),
 			) as Template;
 		}
+
 		return template;
 	}
 

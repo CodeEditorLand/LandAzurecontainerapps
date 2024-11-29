@@ -30,6 +30,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		context: UpdateImageContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -71,6 +72,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		});
 
 		containerAppEnvelope.configuration.secrets = context.secrets;
+
 		containerAppEnvelope.configuration.registries =
 			context.registryCredentials;
 
@@ -98,6 +100,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		newSecrets: Secret[] | undefined,
 	): boolean {
 		originalSecrets?.sort((a, b) => sortAlphabeticallyByKey(a, b, "name"));
+
 		newSecrets?.sort((a, b) => sortAlphabeticallyByKey(a, b, "name"));
 
 		return deepEqual(originalSecrets, newSecrets);
@@ -110,6 +113,7 @@ export class UpdateRegistryAndSecretsStep extends AzureWizardExecuteStep<UpdateI
 		originalRegistries?.sort((a, b) =>
 			sortAlphabeticallyByKey(a, b, "passwordSecretRef"),
 		);
+
 		newRegistries?.sort((a, b) =>
 			sortAlphabeticallyByKey(a, b, "passwordSecretRef"),
 		);

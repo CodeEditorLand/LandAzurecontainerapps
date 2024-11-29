@@ -66,6 +66,7 @@ export async function toggleIngressVisibility(
 
 	// Title normally gets set during prompt phase... since no prompt steps are provided we must set the 'activityTitle' manually
 	wizardContext.activityTitle = title;
+
 	await wizard.execute();
 
 	ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);

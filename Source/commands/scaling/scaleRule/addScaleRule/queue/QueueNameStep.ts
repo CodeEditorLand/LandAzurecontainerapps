@@ -31,6 +31,7 @@ export class QueueNameStep extends AzureWizardPromptStep<IAddScaleRuleContext> {
 		if (!name.length) {
 			return localize("fieldRequired", "The field is required.");
 		}
+
 		return undefined;
 	}
 }

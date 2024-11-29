@@ -20,6 +20,7 @@ export interface IAddScaleRuleContext extends ScaleRuleContext, ISecretContext {
 
 	// Base Rule Properties
 	newRuleName?: string;
+
 	newRuleType?: string;
 
 	// HTTP Rule Properties
@@ -27,7 +28,9 @@ export interface IAddScaleRuleContext extends ScaleRuleContext, ISecretContext {
 
 	// Queue Rule Properties
 	newQueueName?: string;
+
 	newQueueLength?: number;
+
 	newQueueTriggerParameter?: string;
 
 	scaleRule?: ScaleRule;

@@ -82,6 +82,7 @@ export async function deployWorkspaceProjectInternal(
 		activityContext = { suppressNotification: true };
 	} else {
 		activityContext = await createActivityContext();
+
 		activityContext.activityChildren = [];
 	}
 
@@ -89,6 +90,7 @@ export async function deployWorkspaceProjectInternal(
 	let startingConfiguration:
 		| Partial<DeployWorkspaceProjectInternalContext>
 		| undefined;
+
 	await window.withProgress(
 		{
 			location: ProgressLocation.Notification,
@@ -153,6 +155,7 @@ export async function deployWorkspaceProjectInternal(
 			wizardContext,
 			wizardContext.resourceGroup.location,
 		);
+
 		ext.outputChannel.appendLog(
 			localize(
 				"usingResourceGroup",
@@ -162,6 +165,7 @@ export async function deployWorkspaceProjectInternal(
 		);
 	} else {
 		wizardContext.telemetry.properties.existingResourceGroup = "false";
+
 		executeSteps.push(new ResourceGroupCreateStep());
 	}
 
@@ -306,6 +310,7 @@ export async function deployWorkspaceProjectInternal(
 	// Location
 	if (LocationListStep.hasLocation(wizardContext)) {
 		wizardContext.telemetry.properties.existingLocation = "true";
+
 		ext.outputChannel.appendLog(
 			localize(
 				"useLocation",
@@ -315,11 +320,13 @@ export async function deployWorkspaceProjectInternal(
 		);
 	} else {
 		wizardContext.telemetry.properties.existingLocation = "false";
+
 		LocationListStep.addProviderForFiltering(
 			wizardContext,
 			appProvider,
 			managedEnvironmentsId,
 		);
+
 		LocationListStep.addStep(wizardContext, promptSteps);
 	}
 

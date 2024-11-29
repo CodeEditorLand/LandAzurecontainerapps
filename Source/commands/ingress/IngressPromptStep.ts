@@ -90,6 +90,7 @@ export async function tryConfigureIngressUsingDockerfile(
 	context.dockerfileExposePorts = await tryGetDockerfileExposePorts(
 		context.dockerfilePath,
 	);
+
 	context.telemetry.properties.dockerfileExposePortRangeCount =
 		context.dockerfileExposePorts
 			? String(context.dockerfileExposePorts.length)
@@ -101,10 +102,13 @@ export async function tryConfigureIngressUsingDockerfile(
 
 	if (!context.dockerfileExposePorts) {
 		context.enableIngress = false;
+
 		context.enableExternal = false;
 	} else if (context.dockerfileExposePorts) {
 		context.enableIngress = true;
+
 		context.enableExternal = true;
+
 		context.targetPort = getDefaultPort(context);
 	}
 

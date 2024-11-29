@@ -41,6 +41,7 @@ export class OSPickStep extends AzureWizardPromptStep<BuildImageInAzureImageSour
 		context.os = (
 			await context.ui.showQuickPick(picks, { placeHolder })
 		).data;
+
 		context.telemetry.properties.imageBaseOs = context.os;
 	}
 

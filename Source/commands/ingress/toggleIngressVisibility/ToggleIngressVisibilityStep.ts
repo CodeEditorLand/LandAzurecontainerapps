@@ -21,6 +21,7 @@ export class ToggleIngressVisibilityStep extends IngressUpdateStepBase<IngressBa
 		context: IngressBaseContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -41,11 +42,13 @@ export class ToggleIngressVisibilityStep extends IngressUpdateStepBase<IngressBa
 				? IngressConstants.external
 				: IngressConstants.internal,
 		);
+
 		await context.ui.showWarningMessage(
 			warningPrompt,
 			{ modal: true },
 			{ title: localize("continue", "Continue") },
 		);
+
 		ingress.external = !ingress.external;
 
 		const working: string = localize(

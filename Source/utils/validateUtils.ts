@@ -21,6 +21,7 @@ export namespace validateUtils {
 		upperLimitIncl?: number,
 	): boolean {
 		lowerLimitIncl ??= 1;
+
 		upperLimitIncl =
 			!upperLimitIncl || upperLimitIncl > maxSafeCharacterLength
 				? maxSafeCharacterLength

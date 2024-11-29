@@ -36,6 +36,7 @@ export class ManagedEnvironmentIdentityEnableStep extends AzureWizardExecuteStep
 		context: ManagedIdentityRegistryCredentialsContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -57,6 +58,7 @@ export class ManagedEnvironmentIdentityEnableStep extends AzureWizardExecuteStep
 				"Enabling managed identity...",
 			),
 		});
+
 		context.managedEnvironment =
 			await client.managedEnvironments.beginUpdateAndWait(
 				parsedResourceId.resourceGroup,

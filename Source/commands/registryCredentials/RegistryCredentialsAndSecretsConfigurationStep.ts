@@ -30,7 +30,9 @@ export class RegistryCredentialsAndSecretsConfigurationStep extends AzureWizardE
 				context.subscription,
 				context.containerApp,
 			);
+
 			secrets = containerAppEnvelope.configuration.secrets ?? [];
+
 			registryCredentials =
 				containerAppEnvelope.configuration.registries ?? [];
 		}
@@ -44,6 +46,7 @@ export class RegistryCredentialsAndSecretsConfigurationStep extends AzureWizardE
 		}
 
 		context.secrets = secrets;
+
 		context.registryCredentials = registryCredentials;
 	}
 

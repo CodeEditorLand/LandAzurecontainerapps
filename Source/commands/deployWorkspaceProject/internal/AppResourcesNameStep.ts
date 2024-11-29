@@ -78,6 +78,7 @@ export class AppResourcesNameStep extends AzureWizardPromptStep<DeployWorkspaceP
 		context.imageName = ImageNameStep.getTimestampedImageName(
 			context.newContainerAppName,
 		);
+
 		ext.outputChannel.appendLog(
 			localize(
 				"usingContainerAppName",

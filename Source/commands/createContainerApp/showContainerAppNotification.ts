@@ -42,6 +42,7 @@ export async function showContainerAppNotification(
 			if (isIngressEnabled(containerApp)) {
 				buttons.push(browse);
 			}
+
 			const result = await window.showInformationMessage(
 				message,
 				...buttons,
@@ -51,6 +52,7 @@ export async function showContainerAppNotification(
 
 			if (result === browse) {
 				await browseContainerApp(containerApp);
+
 				context.telemetry.properties.clicked = "browse";
 			}
 		},

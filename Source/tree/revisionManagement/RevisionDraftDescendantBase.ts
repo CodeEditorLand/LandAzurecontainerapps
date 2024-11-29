@@ -44,6 +44,7 @@ export abstract class RevisionDraftDescendantBase
 			revision,
 			...args,
 		);
+
 		descendant.init();
 
 		return descendant;

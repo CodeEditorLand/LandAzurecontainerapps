@@ -24,6 +24,7 @@ export async function convertV1ToV2SettingsSchema(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	return context;

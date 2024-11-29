@@ -14,7 +14,9 @@ import { localize } from "../../utils/localize";
 
 export interface AcrBuildResults {
 	name: AcrRun["name"];
+
 	runId: AcrRun["runId"];
+
 	content: string;
 }
 

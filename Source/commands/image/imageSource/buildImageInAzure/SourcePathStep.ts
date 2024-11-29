@@ -67,10 +67,12 @@ export class SourcePathStep extends AzureWizardPromptStep<BuildImageInAzureImage
 
 		for (const directory of directories) {
 			p += path.sep + directory;
+
 			picks.push({ label: "." + p, data: rootPath + p });
 		}
 
 		picks.reverse();
+
 		picks.push(browseItem);
 
 		return picks;

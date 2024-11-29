@@ -11,5 +11,6 @@ import { type ContainerAppModel } from "../tree/ContainerAppItem";
 // Todo: Investigate consolidating 'ISubscriptionActionContext' and 'AzureSubscription'
 export interface IContainerAppContext extends ISubscriptionActionContext {
 	subscription: AzureSubscription;
+
 	containerApp?: ContainerAppModel;
 }

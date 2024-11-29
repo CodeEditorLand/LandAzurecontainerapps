@@ -29,6 +29,7 @@ const configuration: string = localize("configuration", "Configuration");
 
 export class ConfigurationItem implements ContainerAppsItem {
 	static readonly contextValue: string = "configurationItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ConfigurationItem.contextValue,
 	);
@@ -53,6 +54,7 @@ export class ConfigurationItem implements ContainerAppsItem {
 			"getChildren",
 			async (_context) => {
 				const children: TreeElementBase[] = [];
+
 				children.push(
 					this.containerApp.configuration?.ingress
 						? new IngressEnabledItem(
@@ -64,9 +66,11 @@ export class ConfigurationItem implements ContainerAppsItem {
 								this.containerApp,
 							),
 				);
+
 				children.push(
 					new SecretsItem(this.subscription, this.containerApp),
 				);
+
 				children.push(
 					new ActionsItem(
 						this.id,
@@ -75,6 +79,7 @@ export class ConfigurationItem implements ContainerAppsItem {
 						this.containerApp,
 					),
 				);
+
 				children.push(
 					this.containerApp.configuration?.dapr?.enabled
 						? new DaprEnabledItem(

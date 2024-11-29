@@ -59,6 +59,7 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 			const srIndex: number = response.results.findIndex(
 				(r) => !!suggestedRepository && r.name === suggestedRepository,
 			);
+
 			srExists = srIndex !== -1;
 
 			if (srExists) {
@@ -66,6 +67,7 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 					srIndex,
 					1,
 				)[0];
+
 				response.results.unshift(sr);
 			}
 		}
@@ -86,6 +88,7 @@ export class DockerHubContainerRepositoryListStep extends RegistryRepositoriesLi
 						suppressPersistence: srExists,
 					};
 		});
+
 		cachedPicks.cache.push(...picks);
 
 		if (response.next) {

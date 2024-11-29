@@ -66,11 +66,13 @@ export async function deleteScaleRule(
 	);
 
 	await wizard.prompt();
+
 	wizardContext.activityTitle = localize(
 		"deleteScaleRuleTitle",
 		'Delete rule "{0}" from "{1}" (draft)',
 		wizardContext.scaleRule?.name,
 		parentResource.name,
 	);
+
 	await wizard.execute();
 }

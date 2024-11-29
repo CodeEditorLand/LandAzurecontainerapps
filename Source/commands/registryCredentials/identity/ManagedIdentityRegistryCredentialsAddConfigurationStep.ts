@@ -36,6 +36,7 @@ export class ManagedIdentityRegistryCredentialsAddConfigurationStep extends Azur
 		}
 
 		const registry = nonNullProp(context, "registry");
+
 		context.newRegistryCredential = {
 			identity: "system-environment",
 			server: registry.loginServer,

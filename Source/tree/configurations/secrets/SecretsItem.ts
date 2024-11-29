@@ -24,7 +24,9 @@ const secrets: string = localize("secrets", "Secrets");
 
 export class SecretsItem implements ContainerAppsItem {
 	static readonly idSuffix: string = "secrets";
+
 	static readonly contextValue: string = "secretsItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		SecretsItem.contextValue,
 	);

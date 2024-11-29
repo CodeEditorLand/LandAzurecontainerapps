@@ -39,6 +39,7 @@ type ManagedEnvironmentModel = ManagedEnvironment & ResourceModel;
 
 export class ManagedEnvironmentItem implements TreeElementBase {
 	static readonly contextValue: string = "managedEnvironmentItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ManagedEnvironmentItem.contextValue,
 	);
@@ -86,6 +87,7 @@ export class ManagedEnvironmentItem implements TreeElementBase {
 					this.subscription,
 					this.id,
 				);
+
 				context.valuesToMask.push(
 					...containerApps.map((ca) => ca.name),
 					...containerApps.map((ca) => ca.id),
@@ -161,7 +163,9 @@ export class ManagedEnvironmentItem implements TreeElementBase {
 
 interface ResourceModel extends Resource {
 	id: string;
+
 	name: string;
+
 	resourceGroup: string;
 }
 

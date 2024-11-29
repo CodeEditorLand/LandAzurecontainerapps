@@ -32,6 +32,7 @@ export class UpdateImageDraftStep<
 		context: T,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -40,6 +41,7 @@ export class UpdateImageDraftStep<
 		});
 
 		this.revisionDraftTemplate.containers = [];
+
 		this.revisionDraftTemplate.containers.push({
 			env: context.environmentVariables,
 			image: context.image,
@@ -50,6 +52,7 @@ export class UpdateImageDraftStep<
 
 		const parentResource: ContainerAppModel | Revision =
 			getParentResourceFromItem(this.baseItem);
+
 		ext.outputChannel.appendLog(
 			localize(
 				"updatedImage",

@@ -13,13 +13,16 @@ export class ContainerRegistryVerifyStep extends AzureResourceVerifyStepBase {
 	public priority: number = 210; /** Todo: Figure out a good priority level */
 
 	protected resourceType = "container registry" as const;
+
 	protected deploymentSettingsKey = "containerRegistry" as const;
+
 	protected contextKey = "registry" as const;
 
 	protected async verifyResource(
 		context: WorkspaceDeploymentConfigurationContext,
 	): Promise<void> {
 		const registries: Registry[] = await AcrListStep.getRegistries(context);
+
 		context.registry = registries.find(
 			(r) =>
 				r.name ===

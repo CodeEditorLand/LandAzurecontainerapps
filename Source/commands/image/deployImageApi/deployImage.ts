@@ -73,6 +73,7 @@ export async function deployImage(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	if (!wizardContext.suppressNotification) {

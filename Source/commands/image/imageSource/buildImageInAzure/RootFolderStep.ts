@@ -33,6 +33,7 @@ export class RootFolderStep extends AzureWizardPromptStep<BuildImageInAzureImage
 			await context.ui.showQuickPick([browseItem], {
 				placeHolder: prompt,
 			});
+
 			await commands.executeCommand("vscode.openFolder");
 
 			// Silently throw an exception to exit the command while VS Code reloads the new workspace
@@ -40,6 +41,7 @@ export class RootFolderStep extends AzureWizardPromptStep<BuildImageInAzureImage
 		}
 
 		context.telemetry.properties.hasWorkspaceProjectOpen = "true";
+
 		await addAzdTelemetryToContext(context, rootFolder);
 
 		context.rootFolder = rootFolder;

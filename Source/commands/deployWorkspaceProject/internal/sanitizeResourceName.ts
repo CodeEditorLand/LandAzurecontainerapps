@@ -17,6 +17,7 @@ export function sanitizeResourceName(name: string): string {
 	if (sanitizedName.startsWith("-")) {
 		sanitizedName = sanitizedName.slice(1);
 	}
+
 	if (sanitizedName.endsWith("-")) {
 		sanitizedName = sanitizedName.slice(0, -1);
 	}

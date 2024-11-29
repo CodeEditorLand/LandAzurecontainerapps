@@ -77,6 +77,7 @@ export async function createAcr(
 	wizardContext.newResourceGroupName = nonNullValue(
 		wizardContext.newRegistryName,
 	);
+
 	wizardContext.activityTitle = localize(
 		"createAcr",
 		'Create Azure Container Registry "{0}"',

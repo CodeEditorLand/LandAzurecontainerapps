@@ -31,6 +31,7 @@ export class QueueAuthTriggerStep extends AzureWizardPromptStep<IAddScaleRuleCon
 		if (!name.length) {
 			return localize("fieldRequired", "The field is required.");
 		}
+
 		return undefined;
 	}
 }

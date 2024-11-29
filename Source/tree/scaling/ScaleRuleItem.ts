@@ -25,6 +25,7 @@ const scaleRuleLabel: string = localize("scaleRule", "Scale Rule");
 
 export class ScaleRuleItem extends RevisionDraftDescendantBase {
 	static readonly contextValue: string = "scaleRuleItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ScaleRuleItem.contextValue,
 	);
@@ -42,6 +43,7 @@ export class ScaleRuleItem extends RevisionDraftDescendantBase {
 	}
 
 	id: string = `${this.parentResource.id}/scalerules/${this.scaleRule.name}`;
+
 	label: string;
 
 	viewProperties: ViewPropertiesModel = {

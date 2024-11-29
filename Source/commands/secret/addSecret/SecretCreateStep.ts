@@ -25,6 +25,7 @@ export class SecretCreateStep extends AzureWizardExecuteStep<ISecretContext> {
 		context: ISecretContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -40,6 +41,7 @@ export class SecretCreateStep extends AzureWizardExecuteStep<ISecretContext> {
 		);
 
 		containerAppEnvelope.configuration.secrets ||= [];
+
 		containerAppEnvelope.configuration.secrets.push({
 			name: context.newSecretName,
 			value: context.newSecretValue,
@@ -49,6 +51,7 @@ export class SecretCreateStep extends AzureWizardExecuteStep<ISecretContext> {
 			"creatingSecret",
 			"Creating secret...",
 		);
+
 		progress.report({ message: creatingSecret });
 
 		await updateContainerApp(
@@ -63,6 +66,7 @@ export class SecretCreateStep extends AzureWizardExecuteStep<ISecretContext> {
 			context.newSecretName,
 			containerApp.name,
 		);
+
 		ext.outputChannel.appendLog(addedSecret);
 
 		context.secretName = context.newSecretName;

@@ -20,6 +20,7 @@ export class ContainerListStep extends AzureWizardPromptStep<IStreamLogsContext>
 			"selectContainer",
 			"Select a container",
 		);
+
 		context.container = (
 			await context.ui.showQuickPick(this.getPicks(context), {
 				placeHolder,

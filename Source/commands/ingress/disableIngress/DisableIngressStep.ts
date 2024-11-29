@@ -18,6 +18,7 @@ export class DisableIngressStep extends IngressUpdateStepBase<IngressBaseContext
 		context: IngressBaseContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {

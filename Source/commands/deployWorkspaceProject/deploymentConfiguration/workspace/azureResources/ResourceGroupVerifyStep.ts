@@ -13,7 +13,9 @@ export class ResourceGroupVerifyStep extends AzureResourceVerifyStepBase {
 	public priority: number = 200; /** Todo: Figure out a good priority level */
 
 	protected resourceType = "resource group" as const;
+
 	protected deploymentSettingsKey = "resourceGroup" as const;
+
 	protected contextKey = "resourceGroup" as const;
 
 	protected async verifyResource(
@@ -21,6 +23,7 @@ export class ResourceGroupVerifyStep extends AzureResourceVerifyStepBase {
 	): Promise<void> {
 		const resourceGroups: ResourceGroup[] =
 			await ResourceGroupListStep.getResourceGroups(context);
+
 		context.resourceGroup = resourceGroups.find(
 			(rg) =>
 				rg.name ===

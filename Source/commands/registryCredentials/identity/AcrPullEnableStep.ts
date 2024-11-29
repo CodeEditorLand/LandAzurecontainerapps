@@ -35,6 +35,7 @@ export class AcrPullEnableStep extends AzureWizardExecuteStep<ManagedIdentityReg
 		context: ManagedIdentityRegistryCredentialsContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -54,6 +55,7 @@ export class AcrPullEnableStep extends AzureWizardExecuteStep<ManagedIdentityReg
 		progress.report({
 			message: localize("addingAcrPull", "Adding ACR pull role..."),
 		});
+
 		await client.roleAssignments.create(
 			nonNullValueAndProp(context.registry, "id"),
 			crypto.randomUUID(),

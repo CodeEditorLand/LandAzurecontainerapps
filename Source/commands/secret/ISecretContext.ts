@@ -11,6 +11,7 @@ export interface ISecretContext
 	extends IContainerAppContext,
 		ExecuteActivityContext {
 	newSecretName?: string;
+
 	newSecretValue?: string;
 
 	secretName?: string;

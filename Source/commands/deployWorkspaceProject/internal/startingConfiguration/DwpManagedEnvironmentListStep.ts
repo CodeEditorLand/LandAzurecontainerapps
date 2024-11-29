@@ -54,11 +54,13 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 			placeHolder,
 			suppressPersistence: true,
 		});
+
 		context.telemetry.properties.usedRecommendedEnv = isRecommendedPick(
 			pick,
 		)
 			? "true"
 			: "false";
+
 		context.telemetry.properties.recommendedEnvCount = String(
 			picks.reduce(
 				(count, pick) => count + (isRecommendedPick(pick) ? 1 : 0),
@@ -127,11 +129,13 @@ export class DwpManagedEnvironmentListStep extends AzureWizardPromptStep<DeployW
 	): Promise<void> {
 		const resourceGroups: ResourceGroup[] =
 			await ResourceGroupListStep.getResourceGroups(context);
+
 		context.resourceGroup = resourceGroups.find(
 			(rg) =>
 				rg.name ===
 				getResourceGroupFromId(nonNullProp(managedEnvironment, "id")),
 		);
+
 		context.managedEnvironment = managedEnvironment;
 	}
 

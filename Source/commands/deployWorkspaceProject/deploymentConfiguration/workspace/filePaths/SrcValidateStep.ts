@@ -10,7 +10,9 @@ export class SrcValidateStep extends FilePathsVerifyStep {
 	priority: number = 110;
 
 	deploymentSettingskey = "srcPath" as const;
+
 	contextKey = "srcPath" as const;
+
 	fileType = "source code";
 
 	public shouldExecute(

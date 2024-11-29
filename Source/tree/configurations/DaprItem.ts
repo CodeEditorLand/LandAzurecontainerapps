@@ -23,6 +23,7 @@ const daprAppProtocolItemContextValue: string = "daprAppProtocolItem";
 
 export class DaprEnabledItem implements TreeElementBase {
 	static readonly contextValue: string = "daprEnabledItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		DaprEnabledItem.contextValue,
 	);

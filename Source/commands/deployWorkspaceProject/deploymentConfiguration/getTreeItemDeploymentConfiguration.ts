@@ -28,6 +28,7 @@ export async function getTreeItemDeploymentConfiguration(
 		});
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	return {

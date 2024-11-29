@@ -89,6 +89,7 @@ export async function editScaleRange(
 	);
 
 	await wizard.prompt();
+
 	wizardContext.activityTitle = localize(
 		"editScaleRange",
 		'Update replica scaling range to "{0}-{1}" for "{2}" (draft)',
@@ -96,5 +97,6 @@ export async function editScaleRange(
 		wizardContext.newMaxRange,
 		parentResource.name,
 	);
+
 	await wizard.execute();
 }

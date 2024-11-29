@@ -14,6 +14,7 @@ export interface IngressBaseContext
 	extends IContainerAppContext,
 		ExecuteActivityContext {
 	enableIngress?: boolean;
+
 	enableExternal?: boolean;
 
 	targetPort?: number;
@@ -22,6 +23,7 @@ export interface IngressBaseContext
 	dockerfilePath?: string;
 
 	dockerfileExposePorts?: PortRange[];
+
 	alwaysPromptIngress?: boolean;
 }
 

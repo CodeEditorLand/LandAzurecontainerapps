@@ -22,6 +22,7 @@ export class ChangeRevisionModeStep extends AzureWizardExecuteStep<IChooseRevisi
 		context: IChooseRevisionModeContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -29,6 +30,7 @@ export class ChangeRevisionModeStep extends AzureWizardExecuteStep<IChooseRevisi
 			context,
 			"containerApp",
 		);
+
 		context.activityTitle = localize(
 			"changeRevisionTitle",
 			'Change container app "{0}" to {1} revision mode',
@@ -40,6 +42,7 @@ export class ChangeRevisionModeStep extends AzureWizardExecuteStep<IChooseRevisi
 			"changingRevision",
 			"Changing revision mode...",
 		);
+
 		progress.report({ message: changing });
 
 		await updateContainerApp(context, context.subscription, containerApp, {
@@ -52,6 +55,7 @@ export class ChangeRevisionModeStep extends AzureWizardExecuteStep<IChooseRevisi
 			containerApp.name,
 			context.newRevisionMode?.toLowerCase(),
 		);
+
 		ext.outputChannel.appendLog(changed);
 
 		ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);

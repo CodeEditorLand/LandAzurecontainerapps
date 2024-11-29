@@ -50,11 +50,13 @@ export async function executeRevisionOperation(
 				item instanceof RevisionItem
 					? nonNullProp(item.revision, "name")
 					: nonNullProp(item.containerApp, "latestRevisionName");
+
 			await appClient.containerAppsRevisions[operation](
 				item.containerApp.resourceGroup,
 				item.containerApp.name,
 				revisionName,
 			);
+
 			ext.state.notifyChildrenChanged(item.containerApp.id);
 		},
 	);

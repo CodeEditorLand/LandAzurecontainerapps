@@ -30,6 +30,7 @@ export namespace dwpSettingUtilsV2 {
 	): Promise<void> {
 		const settingsPath: string =
 			settingUtils.getDefaultRootWorkspaceSettingsPath(rootFolder);
+
 		await settingUtils.updateWorkspaceSetting(
 			deploymentConfigurationsSetting,
 			deploymentConfigurations,

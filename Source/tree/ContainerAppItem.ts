@@ -61,9 +61,13 @@ import { RevisionsItem } from "./revisionManagement/RevisionsItem";
 
 export interface ContainerAppModel extends ContainerApp {
 	id: string;
+
 	name: string;
+
 	resourceGroup: string;
+
 	managedEnvironmentId: string;
+
 	revisionsMode: KnownActiveRevisionsMode;
 }
 
@@ -71,6 +75,7 @@ export class ContainerAppItem
 	implements ContainerAppsItem, RevisionsDraftModel
 {
 	static readonly contextValue: string = "containerAppItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ContainerAppItem.contextValue,
 	);
@@ -78,6 +83,7 @@ export class ContainerAppItem
 	id: string;
 
 	private resourceGroup: string;
+
 	private name: string;
 
 	public get containerApp(): ContainerAppModel {
@@ -89,7 +95,9 @@ export class ContainerAppItem
 		private _containerApp: ContainerAppModel,
 	) {
 		this.id = this.containerApp.id;
+
 		this.resourceGroup = this.containerApp.resourceGroup;
+
 		this.name = this.containerApp.name;
 	}
 
@@ -111,6 +119,7 @@ export class ContainerAppItem
 				? revisionModeSingleContextValue
 				: revisionModeMultipleContextValue,
 		);
+
 		values.push(
 			this.hasUnsavedChanges()
 				? unsavedChangesTrueContextValue
@@ -186,6 +195,7 @@ export class ContainerAppItem
 								"latestRevisionName",
 							),
 						);
+
 					children.push(
 						...RevisionItem.getTemplateChildren(
 							this.subscription,
@@ -202,6 +212,7 @@ export class ContainerAppItem
 				children.push(
 					new ConfigurationItem(this.subscription, this.containerApp),
 				);
+
 				children.push(
 					new LogsGroupItem(this.subscription, this.containerApp),
 				);
@@ -333,6 +344,7 @@ export class ContainerAppItem
 		await ext.state.showDeleting(this.containerApp.id, async () => {
 			await wizard.execute();
 		});
+
 		ext.state.notifyChildrenChanged(this.containerApp.managedEnvironmentId);
 	}
 
@@ -386,6 +398,7 @@ export async function getContainerEnvelopeWithSecrets(
 			containerApp.name,
 		)
 	).value;
+
 	concreteContainerAppEnvelope.configuration.registries ||= [];
 
 	return concreteContainerAppEnvelope;

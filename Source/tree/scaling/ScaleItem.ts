@@ -35,6 +35,7 @@ const scaling: string = localize("scaling", "Scaling");
 
 export class ScaleItem extends RevisionDraftDescendantBase {
 	static readonly contextValue: string = "scaleItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ScaleItem.contextValue,
 	);
@@ -51,6 +52,7 @@ export class ScaleItem extends RevisionDraftDescendantBase {
 	}
 
 	id: string = `${this.parentResource.id}/scale`;
+
 	label: string;
 
 	// Use getter here because some properties aren't available until after the constructor is run
@@ -67,11 +69,13 @@ export class ScaleItem extends RevisionDraftDescendantBase {
 
 	protected setProperties(): void {
 		this.label = scaling;
+
 		this.scale = nonNullValueAndProp(this.parentResource.template, "scale");
 	}
 
 	protected setDraftProperties(): void {
 		this.label = `${scaling}*`;
+
 		this.scale = nonNullValueAndProp(
 			ext.revisionDraftFileSystem.parseRevisionDraft(this),
 			"scale",

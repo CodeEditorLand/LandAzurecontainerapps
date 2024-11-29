@@ -47,6 +47,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 		// since we only allow one container, we can assume that we want the first container's env settings
 		const existingData =
 			context.containerApp?.template?.containers?.[0].env;
+
 		context.envPath ??= await this.promptForEnvPath(
 			context,
 			!!existingData /** showHasExistingData */,
@@ -54,6 +55,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 
 		if (!context.envPath && existingData) {
 			context.environmentVariables = existingData;
+
 			this._setEnvironmentVariableOption =
 				SetEnvironmentVariableOption.UseExisting;
 		} else {
@@ -73,6 +75,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 	): Promise<void> {
 		if (context.environmentVariables?.length === 0) {
 			context.telemetry.properties.environmentVariableFileCount = "0";
+
 			this._setEnvironmentVariableOption =
 				SetEnvironmentVariableOption.NoDotEnv;
 		}
@@ -147,10 +150,12 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 				rootFolder,
 				allEnvFilesGlobPattern,
 			);
+
 			envFileUris = await workspace.findFiles(relativePattern);
 		} else {
 			envFileUris = await workspace.findFiles(allEnvFilesGlobPattern);
 		}
+
 		return !!envFileUris.length;
 	}
 
@@ -196,6 +201,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 						: ". ") +
 					"If you would like to update your environment variables later, try re-running the container app update or deploy command.",
 			);
+
 			ext.outputChannel.appendLog(logMessage);
 		} else {
 			context.activityChildren?.push(
@@ -212,6 +218,7 @@ export class EnvironmentVariablesListStep extends AzureWizardPromptStep<Environm
 					iconPath: activitySuccessIcon,
 				}),
 			);
+
 			ext.outputChannel.appendLog(
 				localize(
 					"savedEnvVarsMessage",

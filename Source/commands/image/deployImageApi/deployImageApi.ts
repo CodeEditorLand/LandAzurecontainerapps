@@ -27,8 +27,11 @@ import { deployImage } from "./deployImage";
 // This interface is shared with the Docker extension (https://github.com/microsoft/vscode-docker)
 interface DeployImageToAcaOptionsContract {
 	image: string;
+
 	registryName: string;
+
 	username?: string;
+
 	secret?: string;
 }
 
@@ -73,9 +76,11 @@ export async function deployImageApi(
 	if (deployImageOptions.secret) {
 		context.valuesToMask.push(deployImageOptions.secret);
 	}
+
 	if (deployImageOptions.username) {
 		context.valuesToMask.push(deployImageOptions.username);
 	}
+
 	context.valuesToMask.push(deployImageOptions.image);
 
 	if (deployImageOptions.secret) {

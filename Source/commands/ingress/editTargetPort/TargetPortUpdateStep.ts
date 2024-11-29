@@ -20,6 +20,7 @@ export class TargetPortUpdateStep extends IngressUpdateStepBase<IngressBaseConte
 		context: IngressBaseContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -29,6 +30,7 @@ export class TargetPortUpdateStep extends IngressUpdateStepBase<IngressBaseConte
 			containerApp.configuration,
 			"ingress",
 		);
+
 		ingress.targetPort = context.targetPort;
 
 		const working: string = localize(

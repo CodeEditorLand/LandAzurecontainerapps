@@ -18,11 +18,13 @@ export interface ImageSourceBaseContext
 		ExecuteActivityContext {
 	// ImageSourceListStep
 	imageSource?: ImageSource;
+
 	showQuickStartImage?: boolean;
 
 	image?: string;
 
 	envPath?: string;
+
 	environmentVariables?: EnvironmentVar[];
 }
 

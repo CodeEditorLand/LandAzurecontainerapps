@@ -17,10 +17,14 @@ export interface DockerLoginRegistryCredentialsContext
 		IContainerAppContext {
 	// These values are often pre-populated from the Docker extension via the deployImage API layer
 	registryDomain?: SupportedRegistries;
+
 	registryName?: string;
+
 	username?: string;
+
 	secret?: string;
 
 	newRegistrySecret?: Secret;
+
 	newRegistryCredential?: RegistryCredentials;
 }

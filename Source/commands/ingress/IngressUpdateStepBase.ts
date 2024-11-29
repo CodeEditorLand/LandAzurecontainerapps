@@ -16,7 +16,9 @@ import { updateContainerApp } from "../updateContainerApp";
 
 type IngressOptions = {
 	ingress: Ingress | null;
+
 	working: string;
+
 	workCompleted: string;
 };
 
@@ -33,6 +35,7 @@ export abstract class IngressUpdateStepBase<
 		const { ingress, working, workCompleted } = options;
 
 		progress.report({ message: working });
+
 		await updateContainerApp(context, context.subscription, containerApp, {
 			configuration: { ingress: ingress as Ingress | undefined },
 		});

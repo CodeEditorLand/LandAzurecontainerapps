@@ -10,7 +10,10 @@ export function setQuickStartImage(
 	context: Partial<ContainerAppCreateContext>,
 ): void {
 	context.image = quickStartImageName;
+
 	context.enableIngress = true;
+
 	context.enableExternal = true;
+
 	context.targetPort = 80;
 }

@@ -12,6 +12,7 @@ import { getContainerAppSourceControl } from "./getContainerAppSourceControl";
 export async function isGitHubConnected(
 	context: IActionContext & {
 		subscription: AzureSubscription;
+
 		containerApp: ContainerAppModel;
 	},
 ): Promise<boolean> {

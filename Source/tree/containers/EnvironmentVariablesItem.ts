@@ -27,6 +27,7 @@ const environmentVariables: string = localize(
 
 export class EnvironmentVariablesItem extends RevisionDraftDescendantBase {
 	static readonly contextValue: string = "environmentVariablesItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		EnvironmentVariablesItem.contextValue,
 	);
@@ -44,6 +45,7 @@ export class EnvironmentVariablesItem extends RevisionDraftDescendantBase {
 	}
 
 	id: string = `${this.parentResource.id}/environmentVariables/${this.container.image}`;
+
 	label: string;
 
 	getTreeItem(): TreeItem {
@@ -96,6 +98,7 @@ export class EnvironmentVariablesItem extends RevisionDraftDescendantBase {
 
 		const currentContainers: Container[] =
 			this.parentResource.template?.containers ?? [];
+
 		const currentContainer: Container | undefined =
 			currentContainers[this.containersIdx];
 

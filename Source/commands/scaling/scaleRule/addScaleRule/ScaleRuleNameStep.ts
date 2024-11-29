@@ -69,6 +69,7 @@ export class ScaleRuleNameStep extends AzureWizardPromptStep<IAddScaleRuleContex
 				resourceGroupName,
 				context.parentResourceName,
 			);
+
 			scaleRules = containerApp.template?.scale?.rules ?? [];
 		} else {
 			const revision: Revision =
@@ -77,6 +78,7 @@ export class ScaleRuleNameStep extends AzureWizardPromptStep<IAddScaleRuleContex
 					context.containerApp.name,
 					context.parentResourceName,
 				);
+
 			scaleRules = revision.template?.scale?.rules ?? [];
 		}
 

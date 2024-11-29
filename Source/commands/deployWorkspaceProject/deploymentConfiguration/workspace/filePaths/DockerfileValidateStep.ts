@@ -10,7 +10,9 @@ export class DockerfileValidateStep extends FilePathsVerifyStep {
 	priority: number = 100;
 
 	deploymentSettingskey = "dockerfilePath" as const;
+
 	contextKey = "dockerfilePath" as const;
+
 	fileType = "dockerfile";
 
 	public shouldExecute(

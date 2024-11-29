@@ -15,16 +15,20 @@ export interface ContainerRegistryImageSourceBaseContext
 	extends CreateAcrContext,
 		ImageSourceBaseContext {
 	registryDomain?: SupportedRegistries;
+
 	registry?: Registry;
 
 	dockerHubNamespace?: string;
 
 	repositoryName?: string;
+
 	tag?: string;
 
 	// Registry credentials
 	registryName?: string;
+
 	username?: string;
+
 	secret?: string;
 }
 

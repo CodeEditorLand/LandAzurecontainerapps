@@ -21,8 +21,11 @@ import {
 
 interface ActivityOutputCreateOptions {
 	stepName: string;
+
 	treeItemLabel: string;
+
 	outputLogMessage?: string;
+
 	activityStatus: "Success" | "Fail" | "Progress";
 }
 
@@ -30,7 +33,9 @@ export abstract class AzureWizardActivityOutputExecuteStep<
 	T extends IActionContext,
 > extends AzureWizardExecuteStep<T> {
 	abstract stepName: string;
+
 	protected abstract getSuccessString(context: T): string;
+
 	protected abstract getFailString(context: T): string;
 
 	protected getProgressString?(context: T): string;

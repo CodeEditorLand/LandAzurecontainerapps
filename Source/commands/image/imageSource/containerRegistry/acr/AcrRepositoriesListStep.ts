@@ -56,10 +56,12 @@ export class AcrRepositoriesListStep extends RegistryRepositoriesListStepBase {
 			const srIndex: number = repositoryNames.findIndex(
 				(rn) => !!suggestedRepository && rn === suggestedRepository,
 			);
+
 			srExists = srIndex !== -1;
 
 			if (srExists) {
 				const sr: string = repositoryNames.splice(srIndex, 1)[0];
+
 				repositoryNames.unshift(sr);
 			}
 		}

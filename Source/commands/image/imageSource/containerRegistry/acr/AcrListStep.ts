@@ -90,6 +90,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 
 		if (!context.registry) {
 			promptSteps.push(new RegistryNameStep(), new SkuListStep());
+
 			executeSteps.push(new RegistryCreateStep());
 
 			await tryConfigureResourceGroupForRegistry(context, promptSteps);
@@ -116,6 +117,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 		IAzureQuickPickItem<Registry | typeof noMatchingResources | undefined>[]
 	> {
 		const registries: Registry[] = await AcrListStep.getRegistries(context);
+
 		context.telemetry.properties.acrCount = String(registries.length);
 
 		// Try to suggest a registry only when the user is deploying to a Container App
@@ -144,10 +146,12 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 				(r) =>
 					!!suggestedRegistry && r.loginServer === suggestedRegistry,
 			);
+
 			srExists = srIndex !== -1;
 
 			if (srExists) {
 				const sr: Registry = registries.splice(srIndex, 1)[0];
+
 				registries.unshift(sr);
 			}
 		}
@@ -166,6 +170,7 @@ export class AcrListStep extends AzureWizardPromptStep<ContainerRegistryImageSou
 				data: undefined,
 			});
 		}
+
 		if (!picks.length && !registries.length) {
 			picks.push(noMatchingResourcesQp);
 		}

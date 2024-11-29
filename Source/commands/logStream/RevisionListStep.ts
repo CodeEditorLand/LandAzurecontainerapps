@@ -28,6 +28,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 			"selectRevision",
 			"Select a revision",
 		);
+
 		context.revision = (
 			await context.ui.showQuickPick(this.getPicks(context), {
 				placeHolder,
@@ -51,6 +52,7 @@ export class RevisionListStep extends AzureWizardPromptStep<IStreamLogsContext> 
 					context.containerApp.name,
 					nonNullProp(context.containerApp, "latestRevisionName"),
 				);
+
 			context.revision = revisionData;
 		} else {
 			const picks = await this.getPicks(context);

@@ -25,7 +25,9 @@ export class ScaleRangePromptStep extends AzureWizardPromptStep<ScaleRangeContex
 		).trim();
 
 		const [min, max] = scaleRange.split("-").map((range) => Number(range));
+
 		context.newMinRange = min;
+
 		context.newMaxRange = max;
 	}
 

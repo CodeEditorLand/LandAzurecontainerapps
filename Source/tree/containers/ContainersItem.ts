@@ -36,9 +36,11 @@ export const containers: string = localize("containers", "Containers");
 
 export class ContainersItem extends RevisionDraftDescendantBase {
 	id: string;
+
 	label: string;
 
 	static readonly contextValue: string = "containersItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ContainersItem.contextValue,
 	);
@@ -52,6 +54,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 		private containers: Container[],
 	) {
 		super(subscription, containerApp, revision);
+
 		this.id = `${this.parentResource.id}/containers`;
 	}
 
@@ -76,6 +79,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 				),
 			];
 		}
+
 		return (
 			this.containers?.map((container, idx) =>
 				RevisionDraftDescendantBase.createTreeItem(
@@ -113,6 +117,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 			this.parentResource.template,
 			"containers",
 		);
+
 		this.label = this.containers.length === 1 ? container : containers;
 	}
 
@@ -121,6 +126,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 			ext.revisionDraftFileSystem.parseRevisionDraft(this),
 			"containers",
 		);
+
 		this.label =
 			this.containers.length === 1 ? `${container}*` : `${containers}*`;
 	}
@@ -154,6 +160,7 @@ export class ContainersItem extends RevisionDraftDescendantBase {
 
 		const draftTemplate =
 			ext.revisionDraftFileSystem.parseRevisionDraft(this)?.containers;
+
 		const currentTemplate = this.parentResource.template?.containers;
 
 		if (!draftTemplate) {

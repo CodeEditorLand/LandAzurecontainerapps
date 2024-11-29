@@ -25,6 +25,7 @@ export async function connectToGitHub(
 ): Promise<void> {
 	if (!item) {
 		context.suppressCreatePick = true;
+
 		item = await pickContainerApp(context);
 	}
 
@@ -58,5 +59,6 @@ export async function connectToGitHub(
 		subscription,
 		`${containerApp.id}/continuousDeployment`,
 	).toString(true /** skipEncoding */);
+
 	await openUrl(portalUrl);
 }

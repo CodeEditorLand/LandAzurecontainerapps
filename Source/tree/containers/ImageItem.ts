@@ -28,6 +28,7 @@ import { RevisionDraftItem } from "../revisionManagement/RevisionDraftItem";
 
 export class ImageItem extends RevisionDraftDescendantBase {
 	static readonly contextValue: string = "imageItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		ImageItem.contextValue,
 	);
@@ -45,6 +46,7 @@ export class ImageItem extends RevisionDraftDescendantBase {
 	}
 
 	id: string = `${this.parentResource.id}/image/${this.container.image}`;
+
 	label: string;
 
 	viewProperties: ViewPropertiesModel = {
@@ -54,6 +56,7 @@ export class ImageItem extends RevisionDraftDescendantBase {
 
 	private getImageName(image?: string): string {
 		const loginServer: string = this.getLoginServer(image);
+
 		if (!loginServer) return "";
 
 		return (
@@ -118,6 +121,7 @@ export class ImageItem extends RevisionDraftDescendantBase {
 
 	private doChildrenHaveUnsavedChanges(): {
 		imageNameItem: boolean;
+
 		imageRegistryItem: boolean;
 	} {
 		// We only care about showing changes to descendants of the revision draft item when in multiple revisions mode
@@ -131,6 +135,7 @@ export class ImageItem extends RevisionDraftDescendantBase {
 
 		const currentContainers: Container[] =
 			this.parentResource.template?.containers ?? [];
+
 		const currentContainer: Container =
 			currentContainers[this.containersIdx];
 
@@ -156,6 +161,7 @@ export class ImageItem extends RevisionDraftDescendantBase {
 
 		const currentContainers: Container[] =
 			this.parentResource.template?.containers ?? [];
+
 		const currentContainer: Container =
 			currentContainers[this.containersIdx];
 

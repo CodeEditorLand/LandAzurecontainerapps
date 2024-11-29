@@ -34,6 +34,7 @@ export class ContainerAppOverwriteConfirmStep<
 		const items: MessageItem[] = [
 			{ title: localize("continue", "Continue") },
 		];
+
 		await context.ui.showWarningMessage(
 			warning,
 			{ modal: true, stepName: "confirmDestructiveDeployment" },

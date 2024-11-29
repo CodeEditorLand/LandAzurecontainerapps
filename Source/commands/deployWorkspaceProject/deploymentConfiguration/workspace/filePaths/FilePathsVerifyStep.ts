@@ -25,10 +25,12 @@ import { type WorkspaceDeploymentConfigurationContext } from "../WorkspaceDeploy
 
 export abstract class FilePathsVerifyStep extends AzureWizardExecuteStep<WorkspaceDeploymentConfigurationContext> {
 	abstract deploymentSettingskey: keyof DeploymentConfigurationSettings;
+
 	abstract contextKey: keyof Pick<
 		WorkspaceDeploymentConfigurationContext,
 		"srcPath" | "envPath" | "dockerfilePath"
 	>;
+
 	abstract fileType: string;
 
 	private configPath: string | undefined;
@@ -41,10 +43,12 @@ export abstract class FilePathsVerifyStep extends AzureWizardExecuteStep<Workspa
 		context: WorkspaceDeploymentConfigurationContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
 		this.options.continueOnFail = true;
+
 		progress.report({
 			message: localize("verifyingFilePaths", `Verifying file paths...`),
 		});

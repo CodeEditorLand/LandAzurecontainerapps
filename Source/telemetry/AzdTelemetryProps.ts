@@ -5,5 +5,6 @@
 
 export interface AzdTelemetryProps {
 	isAzdExtensionInstalled?: "true";
+
 	isAzdWorkspaceProject?: "true";
 }

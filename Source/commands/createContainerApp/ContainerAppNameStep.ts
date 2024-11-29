@@ -23,6 +23,7 @@ export class ContainerAppNameStep extends AzureWizardPromptStep<ContainerAppCrea
 			"containerAppNamePrompt",
 			"Enter a container app name.",
 		);
+
 		context.newContainerAppName = (
 			await context.ui.showInputBox({
 				prompt,
@@ -83,6 +84,7 @@ export class ContainerAppNameStep extends AzureWizardPromptStep<ContainerAppCrea
 				resourceGroupName,
 			);
 		}
+
 		return undefined;
 	}
 

@@ -12,14 +12,22 @@ import { type ContainerAppModel } from "../../../tree/ContainerAppItem";
 
 export interface DeploymentConfiguration {
 	configurationIdx?: number;
+
 	shouldSaveDeploySettings?: boolean;
+
 	rootFolder?: WorkspaceFolder;
 
 	dockerfilePath?: string;
+
 	srcPath?: string;
+
 	envPath?: string;
+
 	resourceGroup?: ResourceGroup;
+
 	managedEnvironment?: ManagedEnvironment;
+
 	containerApp?: ContainerAppModel;
+
 	registry?: Registry;
 }

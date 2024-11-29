@@ -48,11 +48,13 @@ const revisionStateInactiveContextValue: string = "revisionState:inactive";
 
 export class RevisionItem implements RevisionsItemModel {
 	static readonly contextValue: string = "revisionItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		RevisionItem.contextValue,
 	);
 
 	id: string;
+
 	revisionsMode: KnownActiveRevisionsMode;
 
 	constructor(
@@ -61,6 +63,7 @@ export class RevisionItem implements RevisionsItemModel {
 		readonly revision: Revision,
 	) {
 		this.id = nonNullProp(this.revision, "id");
+
 		this.revisionsMode = containerApp.revisionsMode;
 	}
 
@@ -77,6 +80,7 @@ export class RevisionItem implements RevisionsItemModel {
 				? revisionDraftTrueContextValue
 				: revisionDraftFalseContextValue,
 		);
+
 		values.push(
 			this.revision.active
 				? revisionStateActiveContextValue
@@ -152,29 +156,41 @@ export class RevisionItem implements RevisionsItemModel {
 
 	private get iconPath(): TreeItemIconPath {
 		let id: string;
+
 		let colorId: string;
 
 		if (!this.revision.active) {
 			id = "circle-slash";
+
 			colorId = "testing.iconUnset";
 		} else {
 			switch (this.revision.provisioningState) {
 				case KnownRevisionProvisioningState.Deprovisioning:
 				case KnownRevisionProvisioningState.Provisioning:
 					id = "play-circle";
+
 					colorId = "testing.iconUnset";
+
 					break;
+
 				case KnownRevisionProvisioningState.Failed:
 					id = "error";
+
 					colorId = "testing.iconFailed";
+
 					break;
+
 				case KnownRevisionProvisioningState.Provisioned:
 					id = "pass";
+
 					colorId = "testing.iconPassed";
+
 					break;
+
 				case KnownRevisionProvisioningState.Deprovisioned:
 				default:
 					id = "circle-slash";
+
 					colorId = "testing.iconUnset";
 			}
 		}

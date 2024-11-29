@@ -28,6 +28,7 @@ const clickToView: string = localize(
 
 export class EnvironmentVariableItem extends RevisionDraftDescendantBase {
 	static readonly contextValue: string = "environmentVariableItem";
+
 	static readonly contextValueRegExp: RegExp = new RegExp(
 		EnvironmentVariableItem.contextValue,
 	);
@@ -35,6 +36,7 @@ export class EnvironmentVariableItem extends RevisionDraftDescendantBase {
 	id: string = `${this.parentResource.id}/${this.container.image}/${this.envVariable.name}`;
 
 	private hideValue: boolean = true;
+
 	private hiddenMessage: string; // Shown when 'hideValue' is true
 	private hiddenValue: string; // Shown when 'hideValue' is false
 
@@ -73,6 +75,7 @@ export class EnvironmentVariableItem extends RevisionDraftDescendantBase {
 
 	public async toggleValueVisibility(_: IActionContext): Promise<void> {
 		this.hideValue = !this.hideValue;
+
 		ext.branchDataProvider.refresh(this);
 	}
 
@@ -90,11 +93,13 @@ export class EnvironmentVariableItem extends RevisionDraftDescendantBase {
 
 	protected setProperties(): void {
 		this.hiddenMessage = `${this.envVariable.name}=${clickToView}`;
+
 		this.hiddenValue = `${this.envVariable.name}=${this.envOutput}`;
 	}
 
 	protected setDraftProperties(): void {
 		this.hiddenMessage = `${this.envVariable.name}=${clickToView} *`;
+
 		this.hiddenValue = `${this.envVariable.name}=${this.envOutput} *`;
 	}
 
@@ -110,8 +115,10 @@ export class EnvironmentVariableItem extends RevisionDraftDescendantBase {
 
 		const currentContainers: Container[] =
 			this.parentResource.template?.containers ?? [];
+
 		const currentContainer: Container | undefined =
 			currentContainers[this.containersIdx];
+
 		const currentEnv: EnvironmentVar | undefined =
 			currentContainer.env?.find(
 				(env) => env.name === this.envVariable.name,

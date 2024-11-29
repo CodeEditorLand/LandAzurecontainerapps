@@ -49,6 +49,7 @@ export class DeploymentConfigurationListStep extends AzureWizardPromptStep<Works
 		);
 
 		context.deploymentConfigurationSettings = pick.data;
+
 		context.configurationIdx = pick.data?.configurationIdx;
 	}
 

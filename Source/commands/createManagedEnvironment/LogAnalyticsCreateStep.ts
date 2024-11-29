@@ -29,6 +29,7 @@ export class LogAnalyticsCreateStep extends AzureWizardExecuteStep<ManagedEnviro
 		context: ManagedEnvironmentCreateContext,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -45,6 +46,7 @@ export class LogAnalyticsCreateStep extends AzureWizardExecuteStep<ManagedEnviro
 			"creatingLogAnalyticsWorkspace",
 			"Creating log analytics workspace...",
 		);
+
 		progress.report({ message: creating });
 
 		context.logAnalyticsWorkspace =

@@ -21,6 +21,7 @@ export async function openGitHubRepo(
 ): Promise<void> {
 	if (!node) {
 		context.suppressCreatePick = true;
+
 		node = await pickContainerApp(context);
 	}
 

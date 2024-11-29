@@ -22,6 +22,7 @@ export class TarFileStep extends AzureWizardExecuteStep<BuildImageInAzureImageSo
 		);
 
 		const archive = `sourceArchive${id}.tar.gz`;
+
 		context.tarFilePath = path.join(os.tmpdir(), archive);
 	}
 

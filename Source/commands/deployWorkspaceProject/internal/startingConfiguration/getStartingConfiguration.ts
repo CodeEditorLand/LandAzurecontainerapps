@@ -35,6 +35,7 @@ export async function getStartingConfiguration(
 		});
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	return {
@@ -68,13 +69,16 @@ async function tryAddMissingAzureResourcesToContext(
 			context,
 			context.containerApp,
 		);
+
 		context.resourceGroup ??= resources.resourceGroup;
+
 		context.managedEnvironment ??= resources.managedEnvironment;
 	} else if (context.managedEnvironment) {
 		const resources = await getResourcesFromManagedEnvironmentHelper(
 			context,
 			context.managedEnvironment,
 		);
+
 		context.resourceGroup ??= resources.resourceGroup;
 	}
 }

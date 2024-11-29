@@ -36,6 +36,7 @@ export class ContainerAppUpdateStep<
 		context: T,
 		progress: Progress<{
 			message?: string | undefined;
+
 			increment?: number | undefined;
 		}>,
 	): Promise<void> {
@@ -51,11 +52,13 @@ export class ContainerAppUpdateStep<
 		);
 
 		containerAppEnvelope.configuration.secrets = context.secrets;
+
 		containerAppEnvelope.configuration.registries =
 			context.registryCredentials;
 
 		// We want to replace the old image
 		containerAppEnvelope.template ||= {};
+
 		containerAppEnvelope.template.containers = [];
 
 		containerAppEnvelope.template.containers.push({
@@ -69,6 +72,7 @@ export class ContainerAppUpdateStep<
 			"Updating container app...",
 			containerApp.name,
 		);
+
 		progress.report({ message: updating });
 
 		await ext.state.runWithTemporaryDescription(
@@ -80,6 +84,7 @@ export class ContainerAppUpdateStep<
 					context.subscription,
 					containerAppEnvelope,
 				);
+
 				ext.state.notifyChildrenChanged(
 					containerApp.managedEnvironmentId,
 				);

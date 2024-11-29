@@ -34,6 +34,7 @@ export async function deployRevisionDraft(
 	if (!node) {
 		const containerAppItem: ContainerAppItem =
 			await pickContainerApp(context);
+
 		node =
 			containerAppItem.containerApp.revisionsMode ===
 			KnownActiveRevisionsMode.Single
@@ -67,12 +68,15 @@ export async function deployRevisionDraft(
 	// Set telemetry
 	const file: RevisionDraftFile | undefined =
 		ext.revisionDraftFileSystem.getRevisionDraftFile(item);
+
 	wizardContext.telemetry.properties.commandUpdatesCount = String(
 		file?.commandUpdatesCount ?? 0,
 	);
+
 	wizardContext.telemetry.properties.directUpdatesCount = String(
 		file?.directUpdatesCount ?? 0,
 	);
+
 	wizardContext.telemetry.properties.revisionMode =
 		containerApp.revisionsMode;
 
@@ -100,6 +104,7 @@ export async function deployRevisionDraft(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	if (item.containerApp.revisionsMode === KnownActiveRevisionsMode.Single) {
@@ -110,6 +115,7 @@ export async function deployRevisionDraft(
 			async () => {
 				// Add a short delay to display the deleting message
 				await delay(5);
+
 				ext.revisionDraftFileSystem.discardRevisionDraft(item);
 			},
 		);

@@ -20,7 +20,9 @@ export interface IStreamLogsContext extends IContainerAppContext {
 	resourceGroupName: string;
 
 	revision?: Revision;
+
 	replica?: Replica;
+
 	container?: ReplicaContainer;
 
 	logStreamToStop?: ILogStream;

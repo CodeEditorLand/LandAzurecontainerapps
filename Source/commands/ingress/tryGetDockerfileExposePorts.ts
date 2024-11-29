@@ -39,6 +39,7 @@ export async function tryGetDockerfileExposePorts(
 
 		for (const pr of portRange) {
 			const [start, end] = pr.split("-");
+
 			portRanges.push(new PortRange(parseInt(start), parseInt(end)));
 		}
 	}
@@ -48,10 +49,12 @@ export async function tryGetDockerfileExposePorts(
 
 export class PortRange {
 	private readonly _start: number;
+
 	private readonly _end: number;
 
 	constructor(start: number, end?: number) {
 		this._start = start;
+
 		this._end = end ? end : start;
 	}
 

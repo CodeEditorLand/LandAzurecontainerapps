@@ -108,6 +108,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 		switch (context.imageSource) {
 			case ImageSource.QuickstartImage:
 				executeSteps.push(new QuickStartImageConfigureStep());
+
 				context.telemetry.properties.imageSource =
 					ImageSource.QuickstartImage;
 
@@ -118,7 +119,9 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 					new ContainerRegistryListStep(),
 					new RegistryCredentialsAddConfigurationListStep(),
 				);
+
 				executeSteps.push(new ContainerRegistryImageConfigureStep());
+
 				context.telemetry.properties.imageSource =
 					ImageSource.ContainerRegistry;
 
@@ -134,6 +137,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 					new ImageNameStep(),
 					new OSPickStep(),
 				);
+
 				executeSteps.push(
 					new TarFileStep(),
 					new UploadSourceCodeStep(),
@@ -141,6 +145,7 @@ export class ImageSourceListStep extends AzureWizardPromptStep<ImageSourceContex
 					new BuildImageStep(),
 					new ContainerRegistryImageConfigureStep(),
 				);
+
 				context.telemetry.properties.imageSource =
 					ImageSource.RemoteAcrBuild;
 

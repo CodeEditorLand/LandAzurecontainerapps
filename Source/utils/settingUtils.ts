@@ -29,6 +29,7 @@ export namespace settingUtils {
 	): Promise<void> {
 		const projectConfiguration: WorkspaceConfiguration =
 			workspace.getConfiguration(prefix);
+
 		await projectConfiguration.update(
 			key,
 			value,
@@ -55,6 +56,7 @@ export namespace settingUtils {
 	): Promise<void> {
 		const projectConfiguration: WorkspaceConfiguration =
 			workspace.getConfiguration(prefix, Uri.file(fsPath));
+
 		await projectConfiguration.update(key, value, targetSetting);
 	}
 
@@ -159,6 +161,7 @@ export namespace settingUtils {
 					return undefined;
 				}
 			}
+
 			return result;
 		} else {
 			return getGlobalSetting(key, prefix);

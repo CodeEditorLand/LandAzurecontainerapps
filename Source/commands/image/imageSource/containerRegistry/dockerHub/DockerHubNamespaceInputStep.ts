@@ -20,6 +20,7 @@ export class DockerHubNamespaceInputStep extends AzureWizardPromptStep<Container
 			"dockerHubNamespacePrompt",
 			"Enter a Docker Hub namespace",
 		);
+
 		context.dockerHubNamespace = (
 			await context.ui.showInputBox({
 				prompt,

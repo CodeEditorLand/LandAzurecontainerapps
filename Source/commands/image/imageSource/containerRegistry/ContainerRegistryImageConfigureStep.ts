@@ -18,7 +18,9 @@ export class ContainerRegistryImageConfigureStep extends AzureWizardExecuteStep<
 		context.image = `${getLoginServer(context)}/${context.repositoryName}:${context.tag}`;
 
 		const { registryName, registryDomain } = parseImageName(context.image);
+
 		context.telemetry.properties.registryName = registryName;
+
 		context.telemetry.properties.registryDomain = registryDomain ?? "other";
 	}
 

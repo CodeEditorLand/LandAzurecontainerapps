@@ -63,6 +63,7 @@ export async function editSecretValue(
 		localize("updating", "Updating..."),
 		async () => {
 			await wizard.execute();
+
 			ext.state.notifyChildrenChanged(containerApp.managedEnvironmentId);
 		},
 	);

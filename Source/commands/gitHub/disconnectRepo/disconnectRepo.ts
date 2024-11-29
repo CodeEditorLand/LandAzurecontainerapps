@@ -28,6 +28,7 @@ export async function disconnectRepo(
 ): Promise<void> {
 	if (!node) {
 		context.suppressCreatePick = true;
+
 		node = await pickContainerApp(context);
 	}
 
@@ -79,5 +80,6 @@ export async function disconnectRepo(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 }

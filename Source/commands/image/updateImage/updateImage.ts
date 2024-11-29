@@ -122,5 +122,6 @@ export async function updateImage(
 	);
 
 	await wizard.prompt();
+
 	await wizard.execute();
 }

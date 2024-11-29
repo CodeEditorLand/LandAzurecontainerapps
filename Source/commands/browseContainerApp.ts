@@ -18,6 +18,7 @@ export async function browseContainerAppNode(
 	node?: ContainerAppItem,
 ): Promise<void> {
 	node ??= await pickContainerApp(context);
+
 	await browseContainerApp(node.containerApp);
 }
 

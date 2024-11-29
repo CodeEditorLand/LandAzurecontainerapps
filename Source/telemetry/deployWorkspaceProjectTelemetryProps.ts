@@ -30,9 +30,13 @@ export interface DeployWorkspaceProjectInternalTelemetryProps
 
 	// Resources
 	existingResourceGroup?: "true" | "false";
+
 	existingEnvironment?: "true" | "false";
+
 	existingRegistry?: "true" | "false";
+
 	existingContainerApp?: "true" | "false";
+
 	existingLocation?: "true" | "false";
 
 	// Save settings

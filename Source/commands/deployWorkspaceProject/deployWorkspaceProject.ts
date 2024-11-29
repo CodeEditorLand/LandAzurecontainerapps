@@ -85,6 +85,7 @@ export async function deployWorkspaceProject(
 				parseAzureResourceId(item.id).resourceName,
 			),
 		);
+
 		deploymentConfiguration = await getTreeItemDeploymentConfiguration(
 			{ ...containerAppContext },
 			item,
@@ -93,6 +94,7 @@ export async function deployWorkspaceProject(
 		const { rootFolder } = await convertV1ToV2SettingsSchema({
 			...containerAppContext,
 		});
+
 		deploymentConfiguration = await getWorkspaceDeploymentConfiguration({
 			...containerAppContext,
 			rootFolder,
@@ -147,6 +149,7 @@ function displayNotification(context: DeployWorkspaceProjectContext): void {
 		context,
 		"containerApp",
 	);
+
 	void window
 		.showInformationMessage(message, ...buttonMessages)
 		.then(async (result: string | undefined) => {
@@ -159,10 +162,12 @@ function displayNotification(context: DeployWorkspaceProjectContext): void {
 					if (result === viewOutput) {
 						telemetryContext.telemetry.properties.userAction =
 							"viewOutput";
+
 						ext.outputChannel.show();
 					} else if (result === browse) {
 						telemetryContext.telemetry.properties.userAction =
 							"browse";
+
 						await browseContainerApp(containerApp);
 					} else {
 						telemetryContext.telemetry.properties.userAction =

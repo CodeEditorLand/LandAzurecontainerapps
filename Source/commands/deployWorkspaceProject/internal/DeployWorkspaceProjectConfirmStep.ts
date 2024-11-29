@@ -26,6 +26,7 @@ export class DeployWorkspaceProjectConfirmStep extends OverwriteConfirmStepBase<
 
 		if (!context.managedEnvironment) {
 			resourcesToCreate.push("log analytics workspace");
+
 			resourcesToCreate.push("container app environment");
 		}
 
@@ -47,6 +48,7 @@ export class DeployWorkspaceProjectConfirmStep extends OverwriteConfirmStepBase<
 				'To deploy your workspace project, the following resources will be created: "{0}".',
 				resourcesToCreate.join(", "),
 			);
+
 			outputMessage = localize(
 				"resourceCreationConfirmed",
 				'User confirmed creation for the following resources: "{0}".',
@@ -58,6 +60,7 @@ export class DeployWorkspaceProjectConfirmStep extends OverwriteConfirmStepBase<
 				'The latest deployment of container app "{0}" will be overwritten.',
 				context.containerApp?.name,
 			);
+
 			outputMessage = localize(
 				"overwriteConfirmed",
 				'User confirmed overwrite of container app "{0}".',

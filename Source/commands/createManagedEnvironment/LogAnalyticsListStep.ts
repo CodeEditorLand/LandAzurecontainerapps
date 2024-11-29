@@ -23,6 +23,7 @@ export class LogAnalyticsListStep extends AzureWizardPromptStep<ManagedEnvironme
 			"selectLogAnalytics",
 			"Select Log Analytics workspace. Your Log Analytics workspace will contain all your application logs.",
 		);
+
 		context.logAnalyticsWorkspace = (
 			await context.ui.showQuickPick(this.getQuickPicks(context), {
 				placeHolder,

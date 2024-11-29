@@ -56,6 +56,7 @@ export async function deleteSecret(
 	});
 
 	await wizard.prompt();
+
 	await wizard.execute();
 
 	ext.state.notifyChildrenChanged(containerApp.id);
