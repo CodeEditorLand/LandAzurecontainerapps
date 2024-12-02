@@ -753,7 +753,6 @@
 		"build": "tsc",
 		"cleanReadme": "gulp cleanReadme",
 		"compile": "tsc -watch",
-		"prepare": "husky install",
 		"webpack": "npm run build && gulp webpack-dev",
 		"webpack-prod": "npm run build && gulp webpack-prod",
 		"webpack-profile": "webpack --profile --json --mode production > webpack-stats.json && echo Use http://webpack.github.io/analyse to analyze the stats"
