@@ -724,7 +724,7 @@
 	},
 	"activationEvents": [],
 	"dependencies": {
-		"@codeeditorland/arm-authorization": "^9.0.0",
+		"@codeeditorland/arm-authorization": "0.0.1",
 		"buffer": "^6.0.3",
 		"dayjs": "^1.11.13",
 		"deep-eql": "^5.0.2",
