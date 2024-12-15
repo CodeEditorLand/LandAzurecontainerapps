@@ -69,7 +69,13 @@ export function isTemplateItemEditable(item: RevisionsItemModel): boolean {
  * If a template item is not editable, throw this error to cancel and alert the user
  */
 export class TemplateItemNotEditableError extends Error {
-    constructor(item: RevisionsItemModel) {
-        super(localize('itemNotEditable', 'Action cannot be performed on revision "{0}" because a draft is currently active.', item.revision.name));
-    }
+	constructor(item: RevisionsItemModel) {
+		super(
+			localize(
+				"itemNotEditable",
+				'Action cannot be performed on revision "{0}" because a draft is currently active.',
+				item.revision.name,
+			),
+		);
+	}
 }

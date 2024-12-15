@@ -3,20 +3,31 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { type ContainerRegistryManagementClient, type Registry } from "@azure/arm-containerregistry";
+import {
+	type ContainerRegistryManagementClient,
+	type Registry,
+} from "@azure/arm-containerregistry";
 import { uiUtils } from "@microsoft/vscode-azext-azureutils";
-import { nonNullProp, type ISubscriptionActionContext } from "@microsoft/vscode-azext-utils";
+import {
+	nonNullProp,
+	type ISubscriptionActionContext,
+} from "@microsoft/vscode-azext-utils";
+
 import { type ContainerRegistryImageSourceContext } from "../commands/image/imageSource/containerRegistry/ContainerRegistryImageSourceContext";
-import { acrDomain, dockerHubDomain, type SupportedRegistries } from "../constants";
+import {
+	acrDomain,
+	dockerHubDomain,
+	type SupportedRegistries,
+} from "../constants";
 import { createContainerRegistryManagementClient } from "./azureClients";
 
 interface ParsedImageName {
-    imageNameReference?: string;
-    registryDomain?: SupportedRegistries;
-    registryName?: string;
-    namespace?: string;
-    repositoryName?: string;
-    tag?: string;
+	imageNameReference?: string;
+	registryDomain?: SupportedRegistries;
+	registryName?: string;
+	namespace?: string;
+	repositoryName?: string;
+	tag?: string;
 }
 
 /**
@@ -36,36 +47,42 @@ interface ParsedImageName {
  * (6) 'tag': Everything after the ":", if it is present
  */
 export function parseImageName(imageName?: string): ParsedImageName {
-    if (!imageName) {
-        return {};
-    }
+	if (!imageName) {
+		return {};
+	}
 
-    const match: RegExpMatchArray | null = imageName.match(/^(?:(?<registryName>[^/]+)\/)?(?:(?<namespace>[^/]+(?:\/[^/]+)*)\/)?(?<repositoryName>[^/:]+)(?::(?<tag>[^/]+))?$/);
-    return {
-        imageNameReference: imageName,
-        registryDomain: match?.groups?.registryName ? getDomainFromRegistryName(match.groups.registryName) : undefined,
-        registryName: match?.groups?.registryName,
-        namespace: match?.groups?.namespace,
-        repositoryName: match?.groups?.repositoryName,
-        tag: match?.groups?.tag
-    };
+	const match: RegExpMatchArray | null = imageName.match(
+		/^(?:(?<registryName>[^/]+)\/)?(?:(?<namespace>[^/]+(?:\/[^/]+)*)\/)?(?<repositoryName>[^/:]+)(?::(?<tag>[^/]+))?$/,
+	);
+	return {
+		imageNameReference: imageName,
+		registryDomain: match?.groups?.registryName
+			? getDomainFromRegistryName(match.groups.registryName)
+			: undefined,
+		registryName: match?.groups?.registryName,
+		namespace: match?.groups?.namespace,
+		repositoryName: match?.groups?.repositoryName,
+		tag: match?.groups?.tag,
+	};
 }
 
 export function getImageNameWithoutTag(imageName: string): string {
-    return imageName.replace(/:[^:]*$/, '');
+	return imageName.replace(/:[^:]*$/, "");
 }
 
 /**
  * @param registryName When parsed from a full image name, everything before the first slash
  */
-export function getDomainFromRegistryName(registryName: string): SupportedRegistries | undefined {
-    if (/\.azurecr\.io$/i.test(registryName)) {
-        return acrDomain;
-    } else if (/^docker\.io$/i.test(registryName)) {
-        return dockerHubDomain;
-    } else {
-        return undefined;
-    }
+export function getDomainFromRegistryName(
+	registryName: string,
+): SupportedRegistries | undefined {
+	if (/\.azurecr\.io$/i.test(registryName)) {
+		return acrDomain;
+	} else if (/^docker\.io$/i.test(registryName)) {
+		return dockerHubDomain;
+	} else {
+		return undefined;
+	}
 }
 
 /**
@@ -73,26 +90,39 @@ export function getDomainFromRegistryName(registryName: string): SupportedRegist
  * This function should only be called when we expect to have the full set of inputs necessary to make an informed decision.
  * It assumes that any missing or ambiguous information has already been addressed prior to the call.
  */
-export function getRegistryDomainFromContext(context: Partial<ContainerRegistryImageSourceContext>): SupportedRegistries | undefined {
-    switch (true) {
-        case !!context.registryDomain:
-            return context.registryDomain;
-        case !!context.image:
-            const registryName: string | undefined = parseImageName(context.image).registryName;
-            return registryName ? getDomainFromRegistryName(registryName) : undefined;
-        case !!context.registry?.loginServer || !!context.registryName:
-            return getDomainFromRegistryName(context.registry?.loginServer || nonNullProp(context, 'registryName'));
-        default:
-            // If no image by this point, assume we're creating a new ACR
-            return acrDomain;
-    }
+export function getRegistryDomainFromContext(
+	context: Partial<ContainerRegistryImageSourceContext>,
+): SupportedRegistries | undefined {
+	switch (true) {
+		case !!context.registryDomain:
+			return context.registryDomain;
+		case !!context.image:
+			const registryName: string | undefined = parseImageName(
+				context.image,
+			).registryName;
+			return registryName
+				? getDomainFromRegistryName(registryName)
+				: undefined;
+		case !!context.registry?.loginServer || !!context.registryName:
+			return getDomainFromRegistryName(
+				context.registry?.loginServer ||
+					nonNullProp(context, "registryName"),
+			);
+		default:
+			// If no image by this point, assume we're creating a new ACR
+			return acrDomain;
+	}
 }
 
 /**
  * @param acrName When parsed from a full ACR image name, everything before the first slash
  */
-export async function getRegistryFromAcrName(context: ISubscriptionActionContext, acrName: string): Promise<Registry> {
-    const client: ContainerRegistryManagementClient = await createContainerRegistryManagementClient(context);
-    const registries = await uiUtils.listAllIterator(client.registries.list());
-    return registries.find(r => r.loginServer === acrName) as Registry;
+export async function getRegistryFromAcrName(
+	context: ISubscriptionActionContext,
+	acrName: string,
+): Promise<Registry> {
+	const client: ContainerRegistryManagementClient =
+		await createContainerRegistryManagementClient(context);
+	const registries = await uiUtils.listAllIterator(client.registries.list());
+	return registries.find((r) => r.loginServer === acrName) as Registry;
 }

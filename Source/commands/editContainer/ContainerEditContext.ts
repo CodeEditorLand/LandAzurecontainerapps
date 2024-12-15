@@ -4,13 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { type ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
-import { type SetTelemetryProps } from "../../telemetry/SetTelemetryProps";
+
 import { type ContainerUpdateTelemetryProps as TelemetryProps } from "../../telemetry/commandTelemetryProps";
+import { type SetTelemetryProps } from "../../telemetry/SetTelemetryProps";
 import { type IContainerAppContext } from "../IContainerAppContext";
 import { type ImageSourceBaseContext } from "../image/imageSource/ImageSourceContext";
 
-export interface ContainerEditBaseContext extends IContainerAppContext, ImageSourceBaseContext, ExecuteActivityContext {
-    containersIdx: number;
+export interface ContainerEditBaseContext
+	extends IContainerAppContext,
+		ImageSourceBaseContext,
+		ExecuteActivityContext {
+	containersIdx: number;
 }
 
-export type ContainerEditContext = ContainerEditBaseContext & SetTelemetryProps<TelemetryProps>;
+export type ContainerEditContext = ContainerEditBaseContext &
+	SetTelemetryProps<TelemetryProps>;
