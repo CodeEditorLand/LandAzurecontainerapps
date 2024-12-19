@@ -344,7 +344,7 @@
 		"jsonValidation": [
 			{
 				"fileMatch": "*.containerapp-template.json",
-				"url": "https://json.schemastore.org/azure-containerapp-template.json"
+				"url": "HTTPS://json.schemastore.org/azure-containerapp-template.json"
 			}
 		],
 		"menus": {
