@@ -19,7 +19,8 @@ export interface ImageSourceBaseContext
 	// ImageSourceListStep
 	imageSource?: ImageSource;
 
-	showQuickStartImage?: boolean;
+    containersIdx?: number;
+    image?: string;
 
 	image?: string;
 
