@@ -3,144 +3,86 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { AzureWizardExecuteStep, GenericTreeItem, activityFailContext, activityFailIcon, activitySuccessContext, activitySuccessIcon, createUniversallyUniqueContextValue, nonNullProp, nonNullValueAndProp, type ExecuteActivityOutput } from "@microsoft/vscode-azext-utils";
 import * as path from "path";
-import {
-	activityFailContext,
-	activityFailIcon,
-	activitySuccessContext,
-	activitySuccessIcon,
-	AzureWizardExecuteStep,
-	createUniversallyUniqueContextValue,
-	GenericTreeItem,
-	nonNullProp,
-	nonNullValueAndProp,
-	type ExecuteActivityOutput,
-} from "@microsoft/vscode-azext-utils";
 import { type Progress, type WorkspaceFolder } from "vscode";
-
 import { relativeSettingsFilePath } from "../../../constants";
 import { localize } from "../../../utils/localize";
+import { useRemoteConfigurationKey } from "../deploymentConfiguration/workspace/filePaths/EnvUseRemoteConfigurationPromptStep";
 import { type DeploymentConfigurationSettings } from "../settings/DeployWorkspaceProjectSettingsV2";
 import { dwpSettingUtilsV2 } from "../settings/dwpSettingUtilsV2";
 import { type DeployWorkspaceProjectInternalContext } from "./DeployWorkspaceProjectInternalContext";
 
-const saveSettingsLabel: string = localize(
-	"saveSettingsLabel",
-	'Save deployment settings to workspace "{0}"',
-	relativeSettingsFilePath,
-);
+const saveSettingsLabel: string = localize('saveSettingsLabel', 'Save deployment settings to workspace "{0}"', relativeSettingsFilePath);
 
 export class DeployWorkspaceProjectSaveSettingsStep extends AzureWizardExecuteStep<DeployWorkspaceProjectInternalContext> {
-	public priority: number = 1480;
+    public priority: number = 1480;
 
-	public async execute(
-		context: DeployWorkspaceProjectInternalContext,
-		progress: Progress<{
-			message?: string | undefined;
+    public async execute(context: DeployWorkspaceProjectInternalContext, progress: Progress<{ message?: string | undefined; increment?: number | undefined }>): Promise<void> {
+        this.options.continueOnFail = true;
+        progress.report({ message: localize('saving', 'Saving configuration...') });
 
-			increment?: number | undefined;
-		}>,
-	): Promise<void> {
-		this.options.continueOnFail = true;
+        const rootFolder: WorkspaceFolder = nonNullProp(context, 'rootFolder');
+        const deploymentConfigurations: DeploymentConfigurationSettings[] = await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(rootFolder) ?? [];
 
-		progress.report({
-			message: localize("saving", "Saving configuration..."),
-		});
+        const configurationLabel: string | undefined = context.configurationIdx !== undefined ? deploymentConfigurations?.[context.configurationIdx].label : undefined;
+        const deploymentConfiguration: DeploymentConfigurationSettings = {
+            label: configurationLabel || nonNullValueAndProp(context.containerApp, 'name'),
+            type: 'AcrDockerBuildRequest',
+            dockerfilePath: path.relative(rootFolder.uri.fsPath, nonNullProp(context, 'dockerfilePath')),
+            srcPath: path.relative(rootFolder.uri.fsPath, context.srcPath || rootFolder.uri.fsPath) || ".",
+            envPath: this.getEnvPath(rootFolder, context.envPath),
+            resourceGroup: context.resourceGroup?.name,
+            containerApp: context.containerApp?.name,
+            containerRegistry: context.registry?.name,
+        };
 
-		const rootFolder: WorkspaceFolder = nonNullProp(context, "rootFolder");
+        if (context.configurationIdx !== undefined) {
+            deploymentConfigurations[context.configurationIdx] = deploymentConfiguration;
+        } else {
+            deploymentConfigurations.push(deploymentConfiguration);
+        }
 
-		const deploymentConfigurations: DeploymentConfigurationSettings[] =
-			(await dwpSettingUtilsV2.getWorkspaceDeploymentConfigurations(
-				rootFolder,
-			)) ?? [];
+        await dwpSettingUtilsV2.setWorkspaceDeploymentConfigurations(rootFolder, deploymentConfigurations);
+    }
 
-		const configurationLabel: string | undefined =
-			context.configurationIdx !== undefined
-				? deploymentConfigurations?.[context.configurationIdx].label
-				: undefined;
+    public shouldExecute(context: DeployWorkspaceProjectInternalContext): boolean {
+        return !!context.shouldSaveDeploySettings;
+    }
 
-		const deploymentConfiguration: DeploymentConfigurationSettings = {
-			label:
-				configurationLabel ||
-				nonNullValueAndProp(context.containerApp, "name"),
-			type: "AcrDockerBuildRequest",
-			dockerfilePath: path.relative(
-				rootFolder.uri.fsPath,
-				nonNullProp(context, "dockerfilePath"),
-			),
-			srcPath:
-				path.relative(
-					rootFolder.uri.fsPath,
-					context.srcPath || rootFolder.uri.fsPath,
-				) || ".",
-			envPath: context.envPath
-				? path.relative(rootFolder.uri.fsPath, context.envPath)
-				: "",
-			resourceGroup: context.resourceGroup?.name,
-			containerApp: context.containerApp?.name,
-			containerRegistry: context.registry?.name,
-		};
+    private getEnvPath(rootFolder: WorkspaceFolder, envPath: string | undefined): string {
+        if (envPath === undefined) {
+            return '';
+        } else if (envPath === '') {
+            return useRemoteConfigurationKey;
+        } else {
+            return path.relative(rootFolder.uri.fsPath, envPath);
+        }
+    }
 
-		if (context.configurationIdx !== undefined) {
-			deploymentConfigurations[context.configurationIdx] =
-				deploymentConfiguration;
-		} else {
-			deploymentConfigurations.push(deploymentConfiguration);
-		}
+    public createSuccessOutput(context: DeployWorkspaceProjectInternalContext): ExecuteActivityOutput {
+        context.telemetry.properties.didSaveSettings = 'true';
 
-		await dwpSettingUtilsV2.setWorkspaceDeploymentConfigurations(
-			rootFolder,
-			deploymentConfigurations,
-		);
-	}
+        return {
+            item: new GenericTreeItem(undefined, {
+                contextValue: createUniversallyUniqueContextValue(['dwpSaveSettingsStepSuccessItem', activitySuccessContext]),
+                label: saveSettingsLabel,
+                iconPath: activitySuccessIcon
+            }),
+            message: localize('savedSettingsSuccess', 'Saved deployment settings to workspace "{0}".', relativeSettingsFilePath)
+        };
+    }
 
-	public shouldExecute(
-		context: DeployWorkspaceProjectInternalContext,
-	): boolean {
-		return !!context.shouldSaveDeploySettings;
-	}
+    public createFailOutput(context: DeployWorkspaceProjectInternalContext): ExecuteActivityOutput {
+        context.telemetry.properties.didSaveSettings = 'false';
 
-	public createSuccessOutput(
-		context: DeployWorkspaceProjectInternalContext,
-	): ExecuteActivityOutput {
-		context.telemetry.properties.didSaveSettings = "true";
-
-		return {
-			item: new GenericTreeItem(undefined, {
-				contextValue: createUniversallyUniqueContextValue([
-					"dwpSaveSettingsStepSuccessItem",
-					activitySuccessContext,
-				]),
-				label: saveSettingsLabel,
-				iconPath: activitySuccessIcon,
-			}),
-			message: localize(
-				"savedSettingsSuccess",
-				'Saved deployment settings to workspace "{0}".',
-				relativeSettingsFilePath,
-			),
-		};
-	}
-
-	public createFailOutput(
-		context: DeployWorkspaceProjectInternalContext,
-	): ExecuteActivityOutput {
-		context.telemetry.properties.didSaveSettings = "false";
-
-		return {
-			item: new GenericTreeItem(undefined, {
-				contextValue: createUniversallyUniqueContextValue([
-					"dwpSaveSettingsStepFailItem",
-					activityFailContext,
-				]),
-				label: saveSettingsLabel,
-				iconPath: activityFailIcon,
-			}),
-			message: localize(
-				"savedSettingsFail",
-				'Failed to save deployment settings to workspace "{0}".',
-				relativeSettingsFilePath,
-			),
-		};
-	}
+        return {
+            item: new GenericTreeItem(undefined, {
+                contextValue: createUniversallyUniqueContextValue(['dwpSaveSettingsStepFailItem', activityFailContext]),
+                label: saveSettingsLabel,
+                iconPath: activityFailIcon
+            }),
+            message: localize('savedSettingsFail', 'Failed to save deployment settings to workspace "{0}".', relativeSettingsFilePath)
+        };
+    }
 }

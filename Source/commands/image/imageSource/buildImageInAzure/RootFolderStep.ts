@@ -1,53 +1,38 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.md in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+*  Copyright (c) Microsoft Corporation. All rights reserved.
+*  Licensed under the MIT License. See License.md in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
 
-import {
-	AzureWizardPromptStep,
-	UserCancelledError,
-} from "@microsoft/vscode-azext-utils";
-import { commands, type WorkspaceFolder } from "vscode";
-
-import { browseItem } from "../../../../constants";
-import { addAzdTelemetryToContext } from "../../../../utils/azdUtils";
-import { localize } from "../../../../utils/localize";
-import { getRootWorkspaceFolder } from "../../../../utils/workspaceUtils";
-import { type BuildImageInAzureImageSourceContext } from "./BuildImageInAzureImageSourceContext";
+import { AzureWizardPromptStep, UserCancelledError } from '@microsoft/vscode-azext-utils';
+import { commands, type WorkspaceFolder } from 'vscode';
+import { browseItem } from '../../../../constants';
+import { addAzdTelemetryToContext } from '../../../../utils/azdUtils';
+import { localize } from '../../../../utils/localize';
+import { getRootWorkspaceFolder } from '../../../../utils/workspaceUtils';
+import { type BuildImageInAzureImageSourceContext } from './BuildImageInAzureImageSourceContext';
 
 export class RootFolderStep extends AzureWizardPromptStep<BuildImageInAzureImageSourceContext> {
-	public async prompt(
-		context: BuildImageInAzureImageSourceContext,
-	): Promise<void> {
-		const prompt: string = localize(
-			"selectRootWorkspace",
-			"Select the project's root directory",
-		);
+    public async prompt(context: BuildImageInAzureImageSourceContext): Promise<void> {
+        const prompt: string = localize('selectRootWorkspace', 'Select the project\'s root directory (browsing to a folder will reload VS Code)');
+        const rootFolder: WorkspaceFolder | undefined = await getRootWorkspaceFolder(context, prompt);
 
-		const rootFolder: WorkspaceFolder | undefined =
-			await getRootWorkspaceFolder(context, prompt);
+        if (!rootFolder) {
+            context.telemetry.properties.hasWorkspaceProjectOpen = 'false';
 
-		if (!rootFolder) {
-			context.telemetry.properties.hasWorkspaceProjectOpen = "false";
+            await context.ui.showQuickPick([browseItem], { placeHolder: prompt });
+            await commands.executeCommand('vscode.openFolder');
 
-			await context.ui.showQuickPick([browseItem], {
-				placeHolder: prompt,
-			});
+            // Silently throw an exception to exit the command while VS Code reloads the new workspace
+            throw new UserCancelledError();
+        }
 
-			await commands.executeCommand("vscode.openFolder");
+        context.telemetry.properties.hasWorkspaceProjectOpen = 'true';
+        await addAzdTelemetryToContext(context, rootFolder);
 
-			// Silently throw an exception to exit the command while VS Code reloads the new workspace
-			throw new UserCancelledError();
-		}
+        context.rootFolder = rootFolder;
+    }
 
-		context.telemetry.properties.hasWorkspaceProjectOpen = "true";
-
-		await addAzdTelemetryToContext(context, rootFolder);
-
-		context.rootFolder = rootFolder;
-	}
-
-	public shouldPrompt(context: BuildImageInAzureImageSourceContext): boolean {
-		return !context.rootFolder;
-	}
+    public shouldPrompt(context: BuildImageInAzureImageSourceContext): boolean {
+        return !context.rootFolder;
+    }
 }
