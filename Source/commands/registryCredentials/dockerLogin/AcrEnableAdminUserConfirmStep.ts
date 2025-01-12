@@ -19,19 +19,7 @@ export class AcrEnableAdminUserConfirmStep extends AzureWizardPromptStep<DockerL
 			"Admin user login is required to continue. If enabled, it will allow docker login access to your ACR using the registry's username and password.",
 		);
 
-		await context.ui.showWarningMessage(
-			message,
-			{ modal: true },
-			{ title: localize("enable", "Enable") },
-		);
-	}
-
-	public shouldPrompt(
-		context: DockerLoginRegistryCredentialsContext,
-	): boolean {
-		return (
-			getRegistryDomainFromContext(context) === acrDomain &&
-			!context.registry?.adminUserEnabled
-		);
-	}
+    public shouldPrompt(context: DockerLoginRegistryCredentialsContext): boolean {
+        return !context.suppressEnableAdminUserPrompt && getRegistryDomainFromContext(context) === acrDomain && !context.registry?.adminUserEnabled;
+    }
 }

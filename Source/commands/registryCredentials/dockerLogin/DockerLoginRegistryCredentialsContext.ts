@@ -18,13 +18,8 @@ export interface DockerLoginRegistryCredentialsContext
 	// These values are often pre-populated from the Docker extension via the deployImage API layer
 	registryDomain?: SupportedRegistries;
 
-	registryName?: string;
+    newRegistrySecret?: Secret;
+    newRegistryCredential?: RegistryCredentials;
 
-	username?: string;
-
-	secret?: string;
-
-	newRegistrySecret?: Secret;
-
-	newRegistryCredential?: RegistryCredentials;
+    suppressEnableAdminUserPrompt?: boolean;
 }

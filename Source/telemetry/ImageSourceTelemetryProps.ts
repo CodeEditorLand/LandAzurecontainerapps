@@ -14,10 +14,13 @@ export interface ImageSourceTelemetryProps extends ContainerRegistryTelemetryPro
 }
 
 export interface ContainerRegistryTelemetryProps {
-    acrCount?: string;  // AcrListStep
     registryDomain?: SupportedRegistries | 'other';
     registryName?: string;
     hasRegistrySecrets?: 'true' | 'false';  // Helps us identify private third party registries
+
+    // AcrListStep
+    acrCount?: string;
+    sameRgAcrCount?: string;
 }
 
 export interface BuildImageInAzureTelemetryProps extends AzdTelemetryProps, Pick<WorkspaceFileTelemetryProps, 'dockerfileCount'> {
