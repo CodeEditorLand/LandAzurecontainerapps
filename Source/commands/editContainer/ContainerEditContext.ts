@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { type ExecuteActivityContext } from "@microsoft/vscode-azext-utils";
-
-import { type ContainerUpdateTelemetryProps as TelemetryProps } from "../../telemetry/commandTelemetryProps";
+import { type SetTelemetryProps } from "../../telemetry/SetTelemetryProps";
+import { type ContainerEditTelemetryProps as TelemetryProps } from "../../telemetry/commandTelemetryProps";
 import { type ImageSourceBaseContext } from "../image/imageSource/ImageSourceContext";
 import { type RevisionDraftContext } from "../revisionDraft/RevisionDraftContext";
 
