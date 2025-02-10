@@ -781,13 +781,13 @@
 		"dotenv": "^16.4.7",
 		"fs-extra": "^11.3.0",
 		"p-retry": "^6.2.1",
-		"semver": "^7.7.0",
+		"semver": "^7.7.1",
 		"tar": "^7.4.3"
 	},
 	"devDependencies": {
 		"@types/deep-eql": "^4.0.2",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.13.0",
+		"@types/node": "^22.13.1",
 		"@types/semver": "^7.5.8",
 		"@types/tar": "^6.1.13",
 		"assert": "^2.1.0",
